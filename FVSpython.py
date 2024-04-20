@@ -5,7 +5,7 @@ def inputFileName():
     while (True):
         print("Please input the path to the input file, ends with extension \".xsb\": ")
         FileName = str(input())
-        if not (FileName.endswith("xsb")):
+        if not (FileName.endswith(".xsb")):
             print("Invalid input, try again")
         else:
             break
