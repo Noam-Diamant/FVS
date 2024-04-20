@@ -9,8 +9,17 @@ def inputFileName():
             print("Invalid input, try again")
         else:
             break
-    return FileName
+    FileNameForRead = ""
+    for char in FileName:
+        if char == "\\":
+            FileNameForRead += "\\"
+        FileNameForRead += char
+    return FileNameForRead
 
+def readFile(FileName):
+        with open(FileName, 'r') as f:
+            contents = f.read()
+            print(contents)
 class SokobanBoard:
     def __init__(self, rows, columns):
         self.rows = rows
@@ -21,6 +30,7 @@ class SokobanBoard:
 
 if __name__ == '__main__':
     print("Hello, and welcome to the Sokoban folder!")
-    FileName = inputFileName()
+    FileNameForRead = inputFileName()
     b = SokobanBoard(3,5)
-    print(b.board)    
+    readFile(FileNameForRead)
+
