@@ -19,18 +19,28 @@ def inputFileName():
 def readFile(FileName):
         with open(FileName, 'r') as f:
             contents = f.read()
-            print(contents)
+            print(type(contents))
+
+
 class SokobanBoard:
     def __init__(self, rows, columns):
         self.rows = rows
         self.width = columns
-        self.board = np.zeros((rows, columns))
+        self.board = [[None for _ in range(rows)] for _ in range(columns)]
+    
+    def printBoard(self):
+        for i in range(len(self.board)):
+            for j in range(len(self.board[i])):
+                print(self.board[i][j], end=",  ")
+            print()
+
 
 
 
 if __name__ == '__main__':
     print("Hello, and welcome to the Sokoban folder!")
-    FileNameForRead = inputFileName()
+    #FileNameForRead = inputFileName()
     b = SokobanBoard(3,5)
-    readFile(FileNameForRead)
+    b.printBoard()
+    #readFile(FileNameForRead)
 
