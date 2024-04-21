@@ -92,6 +92,8 @@ class SokobanBoard:
         self.rows = rows
         self.columns = columns
         self.InitialBoard = self.setInitialBoard(content)
+        self.winConds = 'win'
+        self.transitionRelations = 'trans'
     
     def setInitialBoard(self, content):
         # Split the input string into lines
@@ -108,19 +110,33 @@ class SokobanBoard:
     
         return InitialBoard
     
-    def printBoard(self):
-        print(f"({len(self.InitialBoard)},{len(self.InitialBoard[0])})")
-        for i in range(self.rows):
-            for j in range(self.columns):
-                print(self.InitialBoard[i][j], end=",  ")
-            print()
+    # def printBoard(self):
+    #     print(f"({len(self.InitialBoard)},{len(self.InitialBoard[0])})")
+    #     for i in range(self.rows):
+    #         for j in range(self.columns):
+    #             print(self.InitialBoard[i][j], end=",  ")
+    #         print()
 
-def createSmvFileContent():
-    fileContent = """noam and ora
-noam - 208520262
-ora - TBA
+    def setWinConds(self):
+        print()
+
+    def setTransitionRelations(self):
+        print()
+
+    def createSmvFileContent(self):
+        fileContent = f"""MODULE main
+VAR
+
+INIT
+
+
+ASSIGN
+{self.transitionRelations}
+
+
+{self.winConds}
 """
-    return fileContent
+        return fileContent
 
 
 def write_string_to_file(string, directory_path, file_name):
@@ -134,8 +150,7 @@ def createSmvBoardFile():
     inputFilePath = inputFileName()
     rows, columns, content = readFile(inputFilePath)
     b = SokobanBoard(rows, columns, content)
-
-    model = createSmvFileContent()
+    model = b.createSmvFileContent()
     print("Please input the path to the output folder: ")
     OutputPath = str(input())
     print("Please input the name to the output file: ")
