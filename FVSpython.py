@@ -54,8 +54,17 @@ def remove_trailing_commas(input_string):
 def readFile(FileName):
     with open(FileName, 'r') as f:
         contents = f.read()
-        # Iterate over the content character by character
     
+    # Split the contents into lines
+    lines = contents.split('\n')
+    
+    # Count the number of rows (number of lines)
+    rows = len(lines)
+    
+    # Count the number of columns (length of the first line)
+    columns = len(lines[0])
+
+    # Iterate over the content character by character    
     # Initialize converted_content to an empty string
     converted_content = ""
     
@@ -74,15 +83,30 @@ def readFile(FileName):
     # Remove trailing commas from converted_content
     converted_content = remove_trailing_commas(converted_content)
     
-    # Print the converted content
-    print(converted_content)
+    # return the converted content, its number of rows and columns
+    return rows, columns, converted_content
 
 
 class SokobanBoard:
-    def __init__(self, rows, columns):
+    def __init__(self, rows, columns, content):
         self.rows = rows
-        self.width = columns
-        self.board = [[None for _ in range(rows)] for _ in range(columns)]
+        self.columns = columns
+        self.board = self.setBoard(content)
+    
+    def setBoard(self, content):
+        # Split the input string into lines
+        lines = content.strip().split('\n')
+    
+        # Initialize an empty 2D array
+        Board = []
+    
+        # Iterate over the lines and split each line into elements
+        for line in lines:
+            elements = line.split(',')
+            # Append the list of elements to the 2D array
+            Board.append(elements)
+    
+        return Board
     
     def printBoard(self):
         for i in range(len(self.board)):
@@ -98,5 +122,9 @@ if __name__ == '__main__':
     FileNameForRead = inputFileName()
     #b = SokobanBoard(3,5)
    # b.printBoard()
-    readFile(FileNameForRead)
+    rows, columns, content = readFile(FileNameForRead)
+    b = SokobanBoard(rows, columns, content)
+    b.printBoard()
+
+
 
