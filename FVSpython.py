@@ -116,7 +116,11 @@ class SokobanBoard:
             print()
 
 def createSmvFileContent():
-    print()
+    fileContent = """noam and ora
+noam - 208520262
+ora - TBA
+"""
+    return fileContent
 
 
 def write_string_to_file(string, directory_path, file_name):
@@ -131,13 +135,13 @@ def createSmvBoardFile():
     rows, columns, content = readFile(inputFilePath)
     b = SokobanBoard(rows, columns, content)
 
-    #model = createSmvFileContent(b)
+    model = createSmvFileContent()
     print("Please input the path to the output folder: ")
     OutputPath = str(input())
     print("Please input the name to the output file: ")
     OutputFile = str(input())
     OutputFile += ".smv"
-    write_string_to_file('ggggg', OutputPath, OutputFile)
+    write_string_to_file(model, OutputPath, OutputFile)
 
 
 
