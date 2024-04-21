@@ -1,4 +1,5 @@
 import os  # Import the os module for file operations
+import time
 
 # Dictionary mapping symbols to their names
 symbol_dict = {
@@ -17,13 +18,13 @@ symbol_dict = {
 def inputFileName():
     while (True):
         # Prompt the user to input the path to the input file
-        print("Please input the path to the input file, ends with extension \".xsb\": ")
+        print("Please input the path to the input file, ends with extension \".txt\": ")
         
         # Read the input from the user
         FileName = str(input())
         
         # Check if the file name ends with ".xsb"
-        if not (FileName.endswith(".xsb")):
+        if not (FileName.endswith(".txt")):
             print("Invalid input, try again!")  # Print error message for invalid input
         else:
             FileNameForRead = ""
@@ -86,45 +87,70 @@ def readFile(FileName):
     # return the converted content, its number of rows and columns
     return rows, columns, converted_content
 
-
 class SokobanBoard:
     def __init__(self, rows, columns, content):
         self.rows = rows
         self.columns = columns
-        self.board = self.setBoard(content)
+        self.InitialBoard = self.setInitialBoard(content)
     
-    def setBoard(self, content):
+    def setInitialBoard(self, content):
         # Split the input string into lines
         lines = content.strip().split('\n')
     
         # Initialize an empty 2D array
-        Board = []
+        InitialBoard = []
     
         # Iterate over the lines and split each line into elements
         for line in lines:
             elements = line.split(',')
             # Append the list of elements to the 2D array
-            Board.append(elements)
+            InitialBoard.append(elements)
     
-        return Board
+        return InitialBoard
     
     def printBoard(self):
-        for i in range(len(self.board)):
-            for j in range(len(self.board[i])):
-                print(self.board[i][j], end=",  ")
+        print(f"({len(self.InitialBoard)},{len(self.InitialBoard[0])})")
+        for i in range(self.rows):
+            for j in range(self.columns):
+                print(self.InitialBoard[i][j], end=",  ")
             print()
+
+def createSmvFileContent():
+    print()
+
+
+def write_string_to_file(string, directory_path, file_name):
+    # Create the full file path by joining the directory path and file name
+    file_path = os.path.join(directory_path, file_name)
+        
+    with open(file_path, 'w') as file:
+        file.write(string)
+
+def createSmvBoardFile():
+    inputFilePath = inputFileName()
+    rows, columns, content = readFile(inputFilePath)
+    b = SokobanBoard(rows, columns, content)
+
+    #model = createSmvFileContent(b)
+    print("Please input the path to the output folder: ")
+    OutputPath = str(input())
+    print("Please input the name to the output file: ")
+    OutputFile = str(input())
+    OutputFile += ".smv"
+    write_string_to_file('ggggg', OutputPath, OutputFile)
 
 
 
 
 if __name__ == '__main__':
    # print("Hello, and welcome to the Sokoban folder!")
-    FileNameForRead = inputFileName()
-    #b = SokobanBoard(3,5)
-   # b.printBoard()
-    rows, columns, content = readFile(FileNameForRead)
-    b = SokobanBoard(rows, columns, content)
-    b.printBoard()
+    #FileNameForRead = inputFileName()
+    #b = SokobanInitialBoard(3,5)
+   # b.printInitialBoard()
+    #rows, columns, content = readFile(FileNameForRead)
+    #b = SokobanBoard(rows, columns, content)
+    #b.printBoard()
+    createSmvBoardFile()
 
 
 
