@@ -1,0 +1,54 @@
+-- This smv model was built by the automation code produced as part of the project 
+-- in the formal verification and synthesis course by Noam Diamant and Ora Wetzler.
+
+-- This smv model is built according to the input file found in the following path:
+-- C:\Users\Lenovo\Downloads\aaa.txt
+-- The model is in the following path:
+-- C:\Users\Lenovo\Downloads\bbb.smv
+MODULE main
+
+VAR
+    -- In this section we describe the variables of the model of the Sokoban board
+
+    -- 2D array for the Sokoban borad
+    SokobanBoard : array 0..5 of array 0..3 of {percent, dollar, asterisk, hashtag, at, plus, dot, dash};
+    
+    -- Movement options 
+    Movement : {L, U, R, D}; 
+
+INIT
+    -- In this section we describe the initial state of the Sokoban board model
+SokobanBoard[0][0] = hashtag;  
+SokobanBoard[0][1] = hashtag;  
+SokobanBoard[0][2] = hashtag;  
+SokobanBoard[0][3] = percent;  
+SokobanBoard[1][0] = dash;  
+SokobanBoard[1][1] = dash;  
+SokobanBoard[1][2] = at;  
+SokobanBoard[1][3] = hashtag;  
+SokobanBoard[2][0] = hashtag;  
+SokobanBoard[2][1] = hashtag;  
+SokobanBoard[2][2] = at;  
+SokobanBoard[2][3] = hashtag;  
+SokobanBoard[3][0] = hashtag;  
+SokobanBoard[3][1] = hashtag;  
+SokobanBoard[3][2] = at;  
+SokobanBoard[3][3] = hashtag;  
+SokobanBoard[4][0] = hashtag;  
+SokobanBoard[4][1] = hashtag;  
+SokobanBoard[4][2] = dash;  
+SokobanBoard[4][3] = dash;  
+SokobanBoard[5][0] = hashtag;  
+SokobanBoard[5][1] = hashtag;  
+SokobanBoard[5][2] = hashtag;  
+SokobanBoard[5][3] = hashtag;  
+
+
+ASSIGN
+    -- In this section we describe the transition relations of the Sokoban board model
+
+transitionRelations
+
+
+    -- In this section we describe the win conditions for the Sokoban board model
+win conditions
