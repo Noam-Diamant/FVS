@@ -123,8 +123,16 @@ class SokobanBoard:
     def setTransitionRelations(self):
         print()
 
-    def createSmvFileContent(self):
-        fileContent = f"""MODULE main
+    def createSmvFileContent(self, inputFilePath, outputFilePath):
+        inputFilePath = inputFilePath.replace("\\\\", "\\")
+        fileContent = f"""-- This smv model was built by the automation code produced as part of the project 
+-- in the formal verification and synthesis course by Noam Diamant and Ora Wetzler.
+
+-- This smv model is built according to the input file found in the following path:
+-- {inputFilePath}
+-- The model is in the following path:
+-- {outputFilePath}
+MODULE main
 VAR
 
 INIT
@@ -139,24 +147,28 @@ ASSIGN
         return fileContent
 
 
-def write_string_to_file(string, directory_path, file_name):
-    # Create the full file path by joining the directory path and file name
-    file_path = os.path.join(directory_path, file_name)
+def getOutputPath():
+    print("Please input the path to the output folder: ")
+    OutputPath = str(input())
+    print("Please input the name to the output file: ")
+    OutputFile = str(input())
+    OutputFile += ".smv"
+    outputFilePath = os.path.join(OutputPath, OutputFile)
+    return outputFilePath
+
+
+def write_string_to_file(string, outputFilePath):
         
-    with open(file_path, 'w') as file:
+    with open(outputFilePath, 'w') as file:
         file.write(string)
 
 def createSmvBoardFile():
     inputFilePath = inputFileName()
     rows, columns, content = readFile(inputFilePath)
     b = SokobanBoard(rows, columns, content)
-    model = b.createSmvFileContent()
-    print("Please input the path to the output folder: ")
-    OutputPath = str(input())
-    print("Please input the name to the output file: ")
-    OutputFile = str(input())
-    OutputFile += ".smv"
-    write_string_to_file(model, OutputPath, OutputFile)
+    outputFilePath = getOutputPath()
+    model = b.createSmvFileContent(inputFilePath, outputFilePath)
+    write_string_to_file(model, outputFilePath)
 
 
 
