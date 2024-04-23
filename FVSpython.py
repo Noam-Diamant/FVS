@@ -92,8 +92,8 @@ class SokobanBoard:
         self.rows = rows
         self.columns = columns
         self.InitialBoard = self.setInitialBoard(content)
-        self.winConds = 'win'
-        self.transitionRelations = 'trans'
+        self.winConditions = self.setWinConditions()
+        self.transitionRelations = self.setTransitionRelations()
     
     def setInitialBoard(self, content):
         # Split the input string into lines
@@ -107,8 +107,12 @@ class SokobanBoard:
             elements = line.split(',')
             # Append the list of elements to the 2D array
             InitialBoard.append(elements)
-    
-        return InitialBoard
+        InitialBoardString = ""
+        for row_index in range(self.rows):
+            for column_index in range(self.columns):
+                InitialBoardString += f"SokobanBoard[{row_index}][{column_index}] = {str(InitialBoard[row_index][column_index])};  \n"
+
+        return InitialBoardString
     
     # def printBoard(self):
     #     print(f"({len(self.InitialBoard)},{len(self.InitialBoard[0])})")
@@ -117,11 +121,11 @@ class SokobanBoard:
     #             print(self.InitialBoard[i][j], end=",  ")
     #         print()
 
-    def setWinConds(self):
-        print()
+    def setWinConditions(self):
+        return 'win conditions'
 
     def setTransitionRelations(self):
-        print()
+        return 'transitionRelations'
 
     def createSmvFileContent(self, inputFilePath, outputFilePath):
         inputFilePath = inputFilePath.replace("\\\\", "\\")
@@ -133,16 +137,28 @@ class SokobanBoard:
 -- The model is in the following path:
 -- {outputFilePath}
 MODULE main
+
 VAR
+    -- In this section we describe the variables of the model of the Sokoban board
+
+    -- 2D array for the Sokoban borad
+    SokobanBoard : array 0..{self.rows - 1} of array 0..{self.columns - 1} of {{percent, dollar, asterisk, hashtag, at, plus, dot, dash}};
+    
+    -- Movement options 
+    Movement : {{L, U, R, D}}; 
 
 INIT
-
+    -- In this section we describe the initial state of the Sokoban board model
+{self.InitialBoard}
 
 ASSIGN
+    -- In this section we describe the transition relations of the Sokoban board model
+
 {self.transitionRelations}
 
 
-{self.winConds}
+    -- In this section we describe the win conditions for the Sokoban board model
+{self.winConditions}
 """
         return fileContent
 
@@ -157,8 +173,7 @@ def getOutputPath():
     return outputFilePath
 
 
-def write_string_to_file(string, outputFilePath):
-        
+def writeStringToFile(string, outputFilePath):      
     with open(outputFilePath, 'w') as file:
         file.write(string)
 
@@ -168,7 +183,7 @@ def createSmvBoardFile():
     b = SokobanBoard(rows, columns, content)
     outputFilePath = getOutputPath()
     model = b.createSmvFileContent(inputFilePath, outputFilePath)
-    write_string_to_file(model, outputFilePath)
+    writeStringToFile(model, outputFilePath)
 
 
 
