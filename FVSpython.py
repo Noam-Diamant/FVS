@@ -110,8 +110,8 @@ class SokobanBoard:
         InitialBoardString = ""
         for row_index in range(self.rows):
             for column_index in range(self.columns):
-                InitialBoardString += f"SokobanBoard[{row_index}][{column_index}] = {str(InitialBoard[row_index][column_index])};  \n"
-
+                InitialBoardString += f"SokobanBoard[{row_index}][{column_index}] = {str(InitialBoard[row_index][column_index]):<10};" + "\t\t"
+            InitialBoardString += "\n"
         return InitialBoardString
     
     # def printBoard(self):
@@ -149,6 +149,7 @@ VAR
 
 INIT
     -- In this section we describe the initial state of the Sokoban board model
+
 {self.InitialBoard}
 
 ASSIGN
@@ -158,6 +159,7 @@ ASSIGN
 
 
     -- In this section we describe the win conditions for the Sokoban board model
+
 {self.winConditions}
 """
         return fileContent
