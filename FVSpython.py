@@ -167,6 +167,8 @@ VAR
 ASSIGN
     -- In this section we describe the initial state of the Sokoban board model
 
+init(Movement) := {{L, U, R, D}}
+
 {self.InitialBoardString}
 
     -- In this section we describe the transition relations of the Sokoban board model
