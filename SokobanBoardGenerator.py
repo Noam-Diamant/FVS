@@ -114,8 +114,13 @@ class SokobanBoard:
         InitialBoardString = ""
         for rowIdx in range(self.rows):
             for columnIdx in range(self.columns):
-                InitialBoardString += f"init(SokobanBoard[{rowIdx}][{columnIdx}]) := {str(self.InitialBoard[rowIdx][columnIdx]):<10};" + "\t\t"
-            InitialBoardString += "\n"
+                InitialBoardString += f"SokobanBoard[{rowIdx}][{columnIdx}] = {str(self.InitialBoard[rowIdx][columnIdx]):<10}&\t\t"
+            InitialBoardString += "\n\t"     
+        # Find the last occurrence of "&"
+        lastAmpersandIndex = InitialBoardString.rfind("&")
+
+        # Replace the last "&" with ";"
+        InitialBoardString = InitialBoardString[:lastAmpersandIndex] + ";" + InitialBoardString[lastAmpersandIndex + 1:]   
         return InitialBoardString
     
     def printBoard(self):
@@ -140,7 +145,7 @@ class SokobanBoard:
         return winConditionsString
 
     def setTransitionRelations(self):
-        return 'transitionRelations'
+        return ''
 
     def createSmvFileContent(self, inputFilePath, outputFilePath):
         inputFilePath = inputFilePath.replace("\\\\", "\\")
@@ -162,22 +167,21 @@ VAR
     SokobanBoard : array 0..(rows - 1) of array 0..(columns - 1) of {{percent, dollar, asterisk, hashtag, at, plus, dot, dash}};
     
     -- Movement options 
-    Movement : {{L, U, R, D}}; 
+    Movement : {{l, u, r, d}}; 
 
-ASSIGN
+INIT
     -- In this section we describe the initial state of the Sokoban board model
 
-init(Movement) := {{L, U, R, D}}
+    {self.InitialBoardString}
 
-{self.InitialBoardString}
-
+ASSIGN
     -- In this section we describe the transition relations of the Sokoban board model
 
-{self.transitionRelations}
+    {self.transitionRelations}
 
     -- In this section we describe the win conditions for the Sokoban board model
 
-{self.winConditions}
+    {self.winConditions}
 """
         return fileContent
 
