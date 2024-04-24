@@ -110,7 +110,7 @@ class SokobanBoard:
         InitialBoardString = ""
         for row_index in range(self.rows):
             for column_index in range(self.columns):
-                InitialBoardString += f"SokobanBoard[{row_index}][{column_index}] = {str(InitialBoard[row_index][column_index]):<10};" + "\t\t"
+                InitialBoardString += f"init(SokobanBoard[{row_index}][{column_index}]) := {str(InitialBoard[row_index][column_index]):<10};" + "\t\t"
             InitialBoardString += "\n"
         return InitialBoardString
     
@@ -147,16 +147,14 @@ VAR
     -- Movement options 
     Movement : {{L, U, R, D}}; 
 
-INIT
+ASSIGN
     -- In this section we describe the initial state of the Sokoban board model
 
 {self.InitialBoard}
 
-ASSIGN
     -- In this section we describe the transition relations of the Sokoban board model
 
 {self.transitionRelations}
-
 
     -- In this section we describe the win conditions for the Sokoban board model
 
