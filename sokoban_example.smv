@@ -1,0 +1,146 @@
+-- Example sokoban board
+MODULE main
+
+VAR
+    -- Should be computed in python
+    board : array 0..board_size of {dollar, asterisk, hashtag, at, plus, dot, dash};
+    direction: {r, l, u, d};
+
+-- Define the initial state
+INIT
+    board[0] = hashtag & board[1] = hashtag & board[2] = hashtag & board[3] = hashtag & board[4] = hashtag & 
+    board[5] = hashtag & board[6] = at & board[7] = dollar & board[8] = dot &  board[9] = hashtag &
+    board[10] = hashtag & board[11] = hashtag & board[12] = hashtag & board[13] = hashtag & board[14] = hashtag &
+    direction = u;
+-- Define transition rules for moving tiles
+ASSIGN
+    next(direction) :=
+        case
+            direction = u : d;
+            direction = d : l;
+            direction = l : r;
+            direction = r : u;
+        esac;
+
+    -- There is no for loop in nuXmv. Python should compute this for every tile in the board
+    for i in 0..board_size do
+        next(board[i]) :=
+            case
+                -- Any tile that is a wall always stays the same. Therefore it's : Rho_i
+                board[i] = hashtag : hashtag; -- This covers also tiles that are on the edge of the board
+                TRUE: 
+                    case
+                        -- If this tile is the guard, check if it can move towards the direction it needs. 
+                        -- Either the next tile is a floor (or goal), or that it has where to push the box (the tile after the box is floor or goal)
+                        -- Otherwise - don't move
+                        board[i] = (at | plus) :
+                            case
+                                (direction = u & 
+                                ((board[i-1*row_len] = (dash | dot)) | 
+                                ((board[i-1*row_len] = (dollar | asterisk)) & (board[i-2*row_len] = (dash | dot))))) |
+
+                                (direction = d & 
+                                ((board[i+1*row_len] = (dash | dot)) | 
+                                ((board[i+1*row_len] = (dollar | asterisk)) & (board[i+2*row_len] = (dash | dot))))) |
+                                
+                                (direction = l & 
+                                ((board[i-1] = (dash | dot)) | 
+                                ((board[i-1] = (dollar | asterisk)) & (board[i-2] = (dash | dot))))) |
+                                
+                                (direction = r &
+                                ((board[i+1] = (dash | dot)) | 
+                                ((board[i+1] = (dollar | asterisk)) & (board[i+2] = (dash | dot))))) :
+                                    case
+                                        board[i] = at : dash;
+                                        board[i] = plus : dot;
+                                    esac;
+
+                                -- Rho_i
+                                TRUE : 
+                                    case
+                                        board[i] = at : at;
+                                        board[i] = plus : plus;
+                                    esac;
+                            esac;
+
+                        -- In case this tile is a box, it can move only if the previous tile 
+                        -- (that coresponds to the direction) is the guard, and there is place to push the box
+                        board[i] = (dollar | asterisk) :
+                            case
+                                (direction = u & 
+                                ((board[i+1*row_len] = (at | plus)) & (board[i-1*row_len] = (dash | dot)))) |
+
+                                (direction = d & 
+                                ((board[i-1*row_len] = (at | plus)) & (board[i+1*row_len] = (dash | dot)))) |
+                                
+                                (direction = l & 
+                                ((board[i+1] = (at | plus)) & (board[i-1] = (dash | dot)))) |
+                                
+                                (direction = r &
+                                ((board[i-1] = (at | plus)) & (board[i+1] = (dash | dot)))) :
+                                    case:
+                                        board[i] = dollar : at;
+                                        board[i] = asterisk : plus;
+                                    esac;
+
+                                -- Rho_i
+                                TRUE : 
+                                    case
+                                        board[i] = dollar : dollar;
+                                        board[i] = asterisk : asterisk;
+                                    esac;
+                            esac;
+                        
+                        -- In this case, the floor will change if the guard tries to go on it, or if the guard tries to push a box on to it
+                        board[i] = (dash | dot) :
+                            case
+                                -- If the keeper wants to walk to this tile
+                                ((direction = u & 
+                                ((board[i+1*row_len] = (at | plus)))) | 
+
+                                (direction = d & 
+                                ((board[i-1*row_len] = (at | plus)))) | 
+
+                                (direction = l & 
+                                ((board[i+1] = (at | plus)))) |
+                                
+                                (direction = r &
+                                ((board[i-1] = (at | plus))))) :
+                                    case
+                                        board[i] = dash : at;
+                                        board[i] = dot : plus;
+                                    esac;
+                                
+                                -- If the keeper wants to push the box to this tile
+                                ((direction = u & 
+                                ((board[i+1*row_len] = (dollar | asterisk)) & (board[i+2*row_len] = (at | plus)))) |
+
+                                (direction = d & 
+                                ((board[i-1*row_len] = (dollar | asterisk)) & (board[i-2*row_len] = (at | plus)))) |
+                                
+                                (direction = l & 
+                                ((board[i+1] = (dollar | asterisk)) & (board[i+2] = (at | plus)))) |
+                                
+                                (direction = r &
+                                ((board[i-1] = (dollar | asterisk)) & (board[i-2] = (at | plus))))) :
+                                    case
+                                        board[i] = dash : dollar;
+                                        board[i] = dot : asterisk;
+                                    esac;
+
+                                -- Rho_i
+                                TRUE : 
+                                    case
+                                        board[i] = dash : dash;
+                                        board[i] = dot : dot;
+                                    esac;
+                            esac;
+                    esac;
+            esac;
+    end for;
+    
+-- Specify properties to check solvability
+SPEC EF (!(board[0] = dot) & !(board[1] = dot) & ... & !(board[board_size] = dot))
+
+
+
