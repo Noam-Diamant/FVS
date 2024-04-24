@@ -1,8 +1,9 @@
 import os  # Import the os module for file operations
 import time
 
-# Dictionary mapping symbols to their names
+
 symbol_dict = {
+    # Dictionary mapping symbols to their names
     '%': 'percent',
     '$': 'dollar',
     '*': 'asterisk',
@@ -14,8 +15,9 @@ symbol_dict = {
     # Add more mappings as needed
 }
 
-# Function to input the file name and validate it
-def inputFileName():
+
+def getInputFileName():
+    # Function to input the file name and validate it
     while (True):
         # Prompt the user to input the path to the input file
         print("Please input the path to the input file, ends with extension \".txt\": ")
@@ -40,7 +42,7 @@ def inputFileName():
                 print("File does not exist, try again!")  # Print error message for non-existent file
 
 
-def remove_trailing_commas(input_string):
+def removeTrailingCommas(input_string):
     # Split the string into lines
     lines = input_string.split('\n')
     
@@ -66,26 +68,26 @@ def readFile(FileName):
     columns = len(lines[0])
 
     # Iterate over the content character by character    
-    # Initialize converted_content to an empty string
-    converted_content = ""
+    # Initialize convertedContent to an empty string
+    convertedContent = ""
     
     # Iterate over each character in the contents
     for char in contents:
         # Check if the character is a symbol
         if char in symbol_dict:
             # Replace the symbol with its corresponding name
-            converted_content += symbol_dict[char]
+            convertedContent += symbol_dict[char]
             # Add a comma after the symbol
-            converted_content +=","
+            convertedContent +=","
         else:
             # If not a symbol, keep the character as it is
-            converted_content += char
+            convertedContent += char
             
-    # Remove trailing commas from converted_content
-    converted_content = remove_trailing_commas(converted_content)
+    # Remove trailing commas from convertedContent
+    convertedContent = removeTrailingCommas(convertedContent)
     
     # return the converted content, its number of rows and columns
-    return rows, columns, converted_content
+    return rows, columns, convertedContent
 
 class SokobanBoard:
     def __init__(self, rows, columns, content):
@@ -131,11 +133,13 @@ class SokobanBoard:
             print()
 
     def setWinConditions(self):
-
         winConditionsString = f"LTLSPEC !(F("
         for rowIdx in range(self.rows):
             for columnIdx in range(self.columns):
-                if (self.InitialBoard[rowIdx][columnIdx] == 'dot' or self.InitialBoard[rowIdx][columnIdx] == 'asterisk' or self.InitialBoard[rowIdx][columnIdx] == 'plus' ):
+                # For each goal position put an asterisk at the end of the run
+                if (self.InitialBoard[rowIdx][columnIdx] == 'dot' or
+                    self.InitialBoard[rowIdx][columnIdx] == 'asterisk' or
+                    self.InitialBoard[rowIdx][columnIdx] == 'plus'):
                     winConditionsString += f"(SokobanBoard[{rowIdx}][{columnIdx}] = asterisk) & "
         # Check if the string ends with " & " before removing it
         if winConditionsString.endswith(" & "):
@@ -147,7 +151,7 @@ class SokobanBoard:
     def setTransitionRelations(self):
         return ''
 
-    def createSmvFileContent(self, inputFilePath, outputFilePath):
+    def createSmvFileContent(self, inputFilePath, outputFilePath):    
         inputFilePath = inputFilePath.replace("\\\\", "\\")
         fileContent = f"""-- This smv model was built by the automation code produced as part of the project 
 -- in the formal verification and synthesis course by Noam Diamant and Ora Wetzler.
@@ -187,12 +191,21 @@ ASSIGN
 
 
 def getOutputPath():
+    # Prompt user for the output folder path
     print("Please input the path to the output folder: ")
     OutputPath = str(input())
+    
+    # Prompt user for the name of the output file
     print("Please input the name to the output file: ")
     OutputFile = str(input())
+    
+    # Append ".smv" extension to the output file name
     OutputFile += ".smv"
+    
+    # Join output folder path and output file name to construct the output file path
     outputFilePath = os.path.join(OutputPath, OutputFile)
+    
+    # Return the constructed output file path
     return outputFilePath
 
 
@@ -201,25 +214,76 @@ def writeStringToFile(string, outputFilePath):
         file.write(string)
 
 def createSmvBoardFile():
-    inputFilePath = inputFileName()
+    # Obtain input file path
+    inputFilePath = getInputFileName()
+    
+    # Read rows, columns, and content from input file
     rows, columns, content = readFile(inputFilePath)
+    
+    # Initialize SokobanBoard object with obtained data
     b = SokobanBoard(rows, columns, content)
+    
+    # Obtain output file path
     outputFilePath = getOutputPath()
+    
+    # Generate SMV model content and write to output file
     model = b.createSmvFileContent(inputFilePath, outputFilePath)
     writeStringToFile(model, outputFilePath)
+    
+    # Return tuple containing input and output file paths with double backslashes replaced
+    return inputFilePath.replace("\\\\", "\\"), outputFilePath
 
 
+import subprocess
+
+
+import subprocess
+import os  # Import the os module for file operations
+import time
+
+def run_nuxmv(modelFilename, engineType = None, steps = None):
+    # Configure NuSMV process based on engineType
+    if engineType == "BDD":
+        nuxmvProcess = subprocess.Popen([".\\nuXmv.exe", "-int", modelFilename], stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
+        nuxmvProcess.stdin.write("go\n")
+        nuxmvProcess.stdin.write("check_ltlspec\n")
+        nuxmvProcess.stdin.write("quit\n")
+    elif engineType == "SAT":
+        nuxmvProcess = subprocess.Popen([".\\nuXmv.exe", "-int", modelFilename], stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
+        nuxmvProcess.stdin.write("go_bmc\n")
+        nuxmvProcess.stdin.write(f"check_ltlspec_bmc -k {steps}\n")
+        nuxmvProcess.stdin.write("quit\n")
+    else:
+        nuxmvProcess = subprocess.Popen([".\\nuXmv.exe", modelFilename], stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
+    
+    # Define output filename
+    outputFilename = modelFilename.split(".")[0] + ".out"
+    
+    # Run NuSMV process and capture stdout
+    stdout, _ = nuxmvProcess.communicate()
+    
+    # Write stdout to output file
+    with open(outputFilename, "w") as f:
+        f.write(stdout)
+    
+    # Print output filename
+    print(f"Output saved to {outputFilename}")
+    
+    # Return output filename
+    return outputFilename
 
 
 if __name__ == '__main__':
    # print("Hello, and welcome to the Sokoban folder!")
-    #FileNameForRead = inputFileName()
+    #FileNameForRead = getInputFileName()
     #b = SokobanInitialBoard(3,5)
    # b.printInitialBoard()
     #rows, columns, content = readFile(FileNameForRead)
     #b = SokobanBoard(rows, columns, content)
     #b.printBoard()
-    createSmvBoardFile()
+    #i , o = createSmvBoardFile()
+    #i = i.replace("\\\\", "\\")
+    run_nuxmv(r'C:\Users\Lenovo\OneDrive - Bar-Ilan University - Students\GitHW\FVS\bbb.smv')
 
 
 
