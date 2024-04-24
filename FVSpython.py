@@ -92,6 +92,7 @@ class SokobanBoard:
         self.rows = rows
         self.columns = columns
         self.InitialBoard = self.setInitialBoard(content)
+        self.InitialBoardString = self.setInitialBoardString()
         self.winConditions = self.setWinConditions()
         self.transitionRelations = self.setTransitionRelations()
     
@@ -107,22 +108,36 @@ class SokobanBoard:
             elements = line.split(',')
             # Append the list of elements to the 2D array
             InitialBoard.append(elements)
+        return InitialBoard
+    
+    def setInitialBoardString(self):
         InitialBoardString = ""
-        for row_index in range(self.rows):
-            for column_index in range(self.columns):
-                InitialBoardString += f"init(SokobanBoard[{row_index}][{column_index}]) := {str(InitialBoard[row_index][column_index]):<10};" + "\t\t"
+        for rowIdx in range(self.rows):
+            for columnIdx in range(self.columns):
+                InitialBoardString += f"init(SokobanBoard[{rowIdx}][{columnIdx}]) := {str(self.InitialBoard[rowIdx][columnIdx]):<10};" + "\t\t"
             InitialBoardString += "\n"
         return InitialBoardString
     
-    # def printBoard(self):
-    #     print(f"({len(self.InitialBoard)},{len(self.InitialBoard[0])})")
-    #     for i in range(self.rows):
-    #         for j in range(self.columns):
-    #             print(self.InitialBoard[i][j], end=",  ")
-    #         print()
+    def printBoard(self):
+        print(f"({len(self.InitialBoard)},{len(self.InitialBoard[0])})")
+        for i in range(self.rows):
+            for j in range(self.columns):
+                print(self.InitialBoard[i][j], end=",  ")
+            print()
 
     def setWinConditions(self):
-        return 'win conditions'
+
+        winConditionsString = f"LTLSPEC !(F("
+        for rowIdx in range(self.rows):
+            for columnIdx in range(self.columns):
+                if (self.InitialBoard[rowIdx][columnIdx] == 'dot' or self.InitialBoard[rowIdx][columnIdx] == 'asterisk' or self.InitialBoard[rowIdx][columnIdx] == 'plus' ):
+                    winConditionsString += f"(SokobanBoard[{rowIdx}][{columnIdx}] = asterisk) & "
+        # Check if the string ends with " & " before removing it
+        if winConditionsString.endswith(" & "):
+            # Remove the last " & " by slicing the string
+            winConditionsString = winConditionsString[:-3]  # Remove the last 3 characters
+        winConditionsString += "));"
+        return winConditionsString
 
     def setTransitionRelations(self):
         return 'transitionRelations'
@@ -138,11 +153,13 @@ class SokobanBoard:
 -- {outputFilePath}
 MODULE main
 
+DEFINE rows := {self.rows}; columns := {self.columns};
+
 VAR
     -- In this section we describe the variables of the model of the Sokoban board
 
     -- 2D array for the Sokoban borad
-    SokobanBoard : array 0..{self.rows - 1} of array 0..{self.columns - 1} of {{percent, dollar, asterisk, hashtag, at, plus, dot, dash}};
+    SokobanBoard : array 0..(rows - 1) of array 0..(columns - 1) of {{percent, dollar, asterisk, hashtag, at, plus, dot, dash}};
     
     -- Movement options 
     Movement : {{L, U, R, D}}; 
@@ -150,7 +167,7 @@ VAR
 ASSIGN
     -- In this section we describe the initial state of the Sokoban board model
 
-{self.InitialBoard}
+{self.InitialBoardString}
 
     -- In this section we describe the transition relations of the Sokoban board model
 
