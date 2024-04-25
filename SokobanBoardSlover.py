@@ -1,6 +1,7 @@
-import subprocess
 import os  # Import the os module for file operations
 import time
+from SokobanBoardGenerator import *
+import subprocess
 
 def run_nuxmv(modelFilename, engineType = None, steps = None):
     # Configure NuSMV process based on engineType
@@ -33,10 +34,10 @@ def run_nuxmv(modelFilename, engineType = None, steps = None):
     # Return output filename
     return outputFilename
 
-def MeasureRunTime():
+def MeasureRunTime(modelFilename, engineType = None, steps = None):
     startTime = time.time()
     # Run nuXmv
-    output_file_name = run_nuxmv(modelFilename, engine=engine, k=k)
+    _ = run_nuxmv(modelFilename, engineType, steps)
     # Stop the timer
     endTime = time.time()
     runTime = endTime - startTime
