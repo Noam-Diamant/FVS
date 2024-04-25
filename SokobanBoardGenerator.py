@@ -1,6 +1,6 @@
 import os  # Import the os module for file operations
 import time
-from SokobanBoardSlover import *
+from SokobanBoardSolver import *
 import subprocess
 
 
