@@ -21,10 +21,10 @@ def getPart():
 def getEngine():
     while True:
             engineType = input("Please enter which type of engine to run,\nvalid answers are SAT or BDD: ")
-            if (engineType == "SAT" or engineType == "sat"):
+            if (engineType == "SAT" or engineType == "sat" or engineType.upper() == "SAT"):
                 steps = int(input("Enter the desired k value: "))
                 break
-            elif (engineType == "BDD" or engineType == "bdd"):
+            elif (engineType == "BDD" or engineType == "bdd" or engineType.upper() == "BDD"):
                 steps = None
                 break
             else:
