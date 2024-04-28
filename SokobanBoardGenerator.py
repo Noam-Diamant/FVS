@@ -150,10 +150,165 @@ class SokobanBoard:
         winConditionsString += "));"
         return winConditionsString
 
-    def setTransitionRelations(self):
-        return ''
+    def new_line(self, in_str):
+        return f'{in_str}\n{self.tab_as_needed()}'
 
-    def createSmvFileContent(self, inputFilePath, outputFilePath):    
+    def setTransitionRelations(self):
+        TransitionRelationString = ""
+        TransitionRelationString += self.movement_trans()
+        for row_idx in range(self.rows):
+            for col_idx in range(self.columns):
+                TransitionRelationString += self.new_line(f"next(SokobanBoard[{row_idx}][{col_idx}]) :=")
+                TransitionRelationString += self.open_case()
+                TransitionRelationString += self.case_keeper(row_idx, col_idx)
+                TransitionRelationString += self.case_box(row_idx, col_idx)
+                TransitionRelationString += self.case_floor(row_idx, col_idx)
+                TransitionRelationString += self.case_wall(row_idx, col_idx)
+                TransitionRelationString += self.close_case()
+        return TransitionRelationString
+
+    def movement_trans(self):
+        case_str = ''
+        case_str += self.new_line(f"next(direction) :=")
+        case_str += self.open_case()
+        case_str += self.new_line(f"direction = u : d;") +\
+                    self.new_line(f"direction = d : l;") +\
+                    self.new_line(f"direction = l : r;") +\
+                    self.new_line(f"direction = r : u;")
+        case_str += self.close_case()
+        return case_str
+
+    def case_keeper(self, i, j):
+        """If this tile is the guard, check if it can move towards the direction it needs.
+         Either the next tile is a floor (or goal), or that it has where to push the box
+         (the tile after the box is floor or goal) Otherwise - don't move"""
+
+        cases_str = ''
+        cases_str += self.new_line(self.check_state(i, j, self.keeper_states, ":"))
+        cases_str += self.open_case()
+
+        for direction in ['l', 'u', 'r', 'd']:
+            if self.is_boarder(i, j, direction, 1):
+                continue
+            cases_str += self.new_line('')
+            i_idx, j_idx = self.first_neighbor(i,j,direction)
+            cases_str += f'(direction = {direction} & '
+            cases_str += f'(({self.check_state(i_idx, j_idx, self.floor_states, "")})'
+            if self.is_boarder(i, j, direction, 2):
+                cases_str += ')) |'
+                continue
+            i_2_idx, j_2_idx = self.second_neighbor(i,j,direction)
+            cases_str += f' | (({self.check_state(i_idx, j_idx, self.box_states, "")}) & ({self.check_state(i_2_idx, j_2_idx, self.floor_states, "")})))) |'
+
+        cases_str = cases_str.removesuffix(' |')
+        cases_str += self.new_line(' :')
+
+        cases_str += self.open_case()
+        cases_str += self.swap(i, j, self.keeper_states, self.floor_states)
+        cases_str += self.close_case()
+
+        cases_str += self.new_line(f"TRUE :")
+        cases_str += self.open_case()
+        cases_str += self.rho_i(i, j, symbol_dict['@'])
+        cases_str += self.rho_i(i, j, symbol_dict['+'])
+        cases_str += self.close_case()
+
+        cases_str += self.close_case()
+        return cases_str
+
+
+    def case_box(self, i, j):
+        """In case this tile is a box, it can move only if the previous tile
+        (that corresponds to the direction) is the guard, and there is place to push the box"""
+        cases_str = ''
+        cases_str += self.new_line(self.check_state(i, j, self.box_states, ":"))
+        cases_str += self.open_case()
+        if i < 1 or i > (self.rows - 2) or j < 1 or j > (self.columns - 2):
+            pass  # The only valid option is rho_i
+        else:
+            for direction in ['l', 'u', 'r', 'd']:
+                opposite_direction = 'u' if direction == 'd' else 'd' if direction == 'u' else 'l' if direction == 'r' else 'r'
+                if self.is_boarder(i, j, direction, 1) or self.is_boarder(i, j, opposite_direction, 1):
+                    continue
+                cases_str += self.new_line('')
+                i_idx, j_idx = self.first_neighbor(i,j,direction)
+                i_opp_idx, j_opp_idx = self.first_neighbor(i,j,opposite_direction)
+                cases_str += f'(direction = {direction} & '
+                cases_str += f'(({self.check_state(i_idx, j_idx, self.keeper_states, "")}) & ({self.check_state(i_opp_idx, j_opp_idx, self.keeper_states, "")}))) |'
+
+            cases_str = cases_str.removesuffix(' |')
+            cases_str += self.new_line(' : ')
+
+            cases_str += self.open_case()
+            cases_str += self.swap(i, j, self.box_states, self.keeper_states)
+            cases_str += self.close_case()
+
+        # rho_i
+        cases_str += self.new_line("TRUE :")
+        cases_str += self.open_case()
+        cases_str += self.rho_i(i, j, symbol_dict['$'])
+        cases_str += self.rho_i(i, j, symbol_dict['*'])
+        cases_str += self.close_case()
+
+        cases_str += self.close_case()
+
+        return cases_str
+
+    def case_floor(self, i, j):
+        """In this case, the floor will change if the guard tries to go on it, or if the guard tries to push a box on to it"""
+        cases_str = ''
+        cases_str += self.new_line(self.check_state(i, j, self.floor_states, ":"))
+        cases_str += self.open_case()
+        for direction in ['l', 'u', 'r', 'd']:
+            opposite_direction = 'u' if direction == 'd' else 'd' if direction == 'u' else 'l' if direction == 'r' else 'r'
+            if self.is_boarder(i, j, opposite_direction, 1):
+                continue
+            i_idx, j_idx = self.first_neighbor(i,j,opposite_direction)
+            cases_str += self.new_line('')
+            cases_str += f'(direction = {direction} & {self.check_state(i_idx, j_idx, self.keeper_states, "")}) |'
+        cases_str = cases_str.removesuffix(' |')
+        cases_str += self.new_line(' :')
+
+        cases_str += self.open_case()
+        cases_str += self.swap(i, j, self.floor_states, self.keeper_states)
+        cases_str += self.close_case()
+
+        for direction in ['l', 'u', 'r', 'd']:
+            opposite_direction = 'u' if direction == 'd' else 'd' if direction == 'u' else 'l' if direction == 'r' else 'r'
+            if self.is_boarder(i, j, opposite_direction, 2):
+                continue
+            i_idx, j_idx = self.first_neighbor(i,j,opposite_direction)
+            i_2_idx, j_2_idx = self.second_neighbor(i,j,opposite_direction)
+            cases_str += self.new_line('')
+            cases_str += f'(direction = {direction} & '\
+                         f'({self.check_state(i_idx, j_idx, self.box_states, "")}) & ({self.check_state(i_2_idx, j_2_idx, self.keeper_states, "")})) |'
+        cases_str = cases_str.removesuffix(' |')
+        cases_str += self.new_line(' :')
+
+        cases_str += self.open_case()
+        cases_str += self.swap(i, j, self.floor_states, self.box_states)
+        cases_str += self.close_case()
+
+        # rho_i
+        cases_str += self.new_line("TRUE :")
+        cases_str += self.open_case()
+        cases_str += self.rho_i(i, j, symbol_dict['-'])
+        cases_str += self.rho_i(i, j, symbol_dict['.'])
+        cases_str += self.close_case()
+
+        cases_str += self.close_case()
+
+        return cases_str
+
+
+    def case_wall(self, i, j):
+        """ Any tile that is a wall always stays the same. Therefore, it's : Rho_i
+        This covers also tiles that are on the edge of the board"""
+        # return self.rho_i(i, j, self.wall_states[0])
+        return self.new_line(f"TRUE: {self.wall_states[0]};")
+
+
+    def createSmvFileContent(self, inputFilePath, outputFilePath):
         inputFilePath = inputFilePath.replace("\\\\", "\\")
         fileContent = f"""-- This smv model was built by the automation code produced as part of the project 
 -- in the formal verification and synthesis course by Noam Diamant and Ora Wetzler.
@@ -164,23 +319,20 @@ class SokobanBoard:
 -- {outputFilePath}
 MODULE main
 
-DEFINE rows := {self.rows}; columns := {self.columns};
-
 VAR
     -- In this section we describe the variables of the model of the Sokoban board
 
     -- 2D array for the Sokoban borad
-    SokobanBoard : array 0..(rows - 1) of array 0..(columns - 1) of {{percent, dollar, asterisk, hashtag, at, plus, dot, dash}};
+    SokobanBoard : array 0..{self.rows - 1} of array 0..{self.columns - 1} of {{percent, dollar, asterisk, hashtag, at, plus, dot, dash}};
     
     -- Movement options 
-    Movement : {{l, u, r, d}}; 
-
-INIT
-    -- In this section we describe the initial state of the Sokoban board model
-
-    {self.InitialBoardString}
+    direction : {{l, u, r, d}}; 
 
 ASSIGN
+    -- In this section we describe the initial state of the Sokoban board model
+
+    {self.InitialBoard}
+
     -- In this section we describe the transition relations of the Sokoban board model
 
     {self.transitionRelations}
@@ -190,6 +342,67 @@ ASSIGN
     {self.winConditions}
 """
         return fileContent
+
+    ####################
+    # Helper functions #
+    ####################
+
+    def swap(self, i, j, origin_states, dest_states):
+        swap_str = ''
+        for k in range(len(origin_states)):
+            swap_str += self.new_line(f"SokobanBoard[{i}][{j}] = {origin_states[k]} : {dest_states[k]};")
+        return swap_str
+
+    def open_case(self):
+        self.current_tab_level += 1
+        tab_str1 = self.new_line('')
+        self.current_tab_level += 1
+        return tab_str1 + self.new_line('case')
+
+    def close_case(self):
+        self.current_tab_level -= 1
+        tab_str1 = self.new_line('')
+        self.current_tab_level -= 1
+        return tab_str1 + self.new_line('esac;')
+
+    def tab_as_needed(self):
+        return_str = ''
+        for i in range(self.current_tab_level):
+            return_str += '\t'
+        return return_str
+
+    def rho_i(self, i, j, tile_str):
+        return self.new_line(f"SokobanBoard[{i}][{j}] = {tile_str} : {tile_str};")
+
+    def second_neighbor(self, i, j, d):
+        if d == 'u': i_idx = (i-2); j_idx = j
+        if d == 'd': i_idx = (i+2); j_idx = j
+        if d == 'r': i_idx = i; j_idx = j + 2
+        if d == 'l': i_idx = i; j_idx = j - 2
+        return i_idx, j_idx
+
+
+    def first_neighbor(self, i, j, d):
+        if d == 'u': i_idx = (i-1); j_idx = j
+        if d == 'd': i_idx = (i+1); j_idx = j
+        if d == 'r': i_idx = i; j_idx = j + 1
+        if d == 'l': i_idx = i; j_idx = j - 1
+        return i_idx, j_idx
+
+    def is_boarder(self, i, j, direction, distance):
+        if direction == 'u' and ((i - distance) < 0) or direction == 'd' and ((i + distance) > self.rows-1)\
+                    or direction == 'l' and ((j - distance) < 0) or direction == 'r' and ((j + distance) > self.columns-1):
+            return True
+        return False
+
+    def check_state(self, i, j, states, end_with):
+        check_state_str = ''
+        for state in states:
+            check_state_str += f"SokobanBoard[{i}][{j}] = {state} |"
+
+        cases_str = check_state_str.removesuffix(' |')
+        cases_str += end_with
+        return cases_str
 
 
 def getOutputPath():
