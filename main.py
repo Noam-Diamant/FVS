@@ -37,8 +37,8 @@ if __name__ == '__main__':
     path = r"C:\Users\Lenovo\OneDrive - Bar-Ilan University - Students\GitHW\FVS\bbb.smv"
     # path = r"C:\Users\אורה\FVS\bbb.smv"
     if runPart == 2:
-        output_file = run_nuxmv(r"C:\Users\אורה\FVS\bbb.smv")
-        get_board_result(output_file)
+        run_nuxmv(r"./bbb.smv")
+        #getLURD Moves - ORA!!
     if runPart == 3:
         engineType, steps = getEngine()
         runTime = MeasureRunTime(path, engineType, steps)
