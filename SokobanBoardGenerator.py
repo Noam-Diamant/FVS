@@ -176,7 +176,7 @@ class SokobanBoard:
     def case_keeper(self, i, j):
         """If this tile is the guard, check if it can move to floor (or goal), or that it has where to push the box"""
         i_self, j_self, current_state = self.tile_check(i, j, 'u', 0, 'keeper')
-        keeper_str = self.new_line('-- case keeper on floor')
+        keeper_str = self.new_line('-- case keeper')
         for direction in ['l', 'u', 'r', 'd']:
             i_self, j_self, dest_state = self.tile_check(i, j, 'u', 0, 'floor')
             i_n1, j_n1, n1_state_to_check = self.tile_check(i, j, direction, 1, 'floor')
@@ -198,7 +198,7 @@ class SokobanBoard:
 
     def case_box(self, i, j):
         """Tile is a box, it can move only if the previous tile is the guard, and there is place to push the box"""
-        box_str = self.new_line('-- case box on floor')
+        box_str = self.new_line('-- case box')
         i_self, j_self, current_state_to_check = self.tile_check(i, j, 'u', 0, 'box')
         i_self, j_self, dest_state = self.tile_check(i, j, 'u', 0, 'keeper')
         for direction in ['l', 'u', 'r', 'd']:
