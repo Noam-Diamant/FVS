@@ -50,17 +50,17 @@ def createBoard(Ipath, iteration = 1):
 
     return board
 
-def createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board = None, iteration = 1):
+def createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board = None,  iteration = 1, smvSolution = None):
     inputFilePath = Ipath
     board.winConditions = setIterWinConditions(iterationGoals)
     if iteration == 1:
         None
     else:
-        None
-        #board.InitialBoardString = update #ORA!!
-        #board.winConditions = setIterWinConditions(iterationGoals)
+        None #REMOVE THIS NONE AFTER YOU DO YOUR PART
+        #update the intial board at the next iteration to to final state at the previous iteration
+        #board.InitialBoardString = update(smvSolution) 
     # Obtain output file path
-    outputFilePath = Opath+f"_iter{iteration}.smv"#getOutputPath()
+    outputFilePath = Opath+f"_IterationModel_iter{iteration}.smv"#getOutputPath()
     
     # Generate SMV model content and write to output file
     model = board.createSmvFileContent(inputFilePath, outputFilePath)
@@ -73,7 +73,7 @@ def createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board = None, iter
     else:
         return iteration+1, board, inputFilePath, outputFilePath
 
-def sampleNSolve(Ipath, Opath, boardGoals, n, board):
+def sampleNCreateBoards(Ipath, Opath, boardGoals, n, board):
     iterationGoals = []
     iteration = 1
     while len(boardGoals) >= n:
@@ -82,17 +82,17 @@ def sampleNSolve(Ipath, Opath, boardGoals, n, board):
         for goal in randomGoals:
             boardGoals.remove(goal)
         if iteration == 1:
-            iteration, board, Ipath, _ = createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board, iteration=1)
+            iteration, board, Ipath, _ = createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board, iteration=1, smvSolution = None)
             #yield Opath
         else:
-            iteration, board, Ipath, _ = createSmvBoardFileIteration(Ipath,Opath, iterationGoals, board, iteration)
+            iteration, board, Ipath, _ = createSmvBoardFileIteration(Ipath,Opath, iterationGoals, board, iteration, smvSolution = "./bbb_IterationModel_iter"+f"{iteration-1}"+".out")
             #yield Opat
 
     # If there are fewer than n values remaining, take all of them
     if boardGoals:
         iterationGoals.extend(boardGoals)
         boardGoals.clear()
-        iteration, board, Ipath, Opath = createSmvBoardFileIteration(Ipath,Opath, iterationGoals, board, iteration)
+        iteration, board, Ipath, Opath = createSmvBoardFileIteration(Ipath,Opath, iterationGoals, board, iteration, smvSolution = "./bbb_IterationModel_iter"+f"{iteration-1}"+".out")
         #yield Opath
 
     return iterationGoals
@@ -105,9 +105,9 @@ if __name__ == '__main__':
     print(board.InitialBoard)
     boardGoals = getGoalsLocs(board)
     print(boardGoals)
-    sampleNSolve(Ipath, Opath, boardGoals, 1, board)
-    print(MeasureRunTime("./bbb_iter1.smv"))
-    print(MeasureRunTime("./bbb_iter2.smv"))
+    sampleNCreateBoards(Ipath, Opath, boardGoals, 1, board)
+    print(MeasureRunTime("./bbb_IterationModel_iter1.smv"))
+    print(MeasureRunTime("./bbb_IterationModel_iter2.smv"))
     
 
 
