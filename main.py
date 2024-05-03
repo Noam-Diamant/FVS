@@ -37,6 +37,7 @@ if __name__ == '__main__':
     path = r"C:\Users\Lenovo\OneDrive - Bar-Ilan University - Students\GitHW\FVS\bbb.smv"
     # path = r"C:\Users\אורה\FVS\bbb.smv"
     if runPart == 2:
+        createSmvBoardFile()
         run_nuxmv(r"./bbb.smv")
         #getLURD Moves - ORA!!
     if runPart == 3:

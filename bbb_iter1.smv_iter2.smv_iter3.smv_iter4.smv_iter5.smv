@@ -1,0 +1,1485 @@
+-- This smv model was built by the automation code produced as part of the project 
+-- in the formal verification and synthesis course by Noam Diamant and Ora Wetzler.
+
+-- This smv model is built according to the input file found in the following path:
+-- ./aaa.txt
+-- The model is in the following path:
+-- ./bbb_iter1.smv_iter2.smv_iter3.smv_iter4.smv_iter5.smv
+MODULE main
+
+VAR
+    -- In this section we describe the variables of the model of the Sokoban board
+
+    -- 2D array for the Sokoban borad
+    SokobanBoard : array 0..5 of array 0..11 of {percent, dollar, asterisk, hashtag, at, plus, dot, dash};
+    
+    -- Movement options 
+    direction : {l, u, r, d}; 
+
+INIT
+    -- In this section we describe the initial state of the Sokoban board model
+
+    SokobanBoard[0][0] = hashtag   &		SokobanBoard[0][1] = hashtag   &		SokobanBoard[0][2] = hashtag   &		SokobanBoard[0][3] = hashtag   &		SokobanBoard[0][4] = hashtag   &		SokobanBoard[0][5] = hashtag   &		SokobanBoard[0][6] = hashtag   &		SokobanBoard[0][7] = hashtag   &		SokobanBoard[0][8] = hashtag   &		SokobanBoard[0][9] = hashtag   &		SokobanBoard[0][10] = hashtag   &		SokobanBoard[0][11] = hashtag   &		
+	SokobanBoard[1][0] = hashtag   &		SokobanBoard[1][1] = dash      &		SokobanBoard[1][2] = dash      &		SokobanBoard[1][3] = dash      &		SokobanBoard[1][4] = dash      &		SokobanBoard[1][5] = dash      &		SokobanBoard[1][6] = at        &		SokobanBoard[1][7] = dash      &		SokobanBoard[1][8] = dollar    &		SokobanBoard[1][9] = dash      &		SokobanBoard[1][10] = dot       &		SokobanBoard[1][11] = hashtag   &		
+	SokobanBoard[2][0] = hashtag   &		SokobanBoard[2][1] = dot       &		SokobanBoard[2][2] = dash      &		SokobanBoard[2][3] = dollar    &		SokobanBoard[2][4] = dash      &		SokobanBoard[2][5] = dash      &		SokobanBoard[2][6] = dash      &		SokobanBoard[2][7] = dash      &		SokobanBoard[2][8] = dash      &		SokobanBoard[2][9] = dash      &		SokobanBoard[2][10] = dash      &		SokobanBoard[2][11] = hashtag   &		
+	SokobanBoard[3][0] = hashtag   &		SokobanBoard[3][1] = dot       &		SokobanBoard[3][2] = dash      &		SokobanBoard[3][3] = dash      &		SokobanBoard[3][4] = dollar    &		SokobanBoard[3][5] = dash      &		SokobanBoard[3][6] = dash      &		SokobanBoard[3][7] = dash      &		SokobanBoard[3][8] = dash      &		SokobanBoard[3][9] = dollar    &		SokobanBoard[3][10] = dot       &		SokobanBoard[3][11] = hashtag   &		
+	SokobanBoard[4][0] = hashtag   &		SokobanBoard[4][1] = dot       &		SokobanBoard[4][2] = dollar    &		SokobanBoard[4][3] = dash      &		SokobanBoard[4][4] = dash      &		SokobanBoard[4][5] = dash      &		SokobanBoard[4][6] = dash      &		SokobanBoard[4][7] = dash      &		SokobanBoard[4][8] = dash      &		SokobanBoard[4][9] = dash      &		SokobanBoard[4][10] = hashtag   &		SokobanBoard[4][11] = hashtag   &		
+	SokobanBoard[5][0] = hashtag   &		SokobanBoard[5][1] = hashtag   &		SokobanBoard[5][2] = hashtag   &		SokobanBoard[5][3] = hashtag   &		SokobanBoard[5][4] = hashtag   &		SokobanBoard[5][5] = hashtag   &		SokobanBoard[5][6] = hashtag   &		SokobanBoard[5][7] = hashtag   &		SokobanBoard[5][8] = hashtag   &		SokobanBoard[5][9] = hashtag   &		SokobanBoard[5][10] = hashtag   &		SokobanBoard[5][11] = hashtag   ;		
+	
+
+ASSIGN
+    -- In this section we describe the transition relations of the Sokoban board model
+
+    next(direction) := {l, u, r, d};
+	next(SokobanBoard[0][0]) := hashtag;
+	next(SokobanBoard[0][1]) := hashtag;
+	next(SokobanBoard[0][2]) := hashtag;
+	next(SokobanBoard[0][3]) := hashtag;
+	next(SokobanBoard[0][4]) := hashtag;
+	next(SokobanBoard[0][5]) := hashtag;
+	next(SokobanBoard[0][6]) := hashtag;
+	next(SokobanBoard[0][7]) := hashtag;
+	next(SokobanBoard[0][8]) := hashtag;
+	next(SokobanBoard[0][9]) := hashtag;
+	next(SokobanBoard[0][10]) := hashtag;
+	next(SokobanBoard[0][11]) := hashtag;
+	next(SokobanBoard[1][0]) := hashtag;
+	next(SokobanBoard[1][1]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[1][1] = at & direction = r & SokobanBoard[1][2] = dash : dash;
+			SokobanBoard[1][1] = at & direction = r & SokobanBoard[1][2] = dollar & SokobanBoard[1][3] = dash : dash;
+			SokobanBoard[1][1] = at & direction = d & SokobanBoard[2][1] = dot : dash;
+			SokobanBoard[1][1] = at & direction = d & SokobanBoard[2][1] = asterisk & SokobanBoard[3][1] = dot : dash;
+			
+			-- case box
+			
+			-- case floor
+			SokobanBoard[1][1] = dash & direction = l & SokobanBoard[1][2] = at : at;
+			SokobanBoard[1][1] = dash & direction = l & SokobanBoard[1][2] = dollar & SokobanBoard[1][3] = at : dollar;
+			SokobanBoard[1][1] = dash & direction = u & SokobanBoard[2][1] = plus : at;
+			SokobanBoard[1][1] = dash & direction = u & SokobanBoard[2][1] = asterisk & SokobanBoard[3][1] = plus : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[1][1] = dash : dash;
+					SokobanBoard[1][1] = at : at;
+					SokobanBoard[1][1] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[1][2]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[1][2] = at & direction = l & SokobanBoard[1][1] = dash : dash;
+			SokobanBoard[1][2] = at & direction = r & SokobanBoard[1][3] = dash : dash;
+			SokobanBoard[1][2] = at & direction = r & SokobanBoard[1][3] = dollar & SokobanBoard[1][4] = dash : dash;
+			SokobanBoard[1][2] = at & direction = d & SokobanBoard[2][2] = dash : dash;
+			SokobanBoard[1][2] = at & direction = d & SokobanBoard[2][2] = dollar & SokobanBoard[3][2] = dash : dash;
+			
+			-- case box
+			SokobanBoard[1][2] = dollar & direction = l & SokobanBoard[1][1] = dash & SokobanBoard[1][3] = at: at;
+			SokobanBoard[1][2] = dollar & direction = r & SokobanBoard[1][3] = dash & SokobanBoard[1][1] = at: at;
+			
+			-- case floor
+			SokobanBoard[1][2] = dash & direction = l & SokobanBoard[1][3] = at : at;
+			SokobanBoard[1][2] = dash & direction = l & SokobanBoard[1][3] = dollar & SokobanBoard[1][4] = at : dollar;
+			SokobanBoard[1][2] = dash & direction = u & SokobanBoard[2][2] = at : at;
+			SokobanBoard[1][2] = dash & direction = u & SokobanBoard[2][2] = dollar & SokobanBoard[3][2] = at : dollar;
+			SokobanBoard[1][2] = dash & direction = r & SokobanBoard[1][1] = at : at;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[1][2] = dash : dash;
+					SokobanBoard[1][2] = at : at;
+					SokobanBoard[1][2] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[1][3]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[1][3] = at & direction = l & SokobanBoard[1][2] = dash : dash;
+			SokobanBoard[1][3] = at & direction = l & SokobanBoard[1][2] = dollar & SokobanBoard[1][1] = dash : dash;
+			SokobanBoard[1][3] = at & direction = r & SokobanBoard[1][4] = dash : dash;
+			SokobanBoard[1][3] = at & direction = r & SokobanBoard[1][4] = dollar & SokobanBoard[1][5] = dash : dash;
+			SokobanBoard[1][3] = at & direction = d & SokobanBoard[2][3] = dash : dash;
+			SokobanBoard[1][3] = at & direction = d & SokobanBoard[2][3] = dollar & SokobanBoard[3][3] = dash : dash;
+			
+			-- case box
+			SokobanBoard[1][3] = dollar & direction = l & SokobanBoard[1][2] = dash & SokobanBoard[1][4] = at: at;
+			SokobanBoard[1][3] = dollar & direction = r & SokobanBoard[1][4] = dash & SokobanBoard[1][2] = at: at;
+			
+			-- case floor
+			SokobanBoard[1][3] = dash & direction = l & SokobanBoard[1][4] = at : at;
+			SokobanBoard[1][3] = dash & direction = l & SokobanBoard[1][4] = dollar & SokobanBoard[1][5] = at : dollar;
+			SokobanBoard[1][3] = dash & direction = u & SokobanBoard[2][3] = at : at;
+			SokobanBoard[1][3] = dash & direction = u & SokobanBoard[2][3] = dollar & SokobanBoard[3][3] = at : dollar;
+			SokobanBoard[1][3] = dash & direction = r & SokobanBoard[1][2] = at : at;
+			SokobanBoard[1][3] = dash & direction = r & SokobanBoard[1][2] = dollar & SokobanBoard[1][1] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[1][3] = dash : dash;
+					SokobanBoard[1][3] = at : at;
+					SokobanBoard[1][3] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[1][4]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[1][4] = at & direction = l & SokobanBoard[1][3] = dash : dash;
+			SokobanBoard[1][4] = at & direction = l & SokobanBoard[1][3] = dollar & SokobanBoard[1][2] = dash : dash;
+			SokobanBoard[1][4] = at & direction = r & SokobanBoard[1][5] = dash : dash;
+			SokobanBoard[1][4] = at & direction = r & SokobanBoard[1][5] = dollar & SokobanBoard[1][6] = dash : dash;
+			SokobanBoard[1][4] = at & direction = d & SokobanBoard[2][4] = dash : dash;
+			SokobanBoard[1][4] = at & direction = d & SokobanBoard[2][4] = dollar & SokobanBoard[3][4] = dash : dash;
+			
+			-- case box
+			SokobanBoard[1][4] = dollar & direction = l & SokobanBoard[1][3] = dash & SokobanBoard[1][5] = at: at;
+			SokobanBoard[1][4] = dollar & direction = r & SokobanBoard[1][5] = dash & SokobanBoard[1][3] = at: at;
+			
+			-- case floor
+			SokobanBoard[1][4] = dash & direction = l & SokobanBoard[1][5] = at : at;
+			SokobanBoard[1][4] = dash & direction = l & SokobanBoard[1][5] = dollar & SokobanBoard[1][6] = at : dollar;
+			SokobanBoard[1][4] = dash & direction = u & SokobanBoard[2][4] = at : at;
+			SokobanBoard[1][4] = dash & direction = u & SokobanBoard[2][4] = dollar & SokobanBoard[3][4] = at : dollar;
+			SokobanBoard[1][4] = dash & direction = r & SokobanBoard[1][3] = at : at;
+			SokobanBoard[1][4] = dash & direction = r & SokobanBoard[1][3] = dollar & SokobanBoard[1][2] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[1][4] = dash : dash;
+					SokobanBoard[1][4] = at : at;
+					SokobanBoard[1][4] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[1][5]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[1][5] = at & direction = l & SokobanBoard[1][4] = dash : dash;
+			SokobanBoard[1][5] = at & direction = l & SokobanBoard[1][4] = dollar & SokobanBoard[1][3] = dash : dash;
+			SokobanBoard[1][5] = at & direction = r & SokobanBoard[1][6] = dash : dash;
+			SokobanBoard[1][5] = at & direction = r & SokobanBoard[1][6] = dollar & SokobanBoard[1][7] = dash : dash;
+			SokobanBoard[1][5] = at & direction = d & SokobanBoard[2][5] = dash : dash;
+			SokobanBoard[1][5] = at & direction = d & SokobanBoard[2][5] = dollar & SokobanBoard[3][5] = dash : dash;
+			
+			-- case box
+			SokobanBoard[1][5] = dollar & direction = l & SokobanBoard[1][4] = dash & SokobanBoard[1][6] = at: at;
+			SokobanBoard[1][5] = dollar & direction = r & SokobanBoard[1][6] = dash & SokobanBoard[1][4] = at: at;
+			
+			-- case floor
+			SokobanBoard[1][5] = dash & direction = l & SokobanBoard[1][6] = at : at;
+			SokobanBoard[1][5] = dash & direction = l & SokobanBoard[1][6] = dollar & SokobanBoard[1][7] = at : dollar;
+			SokobanBoard[1][5] = dash & direction = u & SokobanBoard[2][5] = at : at;
+			SokobanBoard[1][5] = dash & direction = u & SokobanBoard[2][5] = dollar & SokobanBoard[3][5] = at : dollar;
+			SokobanBoard[1][5] = dash & direction = r & SokobanBoard[1][4] = at : at;
+			SokobanBoard[1][5] = dash & direction = r & SokobanBoard[1][4] = dollar & SokobanBoard[1][3] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[1][5] = dash : dash;
+					SokobanBoard[1][5] = at : at;
+					SokobanBoard[1][5] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[1][6]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[1][6] = at & direction = l & SokobanBoard[1][5] = dash : dash;
+			SokobanBoard[1][6] = at & direction = l & SokobanBoard[1][5] = dollar & SokobanBoard[1][4] = dash : dash;
+			SokobanBoard[1][6] = at & direction = r & SokobanBoard[1][7] = dash : dash;
+			SokobanBoard[1][6] = at & direction = r & SokobanBoard[1][7] = dollar & SokobanBoard[1][8] = dash : dash;
+			SokobanBoard[1][6] = at & direction = d & SokobanBoard[2][6] = dash : dash;
+			SokobanBoard[1][6] = at & direction = d & SokobanBoard[2][6] = dollar & SokobanBoard[3][6] = dash : dash;
+			
+			-- case box
+			SokobanBoard[1][6] = dollar & direction = l & SokobanBoard[1][5] = dash & SokobanBoard[1][7] = at: at;
+			SokobanBoard[1][6] = dollar & direction = r & SokobanBoard[1][7] = dash & SokobanBoard[1][5] = at: at;
+			
+			-- case floor
+			SokobanBoard[1][6] = dash & direction = l & SokobanBoard[1][7] = at : at;
+			SokobanBoard[1][6] = dash & direction = l & SokobanBoard[1][7] = dollar & SokobanBoard[1][8] = at : dollar;
+			SokobanBoard[1][6] = dash & direction = u & SokobanBoard[2][6] = at : at;
+			SokobanBoard[1][6] = dash & direction = u & SokobanBoard[2][6] = dollar & SokobanBoard[3][6] = at : dollar;
+			SokobanBoard[1][6] = dash & direction = r & SokobanBoard[1][5] = at : at;
+			SokobanBoard[1][6] = dash & direction = r & SokobanBoard[1][5] = dollar & SokobanBoard[1][4] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[1][6] = dash : dash;
+					SokobanBoard[1][6] = at : at;
+					SokobanBoard[1][6] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[1][7]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[1][7] = at & direction = l & SokobanBoard[1][6] = dash : dash;
+			SokobanBoard[1][7] = at & direction = l & SokobanBoard[1][6] = dollar & SokobanBoard[1][5] = dash : dash;
+			SokobanBoard[1][7] = at & direction = r & SokobanBoard[1][8] = dash : dash;
+			SokobanBoard[1][7] = at & direction = r & SokobanBoard[1][8] = dollar & SokobanBoard[1][9] = dash : dash;
+			SokobanBoard[1][7] = at & direction = d & SokobanBoard[2][7] = dash : dash;
+			SokobanBoard[1][7] = at & direction = d & SokobanBoard[2][7] = dollar & SokobanBoard[3][7] = dash : dash;
+			
+			-- case box
+			SokobanBoard[1][7] = dollar & direction = l & SokobanBoard[1][6] = dash & SokobanBoard[1][8] = at: at;
+			SokobanBoard[1][7] = dollar & direction = r & SokobanBoard[1][8] = dash & SokobanBoard[1][6] = at: at;
+			
+			-- case floor
+			SokobanBoard[1][7] = dash & direction = l & SokobanBoard[1][8] = at : at;
+			SokobanBoard[1][7] = dash & direction = l & SokobanBoard[1][8] = dollar & SokobanBoard[1][9] = at : dollar;
+			SokobanBoard[1][7] = dash & direction = u & SokobanBoard[2][7] = at : at;
+			SokobanBoard[1][7] = dash & direction = u & SokobanBoard[2][7] = dollar & SokobanBoard[3][7] = at : dollar;
+			SokobanBoard[1][7] = dash & direction = r & SokobanBoard[1][6] = at : at;
+			SokobanBoard[1][7] = dash & direction = r & SokobanBoard[1][6] = dollar & SokobanBoard[1][5] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[1][7] = dash : dash;
+					SokobanBoard[1][7] = at : at;
+					SokobanBoard[1][7] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[1][8]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[1][8] = at & direction = l & SokobanBoard[1][7] = dash : dash;
+			SokobanBoard[1][8] = at & direction = l & SokobanBoard[1][7] = dollar & SokobanBoard[1][6] = dash : dash;
+			SokobanBoard[1][8] = at & direction = r & SokobanBoard[1][9] = dash : dash;
+			SokobanBoard[1][8] = at & direction = r & SokobanBoard[1][9] = dollar & SokobanBoard[1][10] = dot : dash;
+			SokobanBoard[1][8] = at & direction = d & SokobanBoard[2][8] = dash : dash;
+			SokobanBoard[1][8] = at & direction = d & SokobanBoard[2][8] = dollar & SokobanBoard[3][8] = dash : dash;
+			
+			-- case box
+			SokobanBoard[1][8] = dollar & direction = l & SokobanBoard[1][7] = dash & SokobanBoard[1][9] = at: at;
+			SokobanBoard[1][8] = dollar & direction = r & SokobanBoard[1][9] = dash & SokobanBoard[1][7] = at: at;
+			
+			-- case floor
+			SokobanBoard[1][8] = dash & direction = l & SokobanBoard[1][9] = at : at;
+			SokobanBoard[1][8] = dash & direction = l & SokobanBoard[1][9] = dollar & SokobanBoard[1][10] = plus : dollar;
+			SokobanBoard[1][8] = dash & direction = u & SokobanBoard[2][8] = at : at;
+			SokobanBoard[1][8] = dash & direction = u & SokobanBoard[2][8] = dollar & SokobanBoard[3][8] = at : dollar;
+			SokobanBoard[1][8] = dash & direction = r & SokobanBoard[1][7] = at : at;
+			SokobanBoard[1][8] = dash & direction = r & SokobanBoard[1][7] = dollar & SokobanBoard[1][6] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[1][8] = dash : dash;
+					SokobanBoard[1][8] = at : at;
+					SokobanBoard[1][8] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[1][9]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[1][9] = at & direction = l & SokobanBoard[1][8] = dash : dash;
+			SokobanBoard[1][9] = at & direction = l & SokobanBoard[1][8] = dollar & SokobanBoard[1][7] = dash : dash;
+			SokobanBoard[1][9] = at & direction = r & SokobanBoard[1][10] = dot : dash;
+			SokobanBoard[1][9] = at & direction = d & SokobanBoard[2][9] = dash : dash;
+			SokobanBoard[1][9] = at & direction = d & SokobanBoard[2][9] = dollar & SokobanBoard[3][9] = dash : dash;
+			
+			-- case box
+			SokobanBoard[1][9] = dollar & direction = l & SokobanBoard[1][8] = dash & SokobanBoard[1][10] = plus: at;
+			SokobanBoard[1][9] = dollar & direction = r & SokobanBoard[1][10] = dot & SokobanBoard[1][8] = at: at;
+			
+			-- case floor
+			SokobanBoard[1][9] = dash & direction = l & SokobanBoard[1][10] = plus : at;
+			SokobanBoard[1][9] = dash & direction = u & SokobanBoard[2][9] = at : at;
+			SokobanBoard[1][9] = dash & direction = u & SokobanBoard[2][9] = dollar & SokobanBoard[3][9] = at : dollar;
+			SokobanBoard[1][9] = dash & direction = r & SokobanBoard[1][8] = at : at;
+			SokobanBoard[1][9] = dash & direction = r & SokobanBoard[1][8] = dollar & SokobanBoard[1][7] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[1][9] = dash : dash;
+					SokobanBoard[1][9] = at : at;
+					SokobanBoard[1][9] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[1][10]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[1][10] = plus & direction = l & SokobanBoard[1][9] = dash : dot;
+			SokobanBoard[1][10] = plus & direction = l & SokobanBoard[1][9] = dollar & SokobanBoard[1][8] = dash : dot;
+			SokobanBoard[1][10] = plus & direction = d & SokobanBoard[2][10] = dash : dot;
+			SokobanBoard[1][10] = plus & direction = d & SokobanBoard[2][10] = dollar & SokobanBoard[3][10] = dot : dot;
+			
+			-- case box
+			
+			-- case floor
+			SokobanBoard[1][10] = dot & direction = u & SokobanBoard[2][10] = at : plus;
+			SokobanBoard[1][10] = dot & direction = u & SokobanBoard[2][10] = dollar & SokobanBoard[3][10] = plus : asterisk;
+			SokobanBoard[1][10] = dot & direction = r & SokobanBoard[1][9] = at : plus;
+			SokobanBoard[1][10] = dot & direction = r & SokobanBoard[1][9] = dollar & SokobanBoard[1][8] = at : asterisk;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[1][10] = dot : dot;
+					SokobanBoard[1][10] = plus : plus;
+					SokobanBoard[1][10] = asterisk : asterisk;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[1][11]) := hashtag;
+	next(SokobanBoard[2][0]) := hashtag;
+	next(SokobanBoard[2][1]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[2][1] = plus & direction = u & SokobanBoard[1][1] = dash : dot;
+			SokobanBoard[2][1] = plus & direction = r & SokobanBoard[2][2] = dash : dot;
+			SokobanBoard[2][1] = plus & direction = r & SokobanBoard[2][2] = dollar & SokobanBoard[2][3] = dash : dot;
+			SokobanBoard[2][1] = plus & direction = d & SokobanBoard[3][1] = dot : dot;
+			SokobanBoard[2][1] = plus & direction = d & SokobanBoard[3][1] = asterisk & SokobanBoard[4][1] = dot : dot;
+			
+			-- case box
+			SokobanBoard[2][1] = asterisk & direction = u & SokobanBoard[1][1] = dash & SokobanBoard[3][1] = plus: plus;
+			SokobanBoard[2][1] = asterisk & direction = d & SokobanBoard[3][1] = dot & SokobanBoard[1][1] = at: plus;
+			
+			-- case floor
+			SokobanBoard[2][1] = dot & direction = l & SokobanBoard[2][2] = at : plus;
+			SokobanBoard[2][1] = dot & direction = l & SokobanBoard[2][2] = dollar & SokobanBoard[2][3] = at : asterisk;
+			SokobanBoard[2][1] = dot & direction = u & SokobanBoard[3][1] = plus : plus;
+			SokobanBoard[2][1] = dot & direction = u & SokobanBoard[3][1] = asterisk & SokobanBoard[4][1] = plus : asterisk;
+			SokobanBoard[2][1] = dot & direction = d & SokobanBoard[1][1] = at : plus;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[2][1] = dot : dot;
+					SokobanBoard[2][1] = plus : plus;
+					SokobanBoard[2][1] = asterisk : asterisk;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[2][2]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[2][2] = at & direction = l & SokobanBoard[2][1] = dot : dash;
+			SokobanBoard[2][2] = at & direction = u & SokobanBoard[1][2] = dash : dash;
+			SokobanBoard[2][2] = at & direction = r & SokobanBoard[2][3] = dash : dash;
+			SokobanBoard[2][2] = at & direction = r & SokobanBoard[2][3] = dollar & SokobanBoard[2][4] = dash : dash;
+			SokobanBoard[2][2] = at & direction = d & SokobanBoard[3][2] = dash : dash;
+			SokobanBoard[2][2] = at & direction = d & SokobanBoard[3][2] = dollar & SokobanBoard[4][2] = dash : dash;
+			
+			-- case box
+			SokobanBoard[2][2] = dollar & direction = l & SokobanBoard[2][1] = dot & SokobanBoard[2][3] = at: at;
+			SokobanBoard[2][2] = dollar & direction = u & SokobanBoard[1][2] = dash & SokobanBoard[3][2] = at: at;
+			SokobanBoard[2][2] = dollar & direction = r & SokobanBoard[2][3] = dash & SokobanBoard[2][1] = plus: at;
+			SokobanBoard[2][2] = dollar & direction = d & SokobanBoard[3][2] = dash & SokobanBoard[1][2] = at: at;
+			
+			-- case floor
+			SokobanBoard[2][2] = dash & direction = l & SokobanBoard[2][3] = at : at;
+			SokobanBoard[2][2] = dash & direction = l & SokobanBoard[2][3] = dollar & SokobanBoard[2][4] = at : dollar;
+			SokobanBoard[2][2] = dash & direction = u & SokobanBoard[3][2] = at : at;
+			SokobanBoard[2][2] = dash & direction = u & SokobanBoard[3][2] = dollar & SokobanBoard[4][2] = at : dollar;
+			SokobanBoard[2][2] = dash & direction = r & SokobanBoard[2][1] = plus : at;
+			SokobanBoard[2][2] = dash & direction = d & SokobanBoard[1][2] = at : at;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[2][2] = dash : dash;
+					SokobanBoard[2][2] = at : at;
+					SokobanBoard[2][2] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[2][3]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[2][3] = at & direction = l & SokobanBoard[2][2] = dash : dash;
+			SokobanBoard[2][3] = at & direction = l & SokobanBoard[2][2] = dollar & SokobanBoard[2][1] = dot : dash;
+			SokobanBoard[2][3] = at & direction = u & SokobanBoard[1][3] = dash : dash;
+			SokobanBoard[2][3] = at & direction = r & SokobanBoard[2][4] = dash : dash;
+			SokobanBoard[2][3] = at & direction = r & SokobanBoard[2][4] = dollar & SokobanBoard[2][5] = dash : dash;
+			SokobanBoard[2][3] = at & direction = d & SokobanBoard[3][3] = dash : dash;
+			SokobanBoard[2][3] = at & direction = d & SokobanBoard[3][3] = dollar & SokobanBoard[4][3] = dash : dash;
+			
+			-- case box
+			SokobanBoard[2][3] = dollar & direction = l & SokobanBoard[2][2] = dash & SokobanBoard[2][4] = at: at;
+			SokobanBoard[2][3] = dollar & direction = u & SokobanBoard[1][3] = dash & SokobanBoard[3][3] = at: at;
+			SokobanBoard[2][3] = dollar & direction = r & SokobanBoard[2][4] = dash & SokobanBoard[2][2] = at: at;
+			SokobanBoard[2][3] = dollar & direction = d & SokobanBoard[3][3] = dash & SokobanBoard[1][3] = at: at;
+			
+			-- case floor
+			SokobanBoard[2][3] = dash & direction = l & SokobanBoard[2][4] = at : at;
+			SokobanBoard[2][3] = dash & direction = l & SokobanBoard[2][4] = dollar & SokobanBoard[2][5] = at : dollar;
+			SokobanBoard[2][3] = dash & direction = u & SokobanBoard[3][3] = at : at;
+			SokobanBoard[2][3] = dash & direction = u & SokobanBoard[3][3] = dollar & SokobanBoard[4][3] = at : dollar;
+			SokobanBoard[2][3] = dash & direction = r & SokobanBoard[2][2] = at : at;
+			SokobanBoard[2][3] = dash & direction = r & SokobanBoard[2][2] = dollar & SokobanBoard[2][1] = plus : dollar;
+			SokobanBoard[2][3] = dash & direction = d & SokobanBoard[1][3] = at : at;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[2][3] = dash : dash;
+					SokobanBoard[2][3] = at : at;
+					SokobanBoard[2][3] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[2][4]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[2][4] = at & direction = l & SokobanBoard[2][3] = dash : dash;
+			SokobanBoard[2][4] = at & direction = l & SokobanBoard[2][3] = dollar & SokobanBoard[2][2] = dash : dash;
+			SokobanBoard[2][4] = at & direction = u & SokobanBoard[1][4] = dash : dash;
+			SokobanBoard[2][4] = at & direction = r & SokobanBoard[2][5] = dash : dash;
+			SokobanBoard[2][4] = at & direction = r & SokobanBoard[2][5] = dollar & SokobanBoard[2][6] = dash : dash;
+			SokobanBoard[2][4] = at & direction = d & SokobanBoard[3][4] = dash : dash;
+			SokobanBoard[2][4] = at & direction = d & SokobanBoard[3][4] = dollar & SokobanBoard[4][4] = dash : dash;
+			
+			-- case box
+			SokobanBoard[2][4] = dollar & direction = l & SokobanBoard[2][3] = dash & SokobanBoard[2][5] = at: at;
+			SokobanBoard[2][4] = dollar & direction = u & SokobanBoard[1][4] = dash & SokobanBoard[3][4] = at: at;
+			SokobanBoard[2][4] = dollar & direction = r & SokobanBoard[2][5] = dash & SokobanBoard[2][3] = at: at;
+			SokobanBoard[2][4] = dollar & direction = d & SokobanBoard[3][4] = dash & SokobanBoard[1][4] = at: at;
+			
+			-- case floor
+			SokobanBoard[2][4] = dash & direction = l & SokobanBoard[2][5] = at : at;
+			SokobanBoard[2][4] = dash & direction = l & SokobanBoard[2][5] = dollar & SokobanBoard[2][6] = at : dollar;
+			SokobanBoard[2][4] = dash & direction = u & SokobanBoard[3][4] = at : at;
+			SokobanBoard[2][4] = dash & direction = u & SokobanBoard[3][4] = dollar & SokobanBoard[4][4] = at : dollar;
+			SokobanBoard[2][4] = dash & direction = r & SokobanBoard[2][3] = at : at;
+			SokobanBoard[2][4] = dash & direction = r & SokobanBoard[2][3] = dollar & SokobanBoard[2][2] = at : dollar;
+			SokobanBoard[2][4] = dash & direction = d & SokobanBoard[1][4] = at : at;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[2][4] = dash : dash;
+					SokobanBoard[2][4] = at : at;
+					SokobanBoard[2][4] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[2][5]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[2][5] = at & direction = l & SokobanBoard[2][4] = dash : dash;
+			SokobanBoard[2][5] = at & direction = l & SokobanBoard[2][4] = dollar & SokobanBoard[2][3] = dash : dash;
+			SokobanBoard[2][5] = at & direction = u & SokobanBoard[1][5] = dash : dash;
+			SokobanBoard[2][5] = at & direction = r & SokobanBoard[2][6] = dash : dash;
+			SokobanBoard[2][5] = at & direction = r & SokobanBoard[2][6] = dollar & SokobanBoard[2][7] = dash : dash;
+			SokobanBoard[2][5] = at & direction = d & SokobanBoard[3][5] = dash : dash;
+			SokobanBoard[2][5] = at & direction = d & SokobanBoard[3][5] = dollar & SokobanBoard[4][5] = dash : dash;
+			
+			-- case box
+			SokobanBoard[2][5] = dollar & direction = l & SokobanBoard[2][4] = dash & SokobanBoard[2][6] = at: at;
+			SokobanBoard[2][5] = dollar & direction = u & SokobanBoard[1][5] = dash & SokobanBoard[3][5] = at: at;
+			SokobanBoard[2][5] = dollar & direction = r & SokobanBoard[2][6] = dash & SokobanBoard[2][4] = at: at;
+			SokobanBoard[2][5] = dollar & direction = d & SokobanBoard[3][5] = dash & SokobanBoard[1][5] = at: at;
+			
+			-- case floor
+			SokobanBoard[2][5] = dash & direction = l & SokobanBoard[2][6] = at : at;
+			SokobanBoard[2][5] = dash & direction = l & SokobanBoard[2][6] = dollar & SokobanBoard[2][7] = at : dollar;
+			SokobanBoard[2][5] = dash & direction = u & SokobanBoard[3][5] = at : at;
+			SokobanBoard[2][5] = dash & direction = u & SokobanBoard[3][5] = dollar & SokobanBoard[4][5] = at : dollar;
+			SokobanBoard[2][5] = dash & direction = r & SokobanBoard[2][4] = at : at;
+			SokobanBoard[2][5] = dash & direction = r & SokobanBoard[2][4] = dollar & SokobanBoard[2][3] = at : dollar;
+			SokobanBoard[2][5] = dash & direction = d & SokobanBoard[1][5] = at : at;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[2][5] = dash : dash;
+					SokobanBoard[2][5] = at : at;
+					SokobanBoard[2][5] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[2][6]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[2][6] = at & direction = l & SokobanBoard[2][5] = dash : dash;
+			SokobanBoard[2][6] = at & direction = l & SokobanBoard[2][5] = dollar & SokobanBoard[2][4] = dash : dash;
+			SokobanBoard[2][6] = at & direction = u & SokobanBoard[1][6] = dash : dash;
+			SokobanBoard[2][6] = at & direction = r & SokobanBoard[2][7] = dash : dash;
+			SokobanBoard[2][6] = at & direction = r & SokobanBoard[2][7] = dollar & SokobanBoard[2][8] = dash : dash;
+			SokobanBoard[2][6] = at & direction = d & SokobanBoard[3][6] = dash : dash;
+			SokobanBoard[2][6] = at & direction = d & SokobanBoard[3][6] = dollar & SokobanBoard[4][6] = dash : dash;
+			
+			-- case box
+			SokobanBoard[2][6] = dollar & direction = l & SokobanBoard[2][5] = dash & SokobanBoard[2][7] = at: at;
+			SokobanBoard[2][6] = dollar & direction = u & SokobanBoard[1][6] = dash & SokobanBoard[3][6] = at: at;
+			SokobanBoard[2][6] = dollar & direction = r & SokobanBoard[2][7] = dash & SokobanBoard[2][5] = at: at;
+			SokobanBoard[2][6] = dollar & direction = d & SokobanBoard[3][6] = dash & SokobanBoard[1][6] = at: at;
+			
+			-- case floor
+			SokobanBoard[2][6] = dash & direction = l & SokobanBoard[2][7] = at : at;
+			SokobanBoard[2][6] = dash & direction = l & SokobanBoard[2][7] = dollar & SokobanBoard[2][8] = at : dollar;
+			SokobanBoard[2][6] = dash & direction = u & SokobanBoard[3][6] = at : at;
+			SokobanBoard[2][6] = dash & direction = u & SokobanBoard[3][6] = dollar & SokobanBoard[4][6] = at : dollar;
+			SokobanBoard[2][6] = dash & direction = r & SokobanBoard[2][5] = at : at;
+			SokobanBoard[2][6] = dash & direction = r & SokobanBoard[2][5] = dollar & SokobanBoard[2][4] = at : dollar;
+			SokobanBoard[2][6] = dash & direction = d & SokobanBoard[1][6] = at : at;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[2][6] = dash : dash;
+					SokobanBoard[2][6] = at : at;
+					SokobanBoard[2][6] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[2][7]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[2][7] = at & direction = l & SokobanBoard[2][6] = dash : dash;
+			SokobanBoard[2][7] = at & direction = l & SokobanBoard[2][6] = dollar & SokobanBoard[2][5] = dash : dash;
+			SokobanBoard[2][7] = at & direction = u & SokobanBoard[1][7] = dash : dash;
+			SokobanBoard[2][7] = at & direction = r & SokobanBoard[2][8] = dash : dash;
+			SokobanBoard[2][7] = at & direction = r & SokobanBoard[2][8] = dollar & SokobanBoard[2][9] = dash : dash;
+			SokobanBoard[2][7] = at & direction = d & SokobanBoard[3][7] = dash : dash;
+			SokobanBoard[2][7] = at & direction = d & SokobanBoard[3][7] = dollar & SokobanBoard[4][7] = dash : dash;
+			
+			-- case box
+			SokobanBoard[2][7] = dollar & direction = l & SokobanBoard[2][6] = dash & SokobanBoard[2][8] = at: at;
+			SokobanBoard[2][7] = dollar & direction = u & SokobanBoard[1][7] = dash & SokobanBoard[3][7] = at: at;
+			SokobanBoard[2][7] = dollar & direction = r & SokobanBoard[2][8] = dash & SokobanBoard[2][6] = at: at;
+			SokobanBoard[2][7] = dollar & direction = d & SokobanBoard[3][7] = dash & SokobanBoard[1][7] = at: at;
+			
+			-- case floor
+			SokobanBoard[2][7] = dash & direction = l & SokobanBoard[2][8] = at : at;
+			SokobanBoard[2][7] = dash & direction = l & SokobanBoard[2][8] = dollar & SokobanBoard[2][9] = at : dollar;
+			SokobanBoard[2][7] = dash & direction = u & SokobanBoard[3][7] = at : at;
+			SokobanBoard[2][7] = dash & direction = u & SokobanBoard[3][7] = dollar & SokobanBoard[4][7] = at : dollar;
+			SokobanBoard[2][7] = dash & direction = r & SokobanBoard[2][6] = at : at;
+			SokobanBoard[2][7] = dash & direction = r & SokobanBoard[2][6] = dollar & SokobanBoard[2][5] = at : dollar;
+			SokobanBoard[2][7] = dash & direction = d & SokobanBoard[1][7] = at : at;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[2][7] = dash : dash;
+					SokobanBoard[2][7] = at : at;
+					SokobanBoard[2][7] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[2][8]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[2][8] = at & direction = l & SokobanBoard[2][7] = dash : dash;
+			SokobanBoard[2][8] = at & direction = l & SokobanBoard[2][7] = dollar & SokobanBoard[2][6] = dash : dash;
+			SokobanBoard[2][8] = at & direction = u & SokobanBoard[1][8] = dash : dash;
+			SokobanBoard[2][8] = at & direction = r & SokobanBoard[2][9] = dash : dash;
+			SokobanBoard[2][8] = at & direction = r & SokobanBoard[2][9] = dollar & SokobanBoard[2][10] = dash : dash;
+			SokobanBoard[2][8] = at & direction = d & SokobanBoard[3][8] = dash : dash;
+			SokobanBoard[2][8] = at & direction = d & SokobanBoard[3][8] = dollar & SokobanBoard[4][8] = dash : dash;
+			
+			-- case box
+			SokobanBoard[2][8] = dollar & direction = l & SokobanBoard[2][7] = dash & SokobanBoard[2][9] = at: at;
+			SokobanBoard[2][8] = dollar & direction = u & SokobanBoard[1][8] = dash & SokobanBoard[3][8] = at: at;
+			SokobanBoard[2][8] = dollar & direction = r & SokobanBoard[2][9] = dash & SokobanBoard[2][7] = at: at;
+			SokobanBoard[2][8] = dollar & direction = d & SokobanBoard[3][8] = dash & SokobanBoard[1][8] = at: at;
+			
+			-- case floor
+			SokobanBoard[2][8] = dash & direction = l & SokobanBoard[2][9] = at : at;
+			SokobanBoard[2][8] = dash & direction = l & SokobanBoard[2][9] = dollar & SokobanBoard[2][10] = at : dollar;
+			SokobanBoard[2][8] = dash & direction = u & SokobanBoard[3][8] = at : at;
+			SokobanBoard[2][8] = dash & direction = u & SokobanBoard[3][8] = dollar & SokobanBoard[4][8] = at : dollar;
+			SokobanBoard[2][8] = dash & direction = r & SokobanBoard[2][7] = at : at;
+			SokobanBoard[2][8] = dash & direction = r & SokobanBoard[2][7] = dollar & SokobanBoard[2][6] = at : dollar;
+			SokobanBoard[2][8] = dash & direction = d & SokobanBoard[1][8] = at : at;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[2][8] = dash : dash;
+					SokobanBoard[2][8] = at : at;
+					SokobanBoard[2][8] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[2][9]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[2][9] = at & direction = l & SokobanBoard[2][8] = dash : dash;
+			SokobanBoard[2][9] = at & direction = l & SokobanBoard[2][8] = dollar & SokobanBoard[2][7] = dash : dash;
+			SokobanBoard[2][9] = at & direction = u & SokobanBoard[1][9] = dash : dash;
+			SokobanBoard[2][9] = at & direction = r & SokobanBoard[2][10] = dash : dash;
+			SokobanBoard[2][9] = at & direction = d & SokobanBoard[3][9] = dash : dash;
+			SokobanBoard[2][9] = at & direction = d & SokobanBoard[3][9] = dollar & SokobanBoard[4][9] = dash : dash;
+			
+			-- case box
+			SokobanBoard[2][9] = dollar & direction = l & SokobanBoard[2][8] = dash & SokobanBoard[2][10] = at: at;
+			SokobanBoard[2][9] = dollar & direction = u & SokobanBoard[1][9] = dash & SokobanBoard[3][9] = at: at;
+			SokobanBoard[2][9] = dollar & direction = r & SokobanBoard[2][10] = dash & SokobanBoard[2][8] = at: at;
+			SokobanBoard[2][9] = dollar & direction = d & SokobanBoard[3][9] = dash & SokobanBoard[1][9] = at: at;
+			
+			-- case floor
+			SokobanBoard[2][9] = dash & direction = l & SokobanBoard[2][10] = at : at;
+			SokobanBoard[2][9] = dash & direction = u & SokobanBoard[3][9] = at : at;
+			SokobanBoard[2][9] = dash & direction = u & SokobanBoard[3][9] = dollar & SokobanBoard[4][9] = at : dollar;
+			SokobanBoard[2][9] = dash & direction = r & SokobanBoard[2][8] = at : at;
+			SokobanBoard[2][9] = dash & direction = r & SokobanBoard[2][8] = dollar & SokobanBoard[2][7] = at : dollar;
+			SokobanBoard[2][9] = dash & direction = d & SokobanBoard[1][9] = at : at;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[2][9] = dash : dash;
+					SokobanBoard[2][9] = at : at;
+					SokobanBoard[2][9] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[2][10]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[2][10] = at & direction = l & SokobanBoard[2][9] = dash : dash;
+			SokobanBoard[2][10] = at & direction = l & SokobanBoard[2][9] = dollar & SokobanBoard[2][8] = dash : dash;
+			SokobanBoard[2][10] = at & direction = u & SokobanBoard[1][10] = dot : dash;
+			SokobanBoard[2][10] = at & direction = d & SokobanBoard[3][10] = dot : dash;
+			
+			-- case box
+			SokobanBoard[2][10] = dollar & direction = u & SokobanBoard[1][10] = dot & SokobanBoard[3][10] = plus: at;
+			SokobanBoard[2][10] = dollar & direction = d & SokobanBoard[3][10] = dot & SokobanBoard[1][10] = plus: at;
+			
+			-- case floor
+			SokobanBoard[2][10] = dash & direction = u & SokobanBoard[3][10] = plus : at;
+			SokobanBoard[2][10] = dash & direction = r & SokobanBoard[2][9] = at : at;
+			SokobanBoard[2][10] = dash & direction = r & SokobanBoard[2][9] = dollar & SokobanBoard[2][8] = at : dollar;
+			SokobanBoard[2][10] = dash & direction = d & SokobanBoard[1][10] = plus : at;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[2][10] = dash : dash;
+					SokobanBoard[2][10] = at : at;
+					SokobanBoard[2][10] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[2][11]) := hashtag;
+	next(SokobanBoard[3][0]) := hashtag;
+	next(SokobanBoard[3][1]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[3][1] = plus & direction = u & SokobanBoard[2][1] = dot : dot;
+			SokobanBoard[3][1] = plus & direction = u & SokobanBoard[2][1] = asterisk & SokobanBoard[1][1] = dash : dot;
+			SokobanBoard[3][1] = plus & direction = r & SokobanBoard[3][2] = dash : dot;
+			SokobanBoard[3][1] = plus & direction = r & SokobanBoard[3][2] = dollar & SokobanBoard[3][3] = dash : dot;
+			SokobanBoard[3][1] = plus & direction = d & SokobanBoard[4][1] = dot : dot;
+			
+			-- case box
+			SokobanBoard[3][1] = asterisk & direction = u & SokobanBoard[2][1] = dot & SokobanBoard[4][1] = plus: plus;
+			SokobanBoard[3][1] = asterisk & direction = d & SokobanBoard[4][1] = dot & SokobanBoard[2][1] = plus: plus;
+			
+			-- case floor
+			SokobanBoard[3][1] = dot & direction = l & SokobanBoard[3][2] = at : plus;
+			SokobanBoard[3][1] = dot & direction = l & SokobanBoard[3][2] = dollar & SokobanBoard[3][3] = at : asterisk;
+			SokobanBoard[3][1] = dot & direction = u & SokobanBoard[4][1] = plus : plus;
+			SokobanBoard[3][1] = dot & direction = d & SokobanBoard[2][1] = plus : plus;
+			SokobanBoard[3][1] = dot & direction = d & SokobanBoard[2][1] = asterisk & SokobanBoard[1][1] = at : asterisk;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[3][1] = dot : dot;
+					SokobanBoard[3][1] = plus : plus;
+					SokobanBoard[3][1] = asterisk : asterisk;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[3][2]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[3][2] = at & direction = l & SokobanBoard[3][1] = dot : dash;
+			SokobanBoard[3][2] = at & direction = u & SokobanBoard[2][2] = dash : dash;
+			SokobanBoard[3][2] = at & direction = u & SokobanBoard[2][2] = dollar & SokobanBoard[1][2] = dash : dash;
+			SokobanBoard[3][2] = at & direction = r & SokobanBoard[3][3] = dash : dash;
+			SokobanBoard[3][2] = at & direction = r & SokobanBoard[3][3] = dollar & SokobanBoard[3][4] = dash : dash;
+			SokobanBoard[3][2] = at & direction = d & SokobanBoard[4][2] = dash : dash;
+			
+			-- case box
+			SokobanBoard[3][2] = dollar & direction = l & SokobanBoard[3][1] = dot & SokobanBoard[3][3] = at: at;
+			SokobanBoard[3][2] = dollar & direction = u & SokobanBoard[2][2] = dash & SokobanBoard[4][2] = at: at;
+			SokobanBoard[3][2] = dollar & direction = r & SokobanBoard[3][3] = dash & SokobanBoard[3][1] = plus: at;
+			SokobanBoard[3][2] = dollar & direction = d & SokobanBoard[4][2] = dash & SokobanBoard[2][2] = at: at;
+			
+			-- case floor
+			SokobanBoard[3][2] = dash & direction = l & SokobanBoard[3][3] = at : at;
+			SokobanBoard[3][2] = dash & direction = l & SokobanBoard[3][3] = dollar & SokobanBoard[3][4] = at : dollar;
+			SokobanBoard[3][2] = dash & direction = u & SokobanBoard[4][2] = at : at;
+			SokobanBoard[3][2] = dash & direction = r & SokobanBoard[3][1] = plus : at;
+			SokobanBoard[3][2] = dash & direction = d & SokobanBoard[2][2] = at : at;
+			SokobanBoard[3][2] = dash & direction = d & SokobanBoard[2][2] = dollar & SokobanBoard[1][2] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[3][2] = dash : dash;
+					SokobanBoard[3][2] = at : at;
+					SokobanBoard[3][2] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[3][3]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[3][3] = at & direction = l & SokobanBoard[3][2] = dash : dash;
+			SokobanBoard[3][3] = at & direction = l & SokobanBoard[3][2] = dollar & SokobanBoard[3][1] = dot : dash;
+			SokobanBoard[3][3] = at & direction = u & SokobanBoard[2][3] = dash : dash;
+			SokobanBoard[3][3] = at & direction = u & SokobanBoard[2][3] = dollar & SokobanBoard[1][3] = dash : dash;
+			SokobanBoard[3][3] = at & direction = r & SokobanBoard[3][4] = dash : dash;
+			SokobanBoard[3][3] = at & direction = r & SokobanBoard[3][4] = dollar & SokobanBoard[3][5] = dash : dash;
+			SokobanBoard[3][3] = at & direction = d & SokobanBoard[4][3] = dash : dash;
+			
+			-- case box
+			SokobanBoard[3][3] = dollar & direction = l & SokobanBoard[3][2] = dash & SokobanBoard[3][4] = at: at;
+			SokobanBoard[3][3] = dollar & direction = u & SokobanBoard[2][3] = dash & SokobanBoard[4][3] = at: at;
+			SokobanBoard[3][3] = dollar & direction = r & SokobanBoard[3][4] = dash & SokobanBoard[3][2] = at: at;
+			SokobanBoard[3][3] = dollar & direction = d & SokobanBoard[4][3] = dash & SokobanBoard[2][3] = at: at;
+			
+			-- case floor
+			SokobanBoard[3][3] = dash & direction = l & SokobanBoard[3][4] = at : at;
+			SokobanBoard[3][3] = dash & direction = l & SokobanBoard[3][4] = dollar & SokobanBoard[3][5] = at : dollar;
+			SokobanBoard[3][3] = dash & direction = u & SokobanBoard[4][3] = at : at;
+			SokobanBoard[3][3] = dash & direction = r & SokobanBoard[3][2] = at : at;
+			SokobanBoard[3][3] = dash & direction = r & SokobanBoard[3][2] = dollar & SokobanBoard[3][1] = plus : dollar;
+			SokobanBoard[3][3] = dash & direction = d & SokobanBoard[2][3] = at : at;
+			SokobanBoard[3][3] = dash & direction = d & SokobanBoard[2][3] = dollar & SokobanBoard[1][3] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[3][3] = dash : dash;
+					SokobanBoard[3][3] = at : at;
+					SokobanBoard[3][3] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[3][4]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[3][4] = at & direction = l & SokobanBoard[3][3] = dash : dash;
+			SokobanBoard[3][4] = at & direction = l & SokobanBoard[3][3] = dollar & SokobanBoard[3][2] = dash : dash;
+			SokobanBoard[3][4] = at & direction = u & SokobanBoard[2][4] = dash : dash;
+			SokobanBoard[3][4] = at & direction = u & SokobanBoard[2][4] = dollar & SokobanBoard[1][4] = dash : dash;
+			SokobanBoard[3][4] = at & direction = r & SokobanBoard[3][5] = dash : dash;
+			SokobanBoard[3][4] = at & direction = r & SokobanBoard[3][5] = dollar & SokobanBoard[3][6] = dash : dash;
+			SokobanBoard[3][4] = at & direction = d & SokobanBoard[4][4] = dash : dash;
+			
+			-- case box
+			SokobanBoard[3][4] = dollar & direction = l & SokobanBoard[3][3] = dash & SokobanBoard[3][5] = at: at;
+			SokobanBoard[3][4] = dollar & direction = u & SokobanBoard[2][4] = dash & SokobanBoard[4][4] = at: at;
+			SokobanBoard[3][4] = dollar & direction = r & SokobanBoard[3][5] = dash & SokobanBoard[3][3] = at: at;
+			SokobanBoard[3][4] = dollar & direction = d & SokobanBoard[4][4] = dash & SokobanBoard[2][4] = at: at;
+			
+			-- case floor
+			SokobanBoard[3][4] = dash & direction = l & SokobanBoard[3][5] = at : at;
+			SokobanBoard[3][4] = dash & direction = l & SokobanBoard[3][5] = dollar & SokobanBoard[3][6] = at : dollar;
+			SokobanBoard[3][4] = dash & direction = u & SokobanBoard[4][4] = at : at;
+			SokobanBoard[3][4] = dash & direction = r & SokobanBoard[3][3] = at : at;
+			SokobanBoard[3][4] = dash & direction = r & SokobanBoard[3][3] = dollar & SokobanBoard[3][2] = at : dollar;
+			SokobanBoard[3][4] = dash & direction = d & SokobanBoard[2][4] = at : at;
+			SokobanBoard[3][4] = dash & direction = d & SokobanBoard[2][4] = dollar & SokobanBoard[1][4] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[3][4] = dash : dash;
+					SokobanBoard[3][4] = at : at;
+					SokobanBoard[3][4] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[3][5]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[3][5] = at & direction = l & SokobanBoard[3][4] = dash : dash;
+			SokobanBoard[3][5] = at & direction = l & SokobanBoard[3][4] = dollar & SokobanBoard[3][3] = dash : dash;
+			SokobanBoard[3][5] = at & direction = u & SokobanBoard[2][5] = dash : dash;
+			SokobanBoard[3][5] = at & direction = u & SokobanBoard[2][5] = dollar & SokobanBoard[1][5] = dash : dash;
+			SokobanBoard[3][5] = at & direction = r & SokobanBoard[3][6] = dash : dash;
+			SokobanBoard[3][5] = at & direction = r & SokobanBoard[3][6] = dollar & SokobanBoard[3][7] = dash : dash;
+			SokobanBoard[3][5] = at & direction = d & SokobanBoard[4][5] = dash : dash;
+			
+			-- case box
+			SokobanBoard[3][5] = dollar & direction = l & SokobanBoard[3][4] = dash & SokobanBoard[3][6] = at: at;
+			SokobanBoard[3][5] = dollar & direction = u & SokobanBoard[2][5] = dash & SokobanBoard[4][5] = at: at;
+			SokobanBoard[3][5] = dollar & direction = r & SokobanBoard[3][6] = dash & SokobanBoard[3][4] = at: at;
+			SokobanBoard[3][5] = dollar & direction = d & SokobanBoard[4][5] = dash & SokobanBoard[2][5] = at: at;
+			
+			-- case floor
+			SokobanBoard[3][5] = dash & direction = l & SokobanBoard[3][6] = at : at;
+			SokobanBoard[3][5] = dash & direction = l & SokobanBoard[3][6] = dollar & SokobanBoard[3][7] = at : dollar;
+			SokobanBoard[3][5] = dash & direction = u & SokobanBoard[4][5] = at : at;
+			SokobanBoard[3][5] = dash & direction = r & SokobanBoard[3][4] = at : at;
+			SokobanBoard[3][5] = dash & direction = r & SokobanBoard[3][4] = dollar & SokobanBoard[3][3] = at : dollar;
+			SokobanBoard[3][5] = dash & direction = d & SokobanBoard[2][5] = at : at;
+			SokobanBoard[3][5] = dash & direction = d & SokobanBoard[2][5] = dollar & SokobanBoard[1][5] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[3][5] = dash : dash;
+					SokobanBoard[3][5] = at : at;
+					SokobanBoard[3][5] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[3][6]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[3][6] = at & direction = l & SokobanBoard[3][5] = dash : dash;
+			SokobanBoard[3][6] = at & direction = l & SokobanBoard[3][5] = dollar & SokobanBoard[3][4] = dash : dash;
+			SokobanBoard[3][6] = at & direction = u & SokobanBoard[2][6] = dash : dash;
+			SokobanBoard[3][6] = at & direction = u & SokobanBoard[2][6] = dollar & SokobanBoard[1][6] = dash : dash;
+			SokobanBoard[3][6] = at & direction = r & SokobanBoard[3][7] = dash : dash;
+			SokobanBoard[3][6] = at & direction = r & SokobanBoard[3][7] = dollar & SokobanBoard[3][8] = dash : dash;
+			SokobanBoard[3][6] = at & direction = d & SokobanBoard[4][6] = dash : dash;
+			
+			-- case box
+			SokobanBoard[3][6] = dollar & direction = l & SokobanBoard[3][5] = dash & SokobanBoard[3][7] = at: at;
+			SokobanBoard[3][6] = dollar & direction = u & SokobanBoard[2][6] = dash & SokobanBoard[4][6] = at: at;
+			SokobanBoard[3][6] = dollar & direction = r & SokobanBoard[3][7] = dash & SokobanBoard[3][5] = at: at;
+			SokobanBoard[3][6] = dollar & direction = d & SokobanBoard[4][6] = dash & SokobanBoard[2][6] = at: at;
+			
+			-- case floor
+			SokobanBoard[3][6] = dash & direction = l & SokobanBoard[3][7] = at : at;
+			SokobanBoard[3][6] = dash & direction = l & SokobanBoard[3][7] = dollar & SokobanBoard[3][8] = at : dollar;
+			SokobanBoard[3][6] = dash & direction = u & SokobanBoard[4][6] = at : at;
+			SokobanBoard[3][6] = dash & direction = r & SokobanBoard[3][5] = at : at;
+			SokobanBoard[3][6] = dash & direction = r & SokobanBoard[3][5] = dollar & SokobanBoard[3][4] = at : dollar;
+			SokobanBoard[3][6] = dash & direction = d & SokobanBoard[2][6] = at : at;
+			SokobanBoard[3][6] = dash & direction = d & SokobanBoard[2][6] = dollar & SokobanBoard[1][6] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[3][6] = dash : dash;
+					SokobanBoard[3][6] = at : at;
+					SokobanBoard[3][6] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[3][7]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[3][7] = at & direction = l & SokobanBoard[3][6] = dash : dash;
+			SokobanBoard[3][7] = at & direction = l & SokobanBoard[3][6] = dollar & SokobanBoard[3][5] = dash : dash;
+			SokobanBoard[3][7] = at & direction = u & SokobanBoard[2][7] = dash : dash;
+			SokobanBoard[3][7] = at & direction = u & SokobanBoard[2][7] = dollar & SokobanBoard[1][7] = dash : dash;
+			SokobanBoard[3][7] = at & direction = r & SokobanBoard[3][8] = dash : dash;
+			SokobanBoard[3][7] = at & direction = r & SokobanBoard[3][8] = dollar & SokobanBoard[3][9] = dash : dash;
+			SokobanBoard[3][7] = at & direction = d & SokobanBoard[4][7] = dash : dash;
+			
+			-- case box
+			SokobanBoard[3][7] = dollar & direction = l & SokobanBoard[3][6] = dash & SokobanBoard[3][8] = at: at;
+			SokobanBoard[3][7] = dollar & direction = u & SokobanBoard[2][7] = dash & SokobanBoard[4][7] = at: at;
+			SokobanBoard[3][7] = dollar & direction = r & SokobanBoard[3][8] = dash & SokobanBoard[3][6] = at: at;
+			SokobanBoard[3][7] = dollar & direction = d & SokobanBoard[4][7] = dash & SokobanBoard[2][7] = at: at;
+			
+			-- case floor
+			SokobanBoard[3][7] = dash & direction = l & SokobanBoard[3][8] = at : at;
+			SokobanBoard[3][7] = dash & direction = l & SokobanBoard[3][8] = dollar & SokobanBoard[3][9] = at : dollar;
+			SokobanBoard[3][7] = dash & direction = u & SokobanBoard[4][7] = at : at;
+			SokobanBoard[3][7] = dash & direction = r & SokobanBoard[3][6] = at : at;
+			SokobanBoard[3][7] = dash & direction = r & SokobanBoard[3][6] = dollar & SokobanBoard[3][5] = at : dollar;
+			SokobanBoard[3][7] = dash & direction = d & SokobanBoard[2][7] = at : at;
+			SokobanBoard[3][7] = dash & direction = d & SokobanBoard[2][7] = dollar & SokobanBoard[1][7] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[3][7] = dash : dash;
+					SokobanBoard[3][7] = at : at;
+					SokobanBoard[3][7] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[3][8]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[3][8] = at & direction = l & SokobanBoard[3][7] = dash : dash;
+			SokobanBoard[3][8] = at & direction = l & SokobanBoard[3][7] = dollar & SokobanBoard[3][6] = dash : dash;
+			SokobanBoard[3][8] = at & direction = u & SokobanBoard[2][8] = dash : dash;
+			SokobanBoard[3][8] = at & direction = u & SokobanBoard[2][8] = dollar & SokobanBoard[1][8] = dash : dash;
+			SokobanBoard[3][8] = at & direction = r & SokobanBoard[3][9] = dash : dash;
+			SokobanBoard[3][8] = at & direction = r & SokobanBoard[3][9] = dollar & SokobanBoard[3][10] = dot : dash;
+			SokobanBoard[3][8] = at & direction = d & SokobanBoard[4][8] = dash : dash;
+			
+			-- case box
+			SokobanBoard[3][8] = dollar & direction = l & SokobanBoard[3][7] = dash & SokobanBoard[3][9] = at: at;
+			SokobanBoard[3][8] = dollar & direction = u & SokobanBoard[2][8] = dash & SokobanBoard[4][8] = at: at;
+			SokobanBoard[3][8] = dollar & direction = r & SokobanBoard[3][9] = dash & SokobanBoard[3][7] = at: at;
+			SokobanBoard[3][8] = dollar & direction = d & SokobanBoard[4][8] = dash & SokobanBoard[2][8] = at: at;
+			
+			-- case floor
+			SokobanBoard[3][8] = dash & direction = l & SokobanBoard[3][9] = at : at;
+			SokobanBoard[3][8] = dash & direction = l & SokobanBoard[3][9] = dollar & SokobanBoard[3][10] = plus : dollar;
+			SokobanBoard[3][8] = dash & direction = u & SokobanBoard[4][8] = at : at;
+			SokobanBoard[3][8] = dash & direction = r & SokobanBoard[3][7] = at : at;
+			SokobanBoard[3][8] = dash & direction = r & SokobanBoard[3][7] = dollar & SokobanBoard[3][6] = at : dollar;
+			SokobanBoard[3][8] = dash & direction = d & SokobanBoard[2][8] = at : at;
+			SokobanBoard[3][8] = dash & direction = d & SokobanBoard[2][8] = dollar & SokobanBoard[1][8] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[3][8] = dash : dash;
+					SokobanBoard[3][8] = at : at;
+					SokobanBoard[3][8] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[3][9]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[3][9] = at & direction = l & SokobanBoard[3][8] = dash : dash;
+			SokobanBoard[3][9] = at & direction = l & SokobanBoard[3][8] = dollar & SokobanBoard[3][7] = dash : dash;
+			SokobanBoard[3][9] = at & direction = u & SokobanBoard[2][9] = dash : dash;
+			SokobanBoard[3][9] = at & direction = u & SokobanBoard[2][9] = dollar & SokobanBoard[1][9] = dash : dash;
+			SokobanBoard[3][9] = at & direction = r & SokobanBoard[3][10] = dot : dash;
+			SokobanBoard[3][9] = at & direction = d & SokobanBoard[4][9] = dash : dash;
+			
+			-- case box
+			SokobanBoard[3][9] = dollar & direction = l & SokobanBoard[3][8] = dash & SokobanBoard[3][10] = plus: at;
+			SokobanBoard[3][9] = dollar & direction = u & SokobanBoard[2][9] = dash & SokobanBoard[4][9] = at: at;
+			SokobanBoard[3][9] = dollar & direction = r & SokobanBoard[3][10] = dot & SokobanBoard[3][8] = at: at;
+			SokobanBoard[3][9] = dollar & direction = d & SokobanBoard[4][9] = dash & SokobanBoard[2][9] = at: at;
+			
+			-- case floor
+			SokobanBoard[3][9] = dash & direction = l & SokobanBoard[3][10] = plus : at;
+			SokobanBoard[3][9] = dash & direction = u & SokobanBoard[4][9] = at : at;
+			SokobanBoard[3][9] = dash & direction = r & SokobanBoard[3][8] = at : at;
+			SokobanBoard[3][9] = dash & direction = r & SokobanBoard[3][8] = dollar & SokobanBoard[3][7] = at : dollar;
+			SokobanBoard[3][9] = dash & direction = d & SokobanBoard[2][9] = at : at;
+			SokobanBoard[3][9] = dash & direction = d & SokobanBoard[2][9] = dollar & SokobanBoard[1][9] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[3][9] = dash : dash;
+					SokobanBoard[3][9] = at : at;
+					SokobanBoard[3][9] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[3][10]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[3][10] = plus & direction = l & SokobanBoard[3][9] = dash : dot;
+			SokobanBoard[3][10] = plus & direction = l & SokobanBoard[3][9] = dollar & SokobanBoard[3][8] = dash : dot;
+			SokobanBoard[3][10] = plus & direction = u & SokobanBoard[2][10] = dash : dot;
+			SokobanBoard[3][10] = plus & direction = u & SokobanBoard[2][10] = dollar & SokobanBoard[1][10] = dot : dot;
+			
+			-- case box
+			
+			-- case floor
+			SokobanBoard[3][10] = dot & direction = r & SokobanBoard[3][9] = at : plus;
+			SokobanBoard[3][10] = dot & direction = r & SokobanBoard[3][9] = dollar & SokobanBoard[3][8] = at : asterisk;
+			SokobanBoard[3][10] = dot & direction = d & SokobanBoard[2][10] = at : plus;
+			SokobanBoard[3][10] = dot & direction = d & SokobanBoard[2][10] = dollar & SokobanBoard[1][10] = plus : asterisk;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[3][10] = dot : dot;
+					SokobanBoard[3][10] = plus : plus;
+					SokobanBoard[3][10] = asterisk : asterisk;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[3][11]) := hashtag;
+	next(SokobanBoard[4][0]) := hashtag;
+	next(SokobanBoard[4][1]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[4][1] = plus & direction = u & SokobanBoard[3][1] = dot : dot;
+			SokobanBoard[4][1] = plus & direction = u & SokobanBoard[3][1] = asterisk & SokobanBoard[2][1] = dot : dot;
+			SokobanBoard[4][1] = plus & direction = r & SokobanBoard[4][2] = dash : dot;
+			SokobanBoard[4][1] = plus & direction = r & SokobanBoard[4][2] = dollar & SokobanBoard[4][3] = dash : dot;
+			
+			-- case box
+			
+			-- case floor
+			SokobanBoard[4][1] = dot & direction = l & SokobanBoard[4][2] = at : plus;
+			SokobanBoard[4][1] = dot & direction = l & SokobanBoard[4][2] = dollar & SokobanBoard[4][3] = at : asterisk;
+			SokobanBoard[4][1] = dot & direction = d & SokobanBoard[3][1] = plus : plus;
+			SokobanBoard[4][1] = dot & direction = d & SokobanBoard[3][1] = asterisk & SokobanBoard[2][1] = plus : asterisk;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[4][1] = dot : dot;
+					SokobanBoard[4][1] = plus : plus;
+					SokobanBoard[4][1] = asterisk : asterisk;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[4][2]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[4][2] = at & direction = l & SokobanBoard[4][1] = dot : dash;
+			SokobanBoard[4][2] = at & direction = u & SokobanBoard[3][2] = dash : dash;
+			SokobanBoard[4][2] = at & direction = u & SokobanBoard[3][2] = dollar & SokobanBoard[2][2] = dash : dash;
+			SokobanBoard[4][2] = at & direction = r & SokobanBoard[4][3] = dash : dash;
+			SokobanBoard[4][2] = at & direction = r & SokobanBoard[4][3] = dollar & SokobanBoard[4][4] = dash : dash;
+			
+			-- case box
+			SokobanBoard[4][2] = dollar & direction = l & SokobanBoard[4][1] = dot & SokobanBoard[4][3] = at: at;
+			SokobanBoard[4][2] = dollar & direction = r & SokobanBoard[4][3] = dash & SokobanBoard[4][1] = plus: at;
+			
+			-- case floor
+			SokobanBoard[4][2] = dash & direction = l & SokobanBoard[4][3] = at : at;
+			SokobanBoard[4][2] = dash & direction = l & SokobanBoard[4][3] = dollar & SokobanBoard[4][4] = at : dollar;
+			SokobanBoard[4][2] = dash & direction = r & SokobanBoard[4][1] = plus : at;
+			SokobanBoard[4][2] = dash & direction = d & SokobanBoard[3][2] = at : at;
+			SokobanBoard[4][2] = dash & direction = d & SokobanBoard[3][2] = dollar & SokobanBoard[2][2] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[4][2] = dash : dash;
+					SokobanBoard[4][2] = at : at;
+					SokobanBoard[4][2] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[4][3]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[4][3] = at & direction = l & SokobanBoard[4][2] = dash : dash;
+			SokobanBoard[4][3] = at & direction = l & SokobanBoard[4][2] = dollar & SokobanBoard[4][1] = dot : dash;
+			SokobanBoard[4][3] = at & direction = u & SokobanBoard[3][3] = dash : dash;
+			SokobanBoard[4][3] = at & direction = u & SokobanBoard[3][3] = dollar & SokobanBoard[2][3] = dash : dash;
+			SokobanBoard[4][3] = at & direction = r & SokobanBoard[4][4] = dash : dash;
+			SokobanBoard[4][3] = at & direction = r & SokobanBoard[4][4] = dollar & SokobanBoard[4][5] = dash : dash;
+			
+			-- case box
+			SokobanBoard[4][3] = dollar & direction = l & SokobanBoard[4][2] = dash & SokobanBoard[4][4] = at: at;
+			SokobanBoard[4][3] = dollar & direction = r & SokobanBoard[4][4] = dash & SokobanBoard[4][2] = at: at;
+			
+			-- case floor
+			SokobanBoard[4][3] = dash & direction = l & SokobanBoard[4][4] = at : at;
+			SokobanBoard[4][3] = dash & direction = l & SokobanBoard[4][4] = dollar & SokobanBoard[4][5] = at : dollar;
+			SokobanBoard[4][3] = dash & direction = r & SokobanBoard[4][2] = at : at;
+			SokobanBoard[4][3] = dash & direction = r & SokobanBoard[4][2] = dollar & SokobanBoard[4][1] = plus : dollar;
+			SokobanBoard[4][3] = dash & direction = d & SokobanBoard[3][3] = at : at;
+			SokobanBoard[4][3] = dash & direction = d & SokobanBoard[3][3] = dollar & SokobanBoard[2][3] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[4][3] = dash : dash;
+					SokobanBoard[4][3] = at : at;
+					SokobanBoard[4][3] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[4][4]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[4][4] = at & direction = l & SokobanBoard[4][3] = dash : dash;
+			SokobanBoard[4][4] = at & direction = l & SokobanBoard[4][3] = dollar & SokobanBoard[4][2] = dash : dash;
+			SokobanBoard[4][4] = at & direction = u & SokobanBoard[3][4] = dash : dash;
+			SokobanBoard[4][4] = at & direction = u & SokobanBoard[3][4] = dollar & SokobanBoard[2][4] = dash : dash;
+			SokobanBoard[4][4] = at & direction = r & SokobanBoard[4][5] = dash : dash;
+			SokobanBoard[4][4] = at & direction = r & SokobanBoard[4][5] = dollar & SokobanBoard[4][6] = dash : dash;
+			
+			-- case box
+			SokobanBoard[4][4] = dollar & direction = l & SokobanBoard[4][3] = dash & SokobanBoard[4][5] = at: at;
+			SokobanBoard[4][4] = dollar & direction = r & SokobanBoard[4][5] = dash & SokobanBoard[4][3] = at: at;
+			
+			-- case floor
+			SokobanBoard[4][4] = dash & direction = l & SokobanBoard[4][5] = at : at;
+			SokobanBoard[4][4] = dash & direction = l & SokobanBoard[4][5] = dollar & SokobanBoard[4][6] = at : dollar;
+			SokobanBoard[4][4] = dash & direction = r & SokobanBoard[4][3] = at : at;
+			SokobanBoard[4][4] = dash & direction = r & SokobanBoard[4][3] = dollar & SokobanBoard[4][2] = at : dollar;
+			SokobanBoard[4][4] = dash & direction = d & SokobanBoard[3][4] = at : at;
+			SokobanBoard[4][4] = dash & direction = d & SokobanBoard[3][4] = dollar & SokobanBoard[2][4] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[4][4] = dash : dash;
+					SokobanBoard[4][4] = at : at;
+					SokobanBoard[4][4] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[4][5]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[4][5] = at & direction = l & SokobanBoard[4][4] = dash : dash;
+			SokobanBoard[4][5] = at & direction = l & SokobanBoard[4][4] = dollar & SokobanBoard[4][3] = dash : dash;
+			SokobanBoard[4][5] = at & direction = u & SokobanBoard[3][5] = dash : dash;
+			SokobanBoard[4][5] = at & direction = u & SokobanBoard[3][5] = dollar & SokobanBoard[2][5] = dash : dash;
+			SokobanBoard[4][5] = at & direction = r & SokobanBoard[4][6] = dash : dash;
+			SokobanBoard[4][5] = at & direction = r & SokobanBoard[4][6] = dollar & SokobanBoard[4][7] = dash : dash;
+			
+			-- case box
+			SokobanBoard[4][5] = dollar & direction = l & SokobanBoard[4][4] = dash & SokobanBoard[4][6] = at: at;
+			SokobanBoard[4][5] = dollar & direction = r & SokobanBoard[4][6] = dash & SokobanBoard[4][4] = at: at;
+			
+			-- case floor
+			SokobanBoard[4][5] = dash & direction = l & SokobanBoard[4][6] = at : at;
+			SokobanBoard[4][5] = dash & direction = l & SokobanBoard[4][6] = dollar & SokobanBoard[4][7] = at : dollar;
+			SokobanBoard[4][5] = dash & direction = r & SokobanBoard[4][4] = at : at;
+			SokobanBoard[4][5] = dash & direction = r & SokobanBoard[4][4] = dollar & SokobanBoard[4][3] = at : dollar;
+			SokobanBoard[4][5] = dash & direction = d & SokobanBoard[3][5] = at : at;
+			SokobanBoard[4][5] = dash & direction = d & SokobanBoard[3][5] = dollar & SokobanBoard[2][5] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[4][5] = dash : dash;
+					SokobanBoard[4][5] = at : at;
+					SokobanBoard[4][5] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[4][6]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[4][6] = at & direction = l & SokobanBoard[4][5] = dash : dash;
+			SokobanBoard[4][6] = at & direction = l & SokobanBoard[4][5] = dollar & SokobanBoard[4][4] = dash : dash;
+			SokobanBoard[4][6] = at & direction = u & SokobanBoard[3][6] = dash : dash;
+			SokobanBoard[4][6] = at & direction = u & SokobanBoard[3][6] = dollar & SokobanBoard[2][6] = dash : dash;
+			SokobanBoard[4][6] = at & direction = r & SokobanBoard[4][7] = dash : dash;
+			SokobanBoard[4][6] = at & direction = r & SokobanBoard[4][7] = dollar & SokobanBoard[4][8] = dash : dash;
+			
+			-- case box
+			SokobanBoard[4][6] = dollar & direction = l & SokobanBoard[4][5] = dash & SokobanBoard[4][7] = at: at;
+			SokobanBoard[4][6] = dollar & direction = r & SokobanBoard[4][7] = dash & SokobanBoard[4][5] = at: at;
+			
+			-- case floor
+			SokobanBoard[4][6] = dash & direction = l & SokobanBoard[4][7] = at : at;
+			SokobanBoard[4][6] = dash & direction = l & SokobanBoard[4][7] = dollar & SokobanBoard[4][8] = at : dollar;
+			SokobanBoard[4][6] = dash & direction = r & SokobanBoard[4][5] = at : at;
+			SokobanBoard[4][6] = dash & direction = r & SokobanBoard[4][5] = dollar & SokobanBoard[4][4] = at : dollar;
+			SokobanBoard[4][6] = dash & direction = d & SokobanBoard[3][6] = at : at;
+			SokobanBoard[4][6] = dash & direction = d & SokobanBoard[3][6] = dollar & SokobanBoard[2][6] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[4][6] = dash : dash;
+					SokobanBoard[4][6] = at : at;
+					SokobanBoard[4][6] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[4][7]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[4][7] = at & direction = l & SokobanBoard[4][6] = dash : dash;
+			SokobanBoard[4][7] = at & direction = l & SokobanBoard[4][6] = dollar & SokobanBoard[4][5] = dash : dash;
+			SokobanBoard[4][7] = at & direction = u & SokobanBoard[3][7] = dash : dash;
+			SokobanBoard[4][7] = at & direction = u & SokobanBoard[3][7] = dollar & SokobanBoard[2][7] = dash : dash;
+			SokobanBoard[4][7] = at & direction = r & SokobanBoard[4][8] = dash : dash;
+			SokobanBoard[4][7] = at & direction = r & SokobanBoard[4][8] = dollar & SokobanBoard[4][9] = dash : dash;
+			
+			-- case box
+			SokobanBoard[4][7] = dollar & direction = l & SokobanBoard[4][6] = dash & SokobanBoard[4][8] = at: at;
+			SokobanBoard[4][7] = dollar & direction = r & SokobanBoard[4][8] = dash & SokobanBoard[4][6] = at: at;
+			
+			-- case floor
+			SokobanBoard[4][7] = dash & direction = l & SokobanBoard[4][8] = at : at;
+			SokobanBoard[4][7] = dash & direction = l & SokobanBoard[4][8] = dollar & SokobanBoard[4][9] = at : dollar;
+			SokobanBoard[4][7] = dash & direction = r & SokobanBoard[4][6] = at : at;
+			SokobanBoard[4][7] = dash & direction = r & SokobanBoard[4][6] = dollar & SokobanBoard[4][5] = at : dollar;
+			SokobanBoard[4][7] = dash & direction = d & SokobanBoard[3][7] = at : at;
+			SokobanBoard[4][7] = dash & direction = d & SokobanBoard[3][7] = dollar & SokobanBoard[2][7] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[4][7] = dash : dash;
+					SokobanBoard[4][7] = at : at;
+					SokobanBoard[4][7] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[4][8]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[4][8] = at & direction = l & SokobanBoard[4][7] = dash : dash;
+			SokobanBoard[4][8] = at & direction = l & SokobanBoard[4][7] = dollar & SokobanBoard[4][6] = dash : dash;
+			SokobanBoard[4][8] = at & direction = u & SokobanBoard[3][8] = dash : dash;
+			SokobanBoard[4][8] = at & direction = u & SokobanBoard[3][8] = dollar & SokobanBoard[2][8] = dash : dash;
+			SokobanBoard[4][8] = at & direction = r & SokobanBoard[4][9] = dash : dash;
+			
+			-- case box
+			SokobanBoard[4][8] = dollar & direction = l & SokobanBoard[4][7] = dash & SokobanBoard[4][9] = at: at;
+			SokobanBoard[4][8] = dollar & direction = r & SokobanBoard[4][9] = dash & SokobanBoard[4][7] = at: at;
+			
+			-- case floor
+			SokobanBoard[4][8] = dash & direction = l & SokobanBoard[4][9] = at : at;
+			SokobanBoard[4][8] = dash & direction = r & SokobanBoard[4][7] = at : at;
+			SokobanBoard[4][8] = dash & direction = r & SokobanBoard[4][7] = dollar & SokobanBoard[4][6] = at : dollar;
+			SokobanBoard[4][8] = dash & direction = d & SokobanBoard[3][8] = at : at;
+			SokobanBoard[4][8] = dash & direction = d & SokobanBoard[3][8] = dollar & SokobanBoard[2][8] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[4][8] = dash : dash;
+					SokobanBoard[4][8] = at : at;
+					SokobanBoard[4][8] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[4][9]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[4][9] = at & direction = l & SokobanBoard[4][8] = dash : dash;
+			SokobanBoard[4][9] = at & direction = l & SokobanBoard[4][8] = dollar & SokobanBoard[4][7] = dash : dash;
+			SokobanBoard[4][9] = at & direction = u & SokobanBoard[3][9] = dash : dash;
+			SokobanBoard[4][9] = at & direction = u & SokobanBoard[3][9] = dollar & SokobanBoard[2][9] = dash : dash;
+			
+			-- case box
+			
+			-- case floor
+			SokobanBoard[4][9] = dash & direction = r & SokobanBoard[4][8] = at : at;
+			SokobanBoard[4][9] = dash & direction = r & SokobanBoard[4][8] = dollar & SokobanBoard[4][7] = at : dollar;
+			SokobanBoard[4][9] = dash & direction = d & SokobanBoard[3][9] = at : at;
+			SokobanBoard[4][9] = dash & direction = d & SokobanBoard[3][9] = dollar & SokobanBoard[2][9] = at : dollar;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[4][9] = dash : dash;
+					SokobanBoard[4][9] = at : at;
+					SokobanBoard[4][9] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[4][10]) := hashtag;
+	next(SokobanBoard[4][11]) := hashtag;
+	next(SokobanBoard[5][0]) := hashtag;
+	next(SokobanBoard[5][1]) := hashtag;
+	next(SokobanBoard[5][2]) := hashtag;
+	next(SokobanBoard[5][3]) := hashtag;
+	next(SokobanBoard[5][4]) := hashtag;
+	next(SokobanBoard[5][5]) := hashtag;
+	next(SokobanBoard[5][6]) := hashtag;
+	next(SokobanBoard[5][7]) := hashtag;
+	next(SokobanBoard[5][8]) := hashtag;
+	next(SokobanBoard[5][9]) := hashtag;
+	next(SokobanBoard[5][10]) := hashtag;
+	next(SokobanBoard[5][11]) := hashtag;
+	
+
+    -- In this section we describe the win conditions for the Sokoban board model
+
+    LTLSPEC !(F((SokobanBoard[3][1] = asterisk) & (SokobanBoard[1][10] = asterisk) & (SokobanBoard[4][1] = asterisk) & (SokobanBoard[2][1] = asterisk) & (SokobanBoard[3][10] = asterisk)));
