@@ -56,9 +56,9 @@ def createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board = None,  ite
     if iteration == 1:
         None
     else:
-        None #REMOVE THIS NONE AFTER YOU DO YOUR PART
         #update the intial board at the next iteration to to final state at the previous iteration
-        #board.InitialBoardString = update(smvSolution) 
+        #board.InitialBoard = update(smvSolution) 
+        board.setInitialBoardString()
     # Obtain output file path
     outputFilePath = Opath+f"_IterationModel_iter{iteration}.smv"#getOutputPath()
     
