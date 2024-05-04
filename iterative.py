@@ -57,7 +57,7 @@ def createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board = None,  ite
         None
     else:
         #update the intial board at the next iteration to to final state at the previous iteration
-        #board.InitialBoard = update(smvSolution) 
+        #board.InitialBoard = update(smvSolution, board) 
         board.setInitialBoardString()
     # Obtain output file path
     outputFilePath = Opath+f"_IterationModel_iter{iteration}.smv"#getOutputPath()
@@ -106,8 +106,8 @@ if __name__ == '__main__':
     boardGoals = getGoalsLocs(board)
     print(boardGoals)
     sampleNCreateBoards(Ipath, Opath, boardGoals, 1, board)
-    print(MeasureRunTime("./bbb_IterationModel_iter1.smv"))
-    print(MeasureRunTime("./bbb_IterationModel_iter2.smv"))
+    print(MeasureRunTime("./bbb_IterationModel_iter1.smv", 'BDD', 50))
+    print(MeasureRunTime("./bbb_IterationModel_iter2.smv", 'BDD', 50))
     
 
 
