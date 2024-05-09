@@ -3,6 +3,7 @@ import time
 from SokobanBoardSolver import *
 import subprocess
 from SokobanBoardGenerator import *
+from iterative import *
 
 def getPart():
     print("Please choose the part you want to run,")
@@ -22,44 +23,43 @@ def getEngine():
     while True:
             engineType = input("Please enter which type of engine to run,\nvalid answers are SAT or BDD: ")
             if (engineType == "SAT" or engineType == "sat" or engineType.upper() == "SAT"):
-                steps = int(input("Enter the desired k value: "))
                 break
             elif (engineType == "BDD" or engineType == "bdd" or engineType.upper() == "BDD"):
                 steps = None
                 break
             else:
                 print("invalid answer, try again!")
-    return engineType, steps
+    return engineType
 
 if __name__ == '__main__':
     print("Hello, and welcome to the Sokoban solver!")
     runPart = getPart()
-    path = r"C:\Users\Lenovo\OneDrive - Bar-Ilan University - Students\GitHW\FVS\bbb.smv"
-    # path = r"C:\Users\אורה\FVS\bbb.smv"
+    inputFilePath = r"./aaa.txt"#r"**************YOUR FILE HERE - form of "./file.txt"***************"
+    modelFilePath = r"./ccccccc.smv"#r"**************YOUR FILE name here! - form of "./ccc.smv"****************
+    modelFileName = rf"{"."+modelFilePath.split(".")[1]}"
+
+
+
     if runPart == 2:
-        createSmvBoardFile()
-        run_nuxmv(r"./bbb.smv")
-        #getLURD Moves - ORA!!
+        createSmvBoardFile(inputFilePath, modelFilePath)
+        outputFilePath = run_nuxmv(modelFilePath, 'bdd')
+        get_board_result(outputFilePath)#r"./da.out")
+
     if runPart == 3:
-        engineType, steps = getEngine()
-        runTime = MeasureRunTime(path, engineType, steps)
-        printMsg = f"It took {runTime:.6f} seconds to run {path} on {engineType.upper()} engine"
+        createSmvBoardFile(inputFilePath, modelFilePath)
+        engineType = getEngine()
+        steps=None
+        avergeTime = 0
+        iters = 10 ######################insert HERE number######################
+        for iter in range(iters):
+            runTime = MeasureRunTime(modelFilePath, engineType, steps)
+            printMsg = f"It took {runTime:.6f} seconds to run {modelFilePath} on {engineType.upper()} engine on iteration {iter+1}."
+            print(printMsg)
+            avergeTime += runTime
+        printMsg = f"It took {(avergeTime / iters):.6f} on average seconds to run {modelFilePath} on {engineType.upper()} engine."
         print(printMsg)
     
     if runPart == 4:
-        exit
+        numBoxes =2 ######################insert HERE number######################
+        runIterative(inputFilePath, modelFileName, numBoxes)
 
-
-
-
-
-   # print("Hello, and welcome to the Sokoban folder!")
-    #FileNameForRead = getInputFileName()
-    #b = SokobanInitialBoard(3,5)
-   # b.printInitialBoard()
-    #rows, columns, content = readFile(FileNameForRead)
-    #b = SokobanBoard(rows, columns, content)
-    #b.printBoard()
-    #i , o = createSmvBoardFile()
-    #i = i.replace("\\\\", "\\")
-    #print(MeasureRunTime(r'C:\Users\Lenovo\OneDrive - Bar-Ilan University - Students\GitHW\FVS\bbb.smv'))

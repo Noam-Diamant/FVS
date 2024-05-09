@@ -13,7 +13,10 @@ def run_nuxmv(modelFilename, engineType = None, steps = None):
     elif engineType == "SAT":
         nuxmvProcess = subprocess.Popen([".\\nuXmv.exe", "-int", modelFilename], stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
         nuxmvProcess.stdin.write("go_bmc\n")
-        nuxmvProcess.stdin.write(f"check_ltlspec_bmc -k {steps}\n")
+        if steps == None:
+            nuxmvProcess.stdin.write(f"check_ltlspec_bmc\n")
+        else:
+            nuxmvProcess.stdin.write(f"check_ltlspec_bmc -k {steps}\n")
         nuxmvProcess.stdin.write("quit\n")
     else:
         nuxmvProcess = subprocess.Popen([".\\nuXmv.exe", modelFilename], stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
@@ -29,7 +32,7 @@ def run_nuxmv(modelFilename, engineType = None, steps = None):
         f.write(stdout)
     
     # Print output filename
-    print(f"Output saved to {outputFilename}")
+    print(f"The output of running Nuxmv on {modelFilename} saved to {outputFilename}")
     
     # Return output filename
     return outputFilename
@@ -56,7 +59,7 @@ def get_board_result(outputFilename):
                 winning_movments += (output_moves[i].split('direction =')[1]).split('\n')[0].strip().upper()+"-"
             else:
                 winning_movments += f'{winning_movments[-2:-1]}-'
-            if "-- Loop starts here" in output_moves[i - 1]:
+            if "-- Loop starts here" in output_moves[i]:
                 # This is the last move of the keeper
                 break
         winning_movments = winning_movments.removesuffix("-")

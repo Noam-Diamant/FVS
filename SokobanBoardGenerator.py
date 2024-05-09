@@ -238,13 +238,13 @@ class SokobanBoard:
                                        f"{dest_state};")
         return self.new_line(floor_str)
 
-    def createSmvFileContent(self, inputFilePath, outputFilePath):
-        inputFilePath = inputFilePath.replace("\\\\", "\\")
+    def createSmvFileContent(self, inputFile, outputFilePath):
+        inputFile = inputFile.replace("\\\\", "\\")
         fileContent = f"""-- This smv model was built by the automation code produced as part of the project 
 -- in the formal verification and synthesis course by Noam Diamant and Ora Wetzler.
 
 -- This smv model is built according to the input file found in the following path:
--- {inputFilePath}
+-- {inputFile}
 -- The model is in the following path:
 -- {outputFilePath}
 MODULE main
@@ -358,25 +358,32 @@ def writeStringToFile(string, outputFilePath):
     with open(outputFilePath, 'w') as file:
         file.write(string)
 
-def createSmvBoardFile():
+def createSmvBoardFile(inputFilePath=None,outputModelPath=None):
     # Obtain input file path
-    inputFilePath = getInputFileName()
+    if inputFilePath == None:
+        inputFile = getInputFileName()
+    else:
+        inputFile = inputFilePath
     
     # Read rows, columns, and content from input file
-    rows, columns, content = readFile(inputFilePath)
+    rows, columns, content = readFile(inputFile)
     
     # Initialize SokobanBoard object with obtained data
     b = SokobanBoard(rows, columns, content)
     
     # Obtain output file path
-    outputFilePath = getOutputPath()
+    if outputModelPath == None:
+        outputPath = getOutputPath()
+    else:
+        outputPath = outputModelPath
     
     # Generate SMV model content and write to output file
-    model = b.createSmvFileContent(inputFilePath, outputFilePath)
-    writeStringToFile(model, outputFilePath)
+    model = b.createSmvFileContent(inputFile, outputPath)
+    writeStringToFile(model, outputPath)
+    print(f"smv model that have been created from {inputFile} saved at {outputPath}")
     
     # Return tuple containing input and output file paths with double backslashes replaced
-    return inputFilePath.replace("\\\\", "\\"), outputFilePath
+    return inputFile.replace("\\\\", "\\"), outputPath
 
 # if __name__ == '__main__':
 #     createSmvBoardFile()

@@ -97,17 +97,11 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, n, board):
 
     return iterationGoals
 
-
-if __name__ == '__main__':
-    Ipath = "./aaa.txt"
-    Opath = "./bbb"
+def runIterative(Ipath, Opath, numBoxes):
     board = createBoard(Ipath)
-    print(board.InitialBoard)
     boardGoals = getGoalsLocs(board)
-    print(boardGoals)
-    sampleNCreateBoards(Ipath, Opath, boardGoals, 1, board)
-    print(MeasureRunTime("./bbb_IterationModel_iter1.smv", 'BDD', 50))
-    print(MeasureRunTime("./bbb_IterationModel_iter2.smv", 'BDD', 50))
+    sampleNCreateBoards(Ipath, Opath, boardGoals, numBoxes, board)
+
     
 
 
