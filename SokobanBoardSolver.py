@@ -22,7 +22,7 @@ def run_nuxmv(modelFilename, engineType = None, steps = None):
         nuxmvProcess = subprocess.Popen([".\\nuXmv.exe", modelFilename], stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
     
     # Define output filename
-    outputFilename = "."+modelFilename.split(".")[1] + ".out"
+    outputFilename = modelFilename.split(".")[0] + ".out"
     
     # Run NuSMV process and capture stdout
     stdout, _ = nuxmvProcess.communicate()
