@@ -3,7 +3,7 @@ import time
 from SokobanBoardSolver import *
 import subprocess
 from SokobanBoardGenerator import *
-from iterative import *
+from SokobanIterativeSolver import *
 
 def getPart():
     print("Please choose the part you want to run,")
@@ -34,8 +34,8 @@ def getEngine():
 if __name__ == '__main__':
     print("Hello, and welcome to the Sokoban solver!")
     runPart = getPart()
-    inputFilePath = r"C:\Users\אורה\FVS\aaa.txt"#r"**************YOUR FILE HERE - form of "./file.txt"***************"
-    modelFilePath = r"C:\Users\אורה\FVS\bbb.smv"#r"**************YOUR FILE name here! - form of "./ccc.smv"****************
+    inputFilePath = r"C:\Users\Lenovo\Documents\FVS\boards\board4.txt"#r"**************YOUR FILE HERE - form of "./file.txt"***************"
+    modelFilePath = r"C:\Users\Lenovo\Documents\FVS\outputFiles\part2\board4.smv"#r"**************YOUR FILE name here! - form of "./ccc.smv"****************
     modelFileName = rf"{modelFilePath.split('.')[0]}"
 
     if runPart == 2:
