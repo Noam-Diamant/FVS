@@ -4,6 +4,7 @@ from SokobanBoardSolver import *
 import subprocess
 from SokobanBoardGenerator import *
 import random
+import re
 
 
 # needs to get the number off goals 
@@ -14,7 +15,16 @@ import random
 
 # run sub boards 
 
-# print time for each iteration and total time 
+# print time for each iteration and total time
+
+def print_board(InitialBoard):
+    printable_board = ''
+    for line in InitialBoard:
+        for cell in line:
+            printable_board += f'{name_dict[cell]}\t'
+        printable_board += '\n'
+    print(printable_board)
+
 
 def setIterWinConditions(iterationGoals):
     winConditionsString = f"LTLSPEC !(F("
@@ -31,9 +41,7 @@ def getGoalsLocs(sokobanBoard):
     boardGoals = []
     for rowIdx in range(sokobanBoard.rows):
         for columnIdx in range(sokobanBoard.columns):
-            if (sokobanBoard.InitialBoard[rowIdx][columnIdx] == 'dot' or
-                sokobanBoard.InitialBoard[rowIdx][columnIdx] == 'asterisk' or
-                sokobanBoard.InitialBoard[rowIdx][columnIdx] == 'plus'):
+            if sokobanBoard.InitialBoard[rowIdx][columnIdx] in goal_states.values():
                 boardGoals.append([rowIdx, columnIdx])
     return boardGoals
 
@@ -50,61 +58,130 @@ def createBoard(Ipath, iteration = 1):
 
     return board
 
+
+def update(smvSolution, board):
+    with open(smvSolution, 'r') as f:
+        output = f.read()
+
+    if 'true' in output:
+        # The board is not solvable, return false
+        return False, board
+
+    elif 'false' in output:
+        iter_goal_coordinates = find_goal_tiles(output)
+        boxes_on_goal_coordinates = []
+        output_states = output.split("-> State:")
+        movement_pattern = \
+            rf"SokobanBoard\[(\d+)\]\[(\d+)\] = ({goal_states['floor']}|{goal_states['keeper']}|{goal_states['box']}|" \
+            rf"{floor_states['floor']}|{floor_states['keeper']}|{floor_states['box']})"
+
+        # First state is the initial state, there is no need to update that
+        for i in range(1, len(output_states)):
+            coordinates_and_next_state = re.findall(movement_pattern, output_states[i])
+
+            # In first iteration, find boxes on goals, but no need to update the board
+            for coord1, coord2, tile_state in coordinates_and_next_state:
+                if i != 1:
+                    board.InitialBoard[int(coord1)][int(coord2)] = tile_state
+
+                # Check when to stop running
+                if tile_state == goal_states['box']:
+                    boxes_on_goal_coordinates.append((int(coord1), int(coord2)))
+                elif tile_state in goal_states.values() and (int(coord1), int(coord2)) in boxes_on_goal_coordinates:
+                    boxes_on_goal_coordinates.remove((int(coord1), int(coord2)))
+
+            # If in this state, all boxes are on goals - this was the winning move
+            if boxes_on_goal_coordinates == iter_goal_coordinates:
+                break
+
+    print_board(board.InitialBoard)
+    return True, board.InitialBoard
+
+
 def createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board = None,  iteration = 1, smvSolution = None):
     inputFilePath = Ipath
     board.winConditions = setIterWinConditions(iterationGoals)
     if iteration == 1:
         None
     else:
-        #update the intial board at the next iteration to to final state at the previous iteration
-        #board.InitialBoard = update(smvSolution, board) 
+        # update the initial board at the next iteration to be final state at the previous iteration
+        is_solvable, board.InitialBoard = update(smvSolution, board)
+        if not is_solvable:
+            raise RuntimeError(f"The board is not solvable in iteration {iteration}")
         board.setInitialBoardString()
     # Obtain output file path
-    outputFilePath = Opath+f"_IterationModel_iter{iteration}.smv"#getOutputPath()
+    IterModelFilePath = Opath+f"_IterationModel_iter{iteration}.smv"#getOutputPath()
     
     # Generate SMV model content and write to output file
-    model = board.createSmvFileContent(inputFilePath, outputFilePath)
-    writeStringToFile(model, outputFilePath)
-    print(f"model from iteration {iteration} saved to {outputFilePath}")
+    model = board.createSmvFileContent(inputFilePath, IterModelFilePath)
+    writeStringToFile(model, IterModelFilePath)
+    print(f"model from iteration {iteration} saved to {IterModelFilePath}")
     
     # Return tuple containing input and output file paths with double backslashes replaced
     if iteration == 1:
-        return iteration+1, board, inputFilePath.replace("\\\\", "\\"), outputFilePath
+        return iteration+1, board, inputFilePath.replace("\\\\", "\\"), IterModelFilePath
     else:
-        return iteration+1, board, inputFilePath, outputFilePath
+        return iteration+1, board, inputFilePath, IterModelFilePath
 
-def sampleNCreateBoards(Ipath, Opath, boardGoals, n, board):
+
+def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board):
     iterationGoals = []
     iteration = 1
-    while len(boardGoals) >= n:
-        randomGoals = random.sample(boardGoals, n)
+    totalRunTime = 0
+    while len(boardGoals) >= nunBoxesInItter:
+        randomGoals = random.sample(boardGoals, nunBoxesInItter)
         iterationGoals.extend(randomGoals)
         for goal in randomGoals:
             boardGoals.remove(goal)
-        if iteration == 1:
-            iteration, board, Ipath, _ = createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board, iteration=1, smvSolution = None)
-            #yield Opath
-        else:
-            iteration, board, Ipath, _ = createSmvBoardFileIteration(Ipath,Opath, iterationGoals, board, iteration, smvSolution = "./bbb_IterationModel_iter"+f"{iteration-1}"+".out")
-            #yield Opat
+        try:
+            iteration, board, Ipath, IterModelFilePath = createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board, iteration, smvSolution=None if iteration == 1 else PrevIterOutFilePath)
+        except RuntimeError as e:
+            raise e
+        curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, 'BDD', 50)
+        totalRunTime += curRunTime
+        # PrevIterOutFilePath = run_nuxmv(IterModelFilePath)
+        if not get_board_result(PrevIterOutFilePath, to_print=False):
+            raise RuntimeError(f"The board is not solvable in iteration {iteration}")
+        print(f"Iteration {iteration - 1} finished solving {nunBoxesInItter} boxes in: {curRunTime} seconds")
 
     # If there are fewer than n values remaining, take all of them
     if boardGoals:
         iterationGoals.extend(boardGoals)
         boardGoals.clear()
-        iteration, board, Ipath, Opath = createSmvBoardFileIteration(Ipath,Opath, iterationGoals, board, iteration, smvSolution = "./bbb_IterationModel_iter"+f"{iteration-1}"+".out")
+        try:
+            iteration, board, Ipath, Modelpath = createSmvBoardFileIteration(Ipath,Opath, iterationGoals, board, iteration, smvSolution=None if iteration == 1 else PrevIterOutFilePath)
+        except RuntimeError as e:
+            raise e
+        curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, 'BDD', 50)
+        totalRunTime += curRunTime
+        # PrevIterOutFilePath = run_nuxmv(Modelpath)
+        if not get_board_result(PrevIterOutFilePath, to_print=False):
+            raise RuntimeError(f"The board is not solvable in iteration {iteration}")
+        print(f"Iteration {iteration} finished solving {nunBoxesInItter} boxes in: {curRunTime} seconds")
         #yield Opath
 
     return iterationGoals
 
 def runIterative(Ipath, Opath, numBoxes):
     board = createBoard(Ipath)
+    print_board(board.InitialBoard)
     boardGoals = getGoalsLocs(board)
-    sampleNCreateBoards(Ipath, Opath, boardGoals, numBoxes, board)
+    try:
+        sampleNCreateBoards(Ipath, Opath, boardGoals, numBoxes, board)
+    except RuntimeError as e:
+        raise e
 
-    
-
-
-
-
-    
+if __name__ == '__main__':
+    Ipath = "./aaa.txt"
+    Opath = "./bbb"
+    board = createBoard(Ipath)
+    print_board(board.InitialBoard)
+    boardGoals = getGoalsLocs(board)
+    print(f'board goals located at {boardGoals}')
+    try:
+        sampleNCreateBoards(Ipath, Opath, boardGoals, 1, board)
+    except RuntimeError as e:
+        print(e)
+    # else:
+    #     print(MeasureRunTime("./bbb_IterationModel_iter1.smv", 'BDD', 50))
+    #     print(MeasureRunTime("./bbb_IterationModel_iter2.smv", 'BDD', 50))

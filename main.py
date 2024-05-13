@@ -53,7 +53,7 @@ if __name__ == '__main__':
         avergeTime = 0
         iters = 10 ######################insert HERE number######################
         for iter in range(iters):
-            runTime = MeasureRunTime(modelFilePath, engineType, steps)
+            runTime, _ = MeasureRunTime(modelFilePath, engineType, steps)
             printMsg = f"It took {runTime:.6f} seconds to run {modelFilePath} on {engineType.upper()} engine on iteration {iter+1}."
             print(printMsg)
             avergeTime += runTime
@@ -62,5 +62,8 @@ if __name__ == '__main__':
     
     if runPart == 4:
         numBoxes =2 ######################insert HERE number######################
-        runIterative(inputFilePath, modelFileName, numBoxes)
+        try:
+            runIterative(inputFilePath, modelFileName, numBoxes)
+        except RuntimeError as e:
+            print(e)
 

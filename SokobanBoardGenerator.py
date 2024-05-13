@@ -120,6 +120,7 @@ class SokobanBoard:
     def setInitialBoard(self, content):
         # Split the input string into lines
         lines = content.strip().split('\n')
+        self.rows = len(lines) # This catches cases that there is an extra line in the .txt file
     
         # Initialize an empty 2D array
         InitialBoard = []
@@ -136,7 +137,7 @@ class SokobanBoard:
         for rowIdx in range(self.rows):
             for columnIdx in range(self.columns):
                 InitialBoardString += f"SokobanBoard[{rowIdx}][{columnIdx}] = {str(self.InitialBoard[rowIdx][columnIdx]):<10}&\t\t"
-            InitialBoardString += "\n\t"     
+            InitialBoardString += "\n\t"
         # Find the last occurrence of "&"
         lastAmpersandIndex = InitialBoardString.rfind("&")
 

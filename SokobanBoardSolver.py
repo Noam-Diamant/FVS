@@ -23,7 +23,7 @@ def run_nuxmv(modelFilename, engineType = None, steps = None):
         nuxmvProcess = subprocess.Popen([".\\nuXmv.exe", modelFilename], stdin=subprocess.PIPE, stdout=subprocess.PIPE, universal_newlines=True)
     
     # Define output filename
-    outputFilename = modelFilename.split(".")[0] + ".out"
+    outputFilename = modelFilename.split(".smv")[0] + ".out"
     
     # Run NuSMV process and capture stdout
     stdout, _ = nuxmvProcess.communicate()
@@ -51,20 +51,22 @@ def find_goal_tiles(output):
     return goal_tiles_coordinates
 
 
-def get_board_result(outputFilename):
+def get_board_result(outputFilename, to_print=True):
     with open(outputFilename, 'r') as f:
         output = f.read()
 
     if 'true' in output:
         LURD_output = ''
-        print(f"*******************************************")
-        print(f"********    NOT SOLVABLE    ***************")
-        print(f"*******************************************")
+        if to_print:
+            print(f"*******************************************")
+            print(f"********    NOT SOLVABLE    ***************")
+            print(f"*******************************************")
 
     elif 'false' in output:
-        print(f"*******************************************")
-        print(f"********    SOLVABLE    *******************")
-        print(f"*******************************************")
+        if to_print:
+            print(f"*******************************************")
+            print(f"********    SOLVABLE    *******************")
+            print(f"*******************************************")
 
         goal_tile_coordinates = find_goal_tiles(output)
         boxes_on_goal_tiles_coor = []
@@ -99,10 +101,11 @@ def get_board_result(outputFilename):
                 LURD_output += f'{LURD_output[-2:-1]}-'
 
         LURD_output = LURD_output.removesuffix("-")
-        print(f"The wining strategy for the keeper is:")
-        print(f"*******************************************")
-        print(f"*    {LURD_output}    *")
-        print(f"*******************************************")
+        if to_print:
+            print(f"The wining strategy for the keeper is:")
+            print(f"*******************************************")
+            print(f"*    {LURD_output}    *")
+            print(f"*******************************************")
 
     else:
         LURD_output = ''
@@ -114,8 +117,8 @@ def get_board_result(outputFilename):
 def MeasureRunTime(modelFilename, engineType = None, steps = None):
     startTime = time.time()
     # Run nuXmv
-    _ = run_nuxmv(modelFilename, engineType, steps)
+    outFile = run_nuxmv(modelFilename, engineType, steps)
     # Stop the timer
     endTime = time.time()
     runTime = endTime - startTime
-    return runTime
+    return runTime, outFile
