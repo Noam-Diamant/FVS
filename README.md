@@ -33,6 +33,8 @@ There are no additional instructions for this part other than what is noted abov
 Since we were asked to analyze in this section for which engine we will get a better runtime, we decided to compare the average runtime to get a better comparison. You can change the number of iterations if you want in line 51. The number of iterations we chose by default is 10.
 
 ### option 4
+In this section on line 61, enter the number of boxes you want to be solved in each iteration (we entered the value 1, but can be changed to any value). Be careful not to enter a value that is greater than the total number of boxes in the board (we did not perform such a correctness check, and it is not the purpose of the assignment either), as this is against the purpose of this part of solving in iterations.
+If you enter a value that is not perfectly divisible by the total number of boxes, the last iteration of the solution will solve the board for the remaining boxes from the remainder of the division.
 ד
 
 
