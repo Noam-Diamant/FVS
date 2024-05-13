@@ -1,20 +1,20 @@
 # The sokoban solver
 In this project we present a code designed to solve boards of the Sokoban game.
-The code will be run according to one of the options that will be presented, and according to the instructions that will be presented below.
+The code will run according to one of the options that will be presented, and according to the instructions that will be presented below.
 
-For the code you wrote there are 3 execution options:
+There are 3 execution options:
 
-Option 2 - running the code, receiving an answer as to whether the board is solvable, and if so, in what way.
+Option 2 - For a given Sokoban board, the code will return if the board is solvable, and if so it will return the winning moves in a LURD format.
 
 Option 3 - Comparison of runtime between BDD and SAT engines in a given board solution.
 
-Option 4 - comparison of running time between a normal solution and an iterative solution of a given board.
+Option 4 - For a given Sokoban board, solve it in an iterative way. Every time try to solve the board for n boxes, until all the board is solve, or indicate if the board is not solvable.
 
 ## Running instructions
 
 In this section there are general running instructions for the entire project:
 
-First, in line 36, change the value of runPart to the number 2,3 or 4 (if you don't do this, a part will be run in the program that will ask you for input for these values), other values are not correct. This value will determine the part of the project that will run.
+First, in line 36, change the value of runPart to the number 2,3 or 4 (Otherwise the program will ask you to insert a number at the beginning of the run), other values are not valid. This value will determine the part of the project that will run.
 
 In addition, you must insert in line 37 in the main.py file the file path of the Sokoban board in XSB format. Leave the letter r as it appears in the example, and put your path inside the brackets. The file should have a txt extension. Example of a proper path:
 
