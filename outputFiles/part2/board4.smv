@@ -2,9 +2,9 @@
 -- in the formal verification and synthesis course by Noam Diamant and Ora Wetzler.
 
 -- This smv model is built according to the input file found in the following path:
--- C:\Users\Lenovo\Documents\FVS\boards\board4.txt
+-- C:\Users\אורה\FVS\boards\board4.txt
 -- The model is in the following path:
--- C:\Users\Lenovo\Documents\FVS\outputFiles\part2\board4.smv
+-- C:\Users\אורה\FVS\outputFiles\part2\board4.smv
 MODULE main
 
 VAR
