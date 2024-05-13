@@ -142,7 +142,8 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board):
         print_board(board.InitialBoard)
         curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, 'sat')
         totalRunTime += curRunTime
-        if not get_board_result(PrevIterOutFilePath, to_print=False):
+        is_solvable, _ = get_board_result(PrevIterOutFilePath, to_print=False)
+        if not is_solvable:
             raise RuntimeError(f"The board is not solvable in iteration {iteration - 1}")
         print(f"*** Iteration {iteration - 1} solved {nunBoxesInItter} boxes in: {curRunTime} seconds ***")
 
@@ -160,7 +161,8 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board):
         print_board(board.InitialBoard)
         curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, 'sat')
         totalRunTime += curRunTime
-        if not get_board_result(PrevIterOutFilePath, to_print=False):
+        is_solvable, _ = get_board_result(PrevIterOutFilePath, to_print=False)
+        if not is_solvable:
             raise RuntimeError(f"The board is not solvable in iteration {iteration - 1}")
         print(f"*** Iteration {iteration - 1} solved {nunBoxesInItter} boxes in: {curRunTime} seconds ***")
 

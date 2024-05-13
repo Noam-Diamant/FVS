@@ -57,12 +57,14 @@ def get_board_result(outputFilename, to_print=True):
 
     if 'true' in output:
         LURD_output = ''
+        is_solvable = False
         if to_print:
             print(f"*******************************************")
             print(f"********    NOT SOLVABLE    ***************")
             print(f"*******************************************")
 
     elif 'false' in output:
+        is_solvable = True
         if to_print:
             print(f"*******************************************")
             print(f"********    SOLVABLE    *******************")
@@ -108,10 +110,11 @@ def get_board_result(outputFilename, to_print=True):
             print(f"*******************************************")
 
     else:
+        is_solvable = False
         LURD_output = ''
         print("error- no indication in output file")
 
-    return LURD_output
+    return is_solvable, LURD_output
 
 
 def MeasureRunTime(modelFilename, engineType = None, steps = None):

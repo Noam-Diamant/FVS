@@ -38,9 +38,6 @@ if __name__ == '__main__':
     modelFilePath = r"C:\Users\אורה\FVS\bbb.smv"#r"**************YOUR FILE name here! - form of "./ccc.smv"****************
     modelFileName = rf"{modelFilePath.split('.')[0]}"
 
-#    outputFilePath = run_nuxmv(modelFilePath, 'bdd')
-
-
     if runPart == 2:
         createSmvBoardFile(inputFilePath, modelFilePath)
         outputFilePath = run_nuxmv(modelFilePath, 'bdd')
@@ -61,7 +58,7 @@ if __name__ == '__main__':
         print(printMsg)
     
     if runPart == 4:
-        numBoxes =2 ######################insert HERE number######################
+        numBoxes = 2 ######################insert HERE number######################
         try:
             runIterative(inputFilePath, modelFileName, numBoxes)
         except RuntimeError as e:
