@@ -34,9 +34,9 @@ def getEngine():
 if __name__ == '__main__':
     print("Hello, and welcome to the Sokoban solver!")
     runPart = getPart()
-    inputFilePath = r"C:\Users\Lenovo\Documents\aaa.txt"#r"**************YOUR FILE HERE - form of "./file.txt"***************"
-    modelFilePath = r"C:\Users\Lenovo\Documents\bda.smv"#r"**************YOUR FILE name here! - form of "./ccc.smv"****************
-    modelFileName = rf"{"."+modelFilePath.split(".")[0]}"
+    inputFilePath = r"C:\Users\אורה\FVS\aaa.txt"#r"**************YOUR FILE HERE - form of "./file.txt"***************"
+    modelFilePath = r"C:\Users\אורה\FVS\bbb.smv"#r"**************YOUR FILE name here! - form of "./ccc.smv"****************
+    modelFileName = rf"{'.'+modelFilePath.split('.')[0]}"
 
 #    outputFilePath = run_nuxmv(modelFilePath, 'bdd')
 

@@ -16,7 +16,22 @@ symbol_dict = {
     '-': 'dash'
     # Add more mappings as needed
 }
+name_dict = {
+    # Dictionary mapping symbols to their names
+    'percent': '%',
+    'dollar': '$',
+    'asterisk': '*',
+    'hashtag': '#',
+    'at': '@',
+    'plus': '+',
+    'dot': '.',
+    'dash': '-'
+    # Add more mappings as needed
+}
 
+floor_states = {'floor': symbol_dict['-'], 'keeper':symbol_dict['@'], 'box': symbol_dict['$']}
+goal_states = {'floor': symbol_dict['.'], 'keeper':symbol_dict['+'], 'box': symbol_dict['*']}
+wall_state = symbol_dict['#']
 
 def getInputFileName():
     # Function to input the file name and validate it
@@ -25,8 +40,8 @@ def getInputFileName():
         print("Please input the path to the input file, ends with extension \".txt\": ")
         
         # Read the input from the user
-        FileName = str(input())
-        # FileName = os.path.join(os.getcwd(), "aaa.txt")
+        # FileName = str(input())
+        FileName = os.path.join(os.getcwd(), "aaa.txt")
         # Check if the file name ends with ".xsb"
         if not (FileName.endswith(".txt")):
             print("Invalid input, try again!")  # Print error message for invalid input
@@ -92,9 +107,6 @@ def readFile(FileName):
     return rows, columns, convertedContent
 
 class SokobanBoard:
-    floor_states = {'floor': symbol_dict['-'], 'keeper':symbol_dict['@'], 'box': symbol_dict['$']}
-    goal_states = {'floor': symbol_dict['.'], 'keeper':symbol_dict['+'], 'box': symbol_dict['*']}
-    wall_state = symbol_dict['#']
     current_tab_level = 1
 
     def __init__(self, rows, columns, content):
@@ -160,8 +172,8 @@ class SokobanBoard:
         TransitionRelationString += self.new_line("next(direction) := {l, u, r, d};")
         for row_idx in range(self.rows):
             for col_idx in range(self.columns):
-                if self.InitialBoard[row_idx][col_idx] == self.wall_state:
-                    TransitionRelationString += self.new_line(f"next(SokobanBoard[{row_idx}][{col_idx}]) := {self.wall_state};")
+                if self.InitialBoard[row_idx][col_idx] == wall_state:
+                    TransitionRelationString += self.new_line(f"next(SokobanBoard[{row_idx}][{col_idx}]) := {wall_state};")
                 else:
                     TransitionRelationString += self.new_line(f"next(SokobanBoard[{row_idx}][{col_idx}]) :=")
                     TransitionRelationString += self.open_case()
@@ -178,17 +190,21 @@ class SokobanBoard:
         i_self, j_self, current_state = self.tile_check(i, j, 'u', 0, 'keeper')
         keeper_str = self.new_line('-- case keeper')
         for direction in ['l', 'u', 'r', 'd']:
+            # If the keeper moves -  the current tile will turn to be a floor
             i_self, j_self, dest_state = self.tile_check(i, j, 'u', 0, 'floor')
+
+            # Check if the neighbor tile of distance 1 in the current direction is a floor (or goal)
             i_n1, j_n1, n1_state_to_check = self.tile_check(i, j, direction, 1, 'floor')
-            if n1_state_to_check == self.wall_state:  # Wall is static, no point in checking
+            if n1_state_to_check == wall_state:  # Wall is static, no point in checking
                 continue
             keeper_str += self.new_line(f"SokobanBoard[{i_self}][{j_self}] = {current_state} & direction = {direction} & "
                                         f"SokobanBoard[{i_n1}][{j_n1}] = {n1_state_to_check} : "
                                         f"{dest_state};")
 
+            # Check if the neighbor tile of distance 1 is a box, and neighbor of distance 2 is a floor
             i_n1, j_n1, n1_state_to_check = self.tile_check(i, j, direction, 1, 'box')
             i_n2, j_n2, n2_state_to_check = self.tile_check(i, j, direction, 2, 'floor')
-            if n2_state_to_check == self.wall_state:  # Wall is static, no point in checking
+            if n2_state_to_check == wall_state:  # Wall is static, no point in checking
                 continue
             keeper_str += self.new_line(f"SokobanBoard[{i}][{j}] = {current_state} & direction = {direction} & "
                                         f"SokobanBoard[{i_n1}][{j_n1}] = {n1_state_to_check} & "
@@ -200,12 +216,16 @@ class SokobanBoard:
         """Tile is a box, it can move only if the previous tile is the guard, and there is place to push the box"""
         box_str = self.new_line('-- case box')
         i_self, j_self, current_state_to_check = self.tile_check(i, j, 'u', 0, 'box')
+
+        # If the box moves -  it means the keeper pushed it, and it will turn to be a keeper
         i_self, j_self, dest_state = self.tile_check(i, j, 'u', 0, 'keeper')
         for direction in ['l', 'u', 'r', 'd']:
             opposite_direction = 'u' if direction == 'd' else 'd' if direction == 'u' else 'l' if direction == 'r' else 'r'
+            # Check if the neighbor tile of distance 1 in the current direction is a floor, and neighbor in
+            # opposite direction is the keeper
             i_n1, j_n1, n1_state_to_check = self.tile_check(i, j, direction, 1, 'floor')
             i_no, j_no, no_state_to_check = self.tile_check(i, j, opposite_direction, 1, 'keeper')
-            if n1_state_to_check == self.wall_state or no_state_to_check == self.wall_state:  # Wall is static, no point in checking
+            if n1_state_to_check == wall_state or no_state_to_check == wall_state:  # Wall is static, no point in checking
                 continue
             box_str += self.new_line(f"SokobanBoard[{i}][{j}] = {current_state_to_check} & direction = {direction} & "
                                      f"SokobanBoard[{i_n1}][{j_n1}] = {n1_state_to_check} & "
@@ -219,18 +239,24 @@ class SokobanBoard:
         i_self, j_self, current_state = self.tile_check(i, j, 'u', 0, 'floor')
         for direction in ['l', 'u', 'r', 'd']:
             opposite_direction = 'u' if direction == 'd' else 'd' if direction == 'u' else 'l' if direction == 'r' else 'r'
+
+            # If the keeper is in the opposite direction, the floor will turn to keeper
             i_self, j_self, dest_state = self.tile_check(i, j, 'u', 0, 'keeper')
+            # Check if the neighbor tile of distance 1 in the opposite direction is the keeper
             i_no1, j_no1, no1_state_to_check = self.tile_check(i, j, opposite_direction, 1, 'keeper')
-            if no1_state_to_check == self.wall_state:  # Wall is static, no point in checking
+            if no1_state_to_check == wall_state:  # Wall is static, no point in checking
                 continue
             floor_str += self.new_line(f"SokobanBoard[{i}][{j}] = {current_state} & direction = {direction} & "
                                        f"SokobanBoard[{i_no1}][{j_no1}] = {no1_state_to_check} : "
                                        f"{dest_state};")
 
+            # If the two neighbors are box and then keeper - keeper will push box to floor, so floor will turn to box
             i_self, j_self, dest_state = self.tile_check(i, j, 'u', 0, 'box')
+
+            # Check if the neighbor tile of distance 1 (in opposite direction)is a box, and neighbor of distance 2 is a floor
             i_no1, j_no1, no1_state_to_check = self.tile_check(i, j, opposite_direction, 1, 'box')
             i_no2, j_no2, no2_state_to_check = self.tile_check(i, j, opposite_direction, 2, 'keeper')
-            if no2_state_to_check == self.wall_state:  # Wall is static, no point in checking
+            if no2_state_to_check == wall_state:  # Wall is static, no point in checking
                 continue
             floor_str += self.new_line(f"SokobanBoard[{i}][{j}] = {current_state} & direction = {direction} & "
                                        f"SokobanBoard[{i_no1}][{j_no1}] = {no1_state_to_check} & "
@@ -299,10 +325,10 @@ ASSIGN
         return f'{in_str}\n{self.tab_as_needed()}'
 
     def rho_i(self, i, j):
-        if self.InitialBoard[i][j] in self.floor_states.values():
-            states = self.floor_states
-        elif self.InitialBoard[i][j] in self.goal_states.values():
-            states = self.goal_states
+        if self.InitialBoard[i][j] in floor_states.values():
+            states = floor_states
+        elif self.InitialBoard[i][j] in goal_states.values():
+            states = goal_states
         else:
             print(f"error, state in i = {i}, j = {j} is: {self.InitialBoard[i][j]}")
             exit(-1)
@@ -313,7 +339,7 @@ ASSIGN
         for state in states.values():
             rho_i_str += self.new_line(f"SokobanBoard[{i}][{j}] = {state} : {state};")
         rho_i_str += self.new_line("-- to avoid nuXmv error. SHOULD NOT HAPPEN!!")
-        rho_i_str += self.new_line(f"TRUE : {self.wall_state};")
+        rho_i_str += self.new_line(f"TRUE : {wall_state};")
         rho_i_str += self.close_case()
         return rho_i_str
 
@@ -322,12 +348,12 @@ ASSIGN
         if d == 'd': i_idx = (i+dis_from_current); j_idx = j
         if d == 'r': i_idx = i; j_idx = j + dis_from_current
         if d == 'l': i_idx = i; j_idx = j - dis_from_current
-        if self.InitialBoard[i_idx][j_idx] in self.floor_states.values():
-            value_to_check = self.floor_states[key]
-        elif self.InitialBoard[i_idx][j_idx] in self.goal_states.values():
-            value_to_check = self.goal_states[key]
-        elif self.InitialBoard[i_idx][j_idx] == self.wall_state:
-            value_to_check = self.wall_state
+        if self.InitialBoard[i_idx][j_idx] in floor_states.values():
+            value_to_check = floor_states[key]
+        elif self.InitialBoard[i_idx][j_idx] in goal_states.values():
+            value_to_check = goal_states[key]
+        elif self.InitialBoard[i_idx][j_idx] == wall_state:
+            value_to_check = wall_state
         else:
             print(f"tile_check: invalid input given!")
             exit(-1)
@@ -348,7 +374,6 @@ def getOutputPath():
     
     # Join output folder path and output file name to construct the output file path
     outputFilePath = os.path.join(OutputPath, OutputFile)
-    # outputFilePath = os.path.join(os.getcwd(), "bbb.smv")
     
     # Return the constructed output file path
     return outputFilePath
@@ -385,8 +410,6 @@ def createSmvBoardFile(inputFilePath=None,outputModelPath=None):
     # Return tuple containing input and output file paths with double backslashes replaced
     return inputFile.replace("\\\\", "\\"), outputPath
 
-# if __name__ == '__main__':
-#     createSmvBoardFile()
 
 
 
