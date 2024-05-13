@@ -36,7 +36,7 @@ if __name__ == '__main__':
     runPart = getPart()
     inputFilePath = r"C:\Users\אורה\FVS\aaa.txt"#r"**************YOUR FILE HERE - form of "./file.txt"***************"
     modelFilePath = r"C:\Users\אורה\FVS\bbb.smv"#r"**************YOUR FILE name here! - form of "./ccc.smv"****************
-    modelFileName = rf"{'.'+modelFilePath.split('.')[0]}"
+    modelFileName = rf"{modelFilePath.split('.')[0]}"
 
 #    outputFilePath = run_nuxmv(modelFilePath, 'bdd')
 

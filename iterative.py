@@ -94,7 +94,6 @@ def update(smvSolution, board):
             if boxes_on_goal_coordinates == iter_goal_coordinates:
                 break
 
-    print_board(board.InitialBoard)
     return True, board.InitialBoard
 
 
@@ -129,6 +128,7 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board):
     iteration = 1
     totalRunTime = 0
     while len(boardGoals) >= nunBoxesInItter:
+        print(f"*********** Starting iteration {iteration} ***********")
         randomGoals = random.sample(boardGoals, nunBoxesInItter)
         iterationGoals.extend(randomGoals)
         for goal in randomGoals:
@@ -137,51 +137,40 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board):
             iteration, board, Ipath, IterModelFilePath = createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board, iteration, smvSolution=None if iteration == 1 else PrevIterOutFilePath)
         except RuntimeError as e:
             raise e
-        curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, 'BDD', 50)
+
+        print("Initial board in current iteration:")
+        print_board(board.InitialBoard)
+        curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, 'sat')
         totalRunTime += curRunTime
-        # PrevIterOutFilePath = run_nuxmv(IterModelFilePath)
         if not get_board_result(PrevIterOutFilePath, to_print=False):
-            raise RuntimeError(f"The board is not solvable in iteration {iteration}")
-        print(f"Iteration {iteration - 1} finished solving {nunBoxesInItter} boxes in: {curRunTime} seconds")
+            raise RuntimeError(f"The board is not solvable in iteration {iteration - 1}")
+        print(f"*** Iteration {iteration - 1} solved {nunBoxesInItter} boxes in: {curRunTime} seconds ***")
 
     # If there are fewer than n values remaining, take all of them
     if boardGoals:
+        print(f"*********** Starting iteration {iteration} ***********")
         iterationGoals.extend(boardGoals)
         boardGoals.clear()
         try:
             iteration, board, Ipath, Modelpath = createSmvBoardFileIteration(Ipath,Opath, iterationGoals, board, iteration, smvSolution=None if iteration == 1 else PrevIterOutFilePath)
         except RuntimeError as e:
             raise e
-        curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, 'BDD', 50)
-        totalRunTime += curRunTime
-        # PrevIterOutFilePath = run_nuxmv(Modelpath)
-        if not get_board_result(PrevIterOutFilePath, to_print=False):
-            raise RuntimeError(f"The board is not solvable in iteration {iteration}")
-        print(f"Iteration {iteration} finished solving {nunBoxesInItter} boxes in: {curRunTime} seconds")
-        #yield Opath
 
+        print("Initial board in current iteration:")
+        print_board(board.InitialBoard)
+        curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, 'sat')
+        totalRunTime += curRunTime
+        if not get_board_result(PrevIterOutFilePath, to_print=False):
+            raise RuntimeError(f"The board is not solvable in iteration {iteration - 1}")
+        print(f"*** Iteration {iteration - 1} solved {nunBoxesInItter} boxes in: {curRunTime} seconds ***")
+
+    print(f"\n*** Total running time: {totalRunTime} ***")
     return iterationGoals
 
 def runIterative(Ipath, Opath, numBoxes):
     board = createBoard(Ipath)
-    print_board(board.InitialBoard)
     boardGoals = getGoalsLocs(board)
     try:
         sampleNCreateBoards(Ipath, Opath, boardGoals, numBoxes, board)
     except RuntimeError as e:
         raise e
-
-if __name__ == '__main__':
-    Ipath = "./aaa.txt"
-    Opath = "./bbb"
-    board = createBoard(Ipath)
-    print_board(board.InitialBoard)
-    boardGoals = getGoalsLocs(board)
-    print(f'board goals located at {boardGoals}')
-    try:
-        sampleNCreateBoards(Ipath, Opath, boardGoals, 1, board)
-    except RuntimeError as e:
-        print(e)
-    # else:
-    #     print(MeasureRunTime("./bbb_IterationModel_iter1.smv", 'BDD', 50))
-    #     print(MeasureRunTime("./bbb_IterationModel_iter2.smv", 'BDD', 50))
