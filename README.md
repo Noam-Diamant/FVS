@@ -13,7 +13,10 @@ Option 4 - comparison of running time between a normal solution and an iterative
 ## Running instructions
 
 In this section there are general running instructions for the entire project:
-First, you must insert in line 37 in the main.py file the file path of the Sokoban board in XSB format. Leave the letter r as it appears in the example, and put your path inside the brackets. The file should have a txt extension. Example of a proper path:
+
+First, in line 36, change the value of runPart to the number 2,3 or 4 (if you don't do this, a part will be run in the program that will ask you for input for these values), other values are not correct. This value will determine the part of the project that will run.
+
+In addition, you must insert in line 37 in the main.py file the file path of the Sokoban board in XSB format. Leave the letter r as it appears in the example, and put your path inside the brackets. The file should have a txt extension. Example of a proper path:
 
 r"C:\Users\Lenovo\Documents\aaa.txt"
 
@@ -22,6 +25,15 @@ After that, you must insert in line 38 in the main.py file the path to which you
 r"C:\Users\Lenovo\Documents\aaa.smv"
 
 ### option 2
+
+There are no additional instructions for this part other than what is noted above.
+
+### option 3
+
+Since we were asked to analyze in this section for which engine we will get a better runtime, we decided to compare the average runtime to get a better comparison. You can change the number of iterations if you want in line 51. The number of iterations we chose by default is 10.
+
+### option 4
+ד
 
 
 
