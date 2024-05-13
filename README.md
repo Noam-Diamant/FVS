@@ -10,7 +10,18 @@ Option 3 - Comparison of runtime between BDD and SAT engines in a given board so
 
 Option 4 - comparison of running time between a normal solution and an iterative solution of a given board.
 
-## option 2
+## Running instructions
+
+In this section there are general running instructions for the entire project:
+First, you must insert in line 37 in the main.py file the file path of the Sokoban board in XSB format. Leave the letter r as it appears in the example, and put your path inside the brackets. The file should have a txt extension. Example of a proper path:
+
+r"C:\Users\Lenovo\Documents\aaa.txt"
+
+After that, you must insert in line 38 in the main.py file the path to which you want the smv model of the above board to be created. Leave the letter r as it appears in the example, and put your path inside the brackets. An example of a proper path:
+
+r"C:\Users\Lenovo\Documents\aaa.smv"
+
+### option 2
 
 
 
