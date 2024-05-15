@@ -138,14 +138,20 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board):
         except RuntimeError as e:
             raise e
 
-        print("Initial board in current iteration:")
-        print_board(board.InitialBoard)
+
+        
+        #print("Initial board in current iteration:")
+        #print_board(board.InitialBoard)
         curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, 'sat')
         totalRunTime += curRunTime
         is_solvable, _ = get_board_result(PrevIterOutFilePath, to_print=False)
         if not is_solvable:
             raise RuntimeError(f"The board is not solvable in iteration {iteration - 1}")
-        print(f"*** Iteration {iteration - 1} solved {nunBoxesInItter} boxes in: {curRunTime} seconds ***")
+        locationsMsg = ""
+        for goal in iterationGoals:
+            locationsMsg += f"{goal}, "
+        locationsMsg = locationsMsg[:-2]
+        print(f"*** Iteration {iteration - 1} solved {len(iterationGoals)} boxes in location(s) {locationsMsg} : {curRunTime} seconds ***")
 
     # If there are fewer than n values remaining, take all of them
     if boardGoals:
@@ -157,14 +163,18 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board):
         except RuntimeError as e:
             raise e
 
-        print("Initial board in current iteration:")
-        print_board(board.InitialBoard)
+        #print("Initial board in current iteration:")
+        #print_board(board.InitialBoard)
         curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, 'sat')
         totalRunTime += curRunTime
         is_solvable, _ = get_board_result(PrevIterOutFilePath, to_print=False)
         if not is_solvable:
             raise RuntimeError(f"The board is not solvable in iteration {iteration - 1}")
-        print(f"*** Iteration {iteration - 1} solved {nunBoxesInItter} boxes in: {curRunTime} seconds ***")
+        locationsMsg = ""
+        for goal in iterationGoals:
+            locationsMsg += f"{goal}, "
+        locationsMsg = locationsMsg[:-2]
+        print(f"*** Iteration {iteration - 1} solved {len(iterationGoals)} boxes in location(s) {locationsMsg} : {curRunTime} seconds ***")
 
     print(f"\n*** Total running time: {totalRunTime} ***")
     return iterationGoals
