@@ -123,7 +123,7 @@ def createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board = None,  ite
         return iteration+1, board, inputFilePath, IterModelFilePath
 
 
-def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board):
+def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board, engineType):
     iterationGoals = []
     iteration = 1
     totalRunTime = 0
@@ -142,7 +142,7 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board):
         
         #print("Initial board in current iteration:")
         #print_board(board.InitialBoard)
-        curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, 'sat')
+        curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, engineType)
         totalRunTime += curRunTime
         is_solvable, _ = get_board_result(PrevIterOutFilePath, to_print=False)
         if not is_solvable:
@@ -165,7 +165,7 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board):
 
         #print("Initial board in current iteration:")
         #print_board(board.InitialBoard)
-        curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, 'sat')
+        curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, engineType)
         totalRunTime += curRunTime
         is_solvable, _ = get_board_result(PrevIterOutFilePath, to_print=False)
         if not is_solvable:
@@ -179,10 +179,10 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board):
     print(f"\n*** Total running time: {totalRunTime} ***")
     return iterationGoals
 
-def runIterative(Ipath, Opath, numBoxes):
+def runIterative(Ipath, Opath, numBoxes, engineType):
     board = createBoard(Ipath)
     boardGoals = getGoalsLocs(board)
     try:
-        sampleNCreateBoards(Ipath, Opath, boardGoals, numBoxes, board)
+        sampleNCreateBoards(Ipath, Opath, boardGoals, numBoxes, board, engineType)
     except RuntimeError as e:
         raise e
