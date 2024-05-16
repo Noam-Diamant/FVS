@@ -97,7 +97,7 @@ def update(smvSolution, board):
     return True, board.InitialBoard
 
 
-def createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board = None,  iteration = 1, smvSolution = None):
+def createSmvBoardFileIteration(Ipath, Opath, iterationGoals, numBoxes, board = None,  iteration = 1, smvSolution = None):
     inputFilePath = Ipath
     board.winConditions = setIterWinConditions(iterationGoals)
     if iteration == 1:
@@ -109,7 +109,7 @@ def createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board = None,  ite
             raise RuntimeError(f"The board is not solvable in iteration {iteration}")
         board.setInitialBoardString()
     # Obtain output file path
-    IterModelFilePath = Opath+f"_IterationModel_iter{iteration}.smv"#getOutputPath()
+    IterModelFilePath = Opath+f"_{numBoxes}_boxes_IterationModel_iter{iteration}.smv"#getOutputPath()
     
     # Generate SMV model content and write to output file
     model = board.createSmvFileContent(inputFilePath, IterModelFilePath)
@@ -123,18 +123,18 @@ def createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board = None,  ite
         return iteration+1, board, inputFilePath, IterModelFilePath
 
 
-def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board, engineType):
+def sampleNCreateBoards(Ipath, Opath, boardGoals, numBoxesInItter, board, engineType):
     iterationGoals = []
     iteration = 1
     totalRunTime = 0
-    while len(boardGoals) >= nunBoxesInItter:
+    while len(boardGoals) >= numBoxesInItter:
         print(f"*********** Starting iteration {iteration} ***********")
-        randomGoals = random.sample(boardGoals, nunBoxesInItter)
+        randomGoals = random.sample(boardGoals, numBoxesInItter)
         iterationGoals.extend(randomGoals)
         for goal in randomGoals:
             boardGoals.remove(goal)
         try:
-            iteration, board, Ipath, IterModelFilePath = createSmvBoardFileIteration(Ipath, Opath, iterationGoals, board, iteration, smvSolution=None if iteration == 1 else PrevIterOutFilePath)
+            iteration, board, Ipath, IterModelFilePath = createSmvBoardFileIteration(Ipath, Opath, iterationGoals, numBoxesInItter, board, iteration, smvSolution=None if iteration == 1 else PrevIterOutFilePath)
         except RuntimeError as e:
             raise e
 
@@ -159,7 +159,7 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, nunBoxesInItter, board, engine
         iterationGoals.extend(boardGoals)
         boardGoals.clear()
         try:
-            iteration, board, Ipath, Modelpath = createSmvBoardFileIteration(Ipath,Opath, iterationGoals, board, iteration, smvSolution=None if iteration == 1 else PrevIterOutFilePath)
+            iteration, board, Ipath, Modelpath = createSmvBoardFileIteration(Ipath,Opath, iterationGoals, numBoxesInItter, board, iteration, smvSolution=None if iteration == 1 else PrevIterOutFilePath)
         except RuntimeError as e:
             raise e
 
@@ -183,6 +183,6 @@ def runIterative(Ipath, Opath, numBoxes, engineType):
     board = createBoard(Ipath)
     boardGoals = getGoalsLocs(board)
     try:
-        sampleNCreateBoards(Ipath, Opath, boardGoals, numBoxes, board, engineType)
+        sampleNCreateBoards(Ipath, Opath, boardGoals,numBoxes,  board, engineType)
     except RuntimeError as e:
         raise e
