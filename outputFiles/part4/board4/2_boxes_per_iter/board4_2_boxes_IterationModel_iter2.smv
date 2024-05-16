@@ -20,9 +20,9 @@ INIT
     -- In this section we describe the initial state of the Sokoban board model
 
     SokobanBoard[0][0] = hashtag   &		SokobanBoard[0][1] = hashtag   &		SokobanBoard[0][2] = hashtag   &		SokobanBoard[0][3] = hashtag   &		SokobanBoard[0][4] = hashtag   &		SokobanBoard[0][5] = hashtag   &		SokobanBoard[0][6] = hashtag   &		
-	SokobanBoard[1][0] = hashtag   &		SokobanBoard[1][1] = hashtag   &		SokobanBoard[1][2] = hashtag   &		SokobanBoard[1][3] = dot       &		SokobanBoard[1][4] = hashtag   &		SokobanBoard[1][5] = hashtag   &		SokobanBoard[1][6] = hashtag   &		
-	SokobanBoard[2][0] = hashtag   &		SokobanBoard[2][1] = hashtag   &		SokobanBoard[2][2] = hashtag   &		SokobanBoard[2][3] = dollar    &		SokobanBoard[2][4] = hashtag   &		SokobanBoard[2][5] = hashtag   &		SokobanBoard[2][6] = hashtag   &		
-	SokobanBoard[3][0] = hashtag   &		SokobanBoard[3][1] = dot       &		SokobanBoard[3][2] = dollar    &		SokobanBoard[3][3] = at        &		SokobanBoard[3][4] = dollar    &		SokobanBoard[3][5] = dot       &		SokobanBoard[3][6] = hashtag   &		
+	SokobanBoard[1][0] = hashtag   &		SokobanBoard[1][1] = hashtag   &		SokobanBoard[1][2] = hashtag   &		SokobanBoard[1][3] = asterisk  &		SokobanBoard[1][4] = hashtag   &		SokobanBoard[1][5] = hashtag   &		SokobanBoard[1][6] = hashtag   &		
+	SokobanBoard[2][0] = hashtag   &		SokobanBoard[2][1] = hashtag   &		SokobanBoard[2][2] = hashtag   &		SokobanBoard[2][3] = at        &		SokobanBoard[2][4] = hashtag   &		SokobanBoard[2][5] = hashtag   &		SokobanBoard[2][6] = hashtag   &		
+	SokobanBoard[3][0] = hashtag   &		SokobanBoard[3][1] = asterisk  &		SokobanBoard[3][2] = dash      &		SokobanBoard[3][3] = dash      &		SokobanBoard[3][4] = dollar    &		SokobanBoard[3][5] = dot       &		SokobanBoard[3][6] = hashtag   &		
 	SokobanBoard[4][0] = hashtag   &		SokobanBoard[4][1] = hashtag   &		SokobanBoard[4][2] = hashtag   &		SokobanBoard[4][3] = dollar    &		SokobanBoard[4][4] = hashtag   &		SokobanBoard[4][5] = hashtag   &		SokobanBoard[4][6] = hashtag   &		
 	SokobanBoard[5][0] = hashtag   &		SokobanBoard[5][1] = hashtag   &		SokobanBoard[5][2] = hashtag   &		SokobanBoard[5][3] = dot       &		SokobanBoard[5][4] = hashtag   &		SokobanBoard[5][5] = hashtag   &		SokobanBoard[5][6] = hashtag   &		
 	SokobanBoard[6][0] = hashtag   &		SokobanBoard[6][1] = hashtag   &		SokobanBoard[6][2] = hashtag   &		SokobanBoard[6][3] = hashtag   &		SokobanBoard[6][4] = hashtag   &		SokobanBoard[6][5] = hashtag   &		SokobanBoard[6][6] = hashtag   ;		
@@ -342,4 +342,4 @@ ASSIGN
 
     -- In this section we describe the win conditions for the Sokoban board model
 
-    LTLSPEC !(F((SokobanBoard[5][3] = asterisk) & (SokobanBoard[3][1] = asterisk) & (SokobanBoard[3][5] = asterisk) & (SokobanBoard[1][3] = asterisk)));
+    LTLSPEC !(F((SokobanBoard[3][1] = asterisk) & (SokobanBoard[1][3] = asterisk) & (SokobanBoard[3][5] = asterisk) & (SokobanBoard[5][3] = asterisk)));

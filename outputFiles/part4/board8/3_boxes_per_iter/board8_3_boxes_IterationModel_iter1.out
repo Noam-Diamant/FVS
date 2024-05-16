@@ -24,7 +24,7 @@
 *** Copyright (C) 2009-2019 by University of Trento and others
 *** See http://mathsat.fbk.eu
 
--- specification !( F ((SokobanBoard[4][1] = asterisk & SokobanBoard[4][6] = asterisk) & SokobanBoard[3][2] = asterisk))  is false
+-- specification !( F ((SokobanBoard[3][2] = asterisk & SokobanBoard[2][6] = asterisk) & SokobanBoard[4][1] = asterisk))  is false
 -- as demonstrated by the following execution sequence
 Trace Description: LTL Counterexample 
 Trace Type: Counterexample 
@@ -92,39 +92,33 @@ Trace Type: Counterexample
   -> State: 1.5 <-
     SokobanBoard[2][2] = dash
     SokobanBoard[2][3] = at
-    direction = d
   -> State: 1.6 <-
     SokobanBoard[2][3] = dash
-    SokobanBoard[3][3] = at
+    SokobanBoard[2][4] = at
   -> State: 1.7 <-
+    SokobanBoard[2][4] = dash
+    SokobanBoard[2][5] = at
+    SokobanBoard[2][6] = asterisk
+    direction = l
+  -> State: 1.8 <-
+    SokobanBoard[2][4] = at
+    SokobanBoard[2][5] = dash
+  -> State: 1.9 <-
+    SokobanBoard[2][3] = at
+    SokobanBoard[2][4] = dash
+    direction = d
+  -> State: 1.10 <-
+    SokobanBoard[2][3] = dash
+    SokobanBoard[3][3] = at
+  -> State: 1.11 <-
     SokobanBoard[3][3] = dash
     SokobanBoard[4][3] = at
     direction = l
-  -> State: 1.8 <-
+  -- Loop starts here
+  -> State: 1.12 <-
     SokobanBoard[4][1] = asterisk
     SokobanBoard[4][2] = at
     SokobanBoard[4][3] = dash
-    direction = r
-  -> State: 1.9 <-
-    SokobanBoard[4][2] = dash
-    SokobanBoard[4][3] = at
-  -> State: 1.10 <-
-    SokobanBoard[4][3] = dash
-    SokobanBoard[4][4] = at
-  -> State: 1.11 <-
-    SokobanBoard[4][4] = dash
-    SokobanBoard[4][5] = at
-    SokobanBoard[4][6] = asterisk
-    direction = l
   -- Loop starts here
-  -> State: 1.12 <-
-    SokobanBoard[4][4] = at
-    SokobanBoard[4][5] = dash
   -> State: 1.13 <-
-    SokobanBoard[4][3] = at
-    SokobanBoard[4][4] = dash
-    direction = r
   -> State: 1.14 <-
-    SokobanBoard[4][3] = dash
-    SokobanBoard[4][4] = at
-    direction = l

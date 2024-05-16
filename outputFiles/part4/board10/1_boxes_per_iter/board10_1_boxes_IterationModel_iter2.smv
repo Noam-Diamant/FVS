@@ -2,9 +2,9 @@
 -- in the formal verification and synthesis course by Noam Diamant and Ora Wetzler.
 
 -- This smv model is built according to the input file found in the following path:
--- C:\FVS\boards\board10.txt
+-- C:\Users\Lenovo\Documents\FVS\boards\board10.txt
 -- The model is in the following path:
--- C:\FVS\outputFiles\part4\board10_1_boxes_IterationModel_iter2.smv
+-- C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board10_1_boxes_IterationModel_iter2.smv
 MODULE main
 
 VAR
@@ -20,7 +20,7 @@ INIT
     -- In this section we describe the initial state of the Sokoban board model
 
     SokobanBoard[0][0] = hashtag   &		SokobanBoard[0][1] = hashtag   &		SokobanBoard[0][2] = hashtag   &		SokobanBoard[0][3] = hashtag   &		SokobanBoard[0][4] = hashtag   &		SokobanBoard[0][5] = hashtag   &		SokobanBoard[0][6] = hashtag   &		SokobanBoard[0][7] = hashtag   &		SokobanBoard[0][8] = hashtag   &		SokobanBoard[0][9] = hashtag   &		SokobanBoard[0][10] = hashtag   &		
-	SokobanBoard[1][0] = hashtag   &		SokobanBoard[1][1] = dash      &		SokobanBoard[1][2] = at        &		SokobanBoard[1][3] = dash      &		SokobanBoard[1][4] = hashtag   &		SokobanBoard[1][5] = dash      &		SokobanBoard[1][6] = dot       &		SokobanBoard[1][7] = dollar    &		SokobanBoard[1][8] = dash      &		SokobanBoard[1][9] = dot       &		SokobanBoard[1][10] = hashtag   &		
+	SokobanBoard[1][0] = hashtag   &		SokobanBoard[1][1] = dash      &		SokobanBoard[1][2] = dash      &		SokobanBoard[1][3] = dash      &		SokobanBoard[1][4] = hashtag   &		SokobanBoard[1][5] = dash      &		SokobanBoard[1][6] = asterisk  &		SokobanBoard[1][7] = at        &		SokobanBoard[1][8] = dash      &		SokobanBoard[1][9] = dot       &		SokobanBoard[1][10] = hashtag   &		
 	SokobanBoard[2][0] = hashtag   &		SokobanBoard[2][1] = dash      &		SokobanBoard[2][2] = dash      &		SokobanBoard[2][3] = dash      &		SokobanBoard[2][4] = hashtag   &		SokobanBoard[2][5] = dash      &		SokobanBoard[2][6] = dash      &		SokobanBoard[2][7] = dash      &		SokobanBoard[2][8] = dash      &		SokobanBoard[2][9] = dollar    &		SokobanBoard[2][10] = hashtag   &		
 	SokobanBoard[3][0] = hashtag   &		SokobanBoard[3][1] = dash      &		SokobanBoard[3][2] = dash      &		SokobanBoard[3][3] = dash      &		SokobanBoard[3][4] = dash      &		SokobanBoard[3][5] = dash      &		SokobanBoard[3][6] = dash      &		SokobanBoard[3][7] = dash      &		SokobanBoard[3][8] = dash      &		SokobanBoard[3][9] = dash      &		SokobanBoard[3][10] = hashtag   &		
 	SokobanBoard[4][0] = hashtag   &		SokobanBoard[4][1] = hashtag   &		SokobanBoard[4][2] = hashtag   &		SokobanBoard[4][3] = hashtag   &		SokobanBoard[4][4] = hashtag   &		SokobanBoard[4][5] = hashtag   &		SokobanBoard[4][6] = hashtag   &		SokobanBoard[4][7] = hashtag   &		SokobanBoard[4][8] = hashtag   &		SokobanBoard[4][9] = hashtag   &		SokobanBoard[4][10] = hashtag   ;		
@@ -896,4 +896,4 @@ ASSIGN
 
     -- In this section we describe the win conditions for the Sokoban board model
 
-    LTLSPEC !(F((SokobanBoard[1][9] = asterisk) & (SokobanBoard[1][6] = asterisk)));
+    LTLSPEC !(F((SokobanBoard[1][6] = asterisk) & (SokobanBoard[1][9] = asterisk)));

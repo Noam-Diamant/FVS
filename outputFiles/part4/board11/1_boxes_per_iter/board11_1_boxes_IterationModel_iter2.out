@@ -24,7 +24,7 @@
 *** Copyright (C) 2009-2019 by University of Trento and others
 *** See http://mathsat.fbk.eu
 
--- specification !( F (SokobanBoard[1][1] = asterisk & SokobanBoard[1][2] = asterisk))  is false
+-- specification !( F (SokobanBoard[1][2] = asterisk & SokobanBoard[1][1] = asterisk))  is false
 -- as demonstrated by the following execution sequence
 Trace Description: LTL Counterexample 
 Trace Type: Counterexample 

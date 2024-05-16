@@ -4,7 +4,7 @@
 -- This smv model is built according to the input file found in the following path:
 -- C:\Users\Lenovo\Documents\FVS\boards\board7.txt
 -- The model is in the following path:
--- C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board7_IterationModel_iter2.smv
+-- C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board7_1_boxes_IterationModel_iter2.smv
 MODULE main
 
 VAR

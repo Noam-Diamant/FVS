@@ -24,10 +24,11 @@
 *** Copyright (C) 2009-2019 by University of Trento and others
 *** See http://mathsat.fbk.eu
 
--- specification !( F SokobanBoard[1][9] = asterisk)  is false
+-- specification !( F SokobanBoard[1][6] = asterisk)  is false
 -- as demonstrated by the following execution sequence
 Trace Description: LTL Counterexample 
 Trace Type: Counterexample 
+  -- Loop starts here
   -> State: 1.1 <-
     SokobanBoard[0][0] = hashtag
     SokobanBoard[0][1] = hashtag
@@ -111,32 +112,71 @@ Trace Type: Counterexample
   -> State: 1.9 <-
     SokobanBoard[3][5] = dash
     SokobanBoard[3][6] = at
-    direction = u
   -> State: 1.10 <-
-    SokobanBoard[2][6] = at
     SokobanBoard[3][6] = dash
+    SokobanBoard[3][7] = at
   -> State: 1.11 <-
-    SokobanBoard[1][6] = plus
-    SokobanBoard[2][6] = dash
-    direction = r
+    SokobanBoard[3][7] = dash
+    SokobanBoard[3][8] = at
+    direction = u
   -> State: 1.12 <-
-    SokobanBoard[1][6] = dot
-    SokobanBoard[1][7] = at
-    SokobanBoard[1][8] = dollar
+    SokobanBoard[2][8] = at
+    SokobanBoard[3][8] = dash
   -> State: 1.13 <-
-    SokobanBoard[1][7] = dash
     SokobanBoard[1][8] = at
-    SokobanBoard[1][9] = asterisk
+    SokobanBoard[2][8] = dash
     direction = l
-  -- Loop starts here
   -> State: 1.14 <-
+    SokobanBoard[1][6] = asterisk
     SokobanBoard[1][7] = at
     SokobanBoard[1][8] = dash
+    direction = u
   -> State: 1.15 <-
-    SokobanBoard[1][6] = plus
-    SokobanBoard[1][7] = dash
-    direction = r
+    direction = d
   -> State: 1.16 <-
+    SokobanBoard[1][7] = dash
+    SokobanBoard[2][7] = at
+    direction = l
+  -> State: 1.17 <-
+    SokobanBoard[2][6] = at
+    SokobanBoard[2][7] = dash
+  -> State: 1.18 <-
+    SokobanBoard[2][5] = at
+    SokobanBoard[2][6] = dash
+    direction = u
+  -> State: 1.19 <-
+    SokobanBoard[1][5] = at
+    SokobanBoard[2][5] = dash
+    direction = r
+  -> State: 1.20 <-
+    SokobanBoard[1][5] = dash
+    SokobanBoard[1][6] = plus
+    SokobanBoard[1][7] = dollar
+    direction = d
+  -> State: 1.21 <-
     SokobanBoard[1][6] = dot
-    SokobanBoard[1][7] = at
+    SokobanBoard[2][6] = at
+  -> State: 1.22 <-
+    SokobanBoard[2][6] = dash
+    SokobanBoard[3][6] = at
+    direction = l
+  -> State: 1.23 <-
+    SokobanBoard[3][5] = at
+    SokobanBoard[3][6] = dash
+  -> State: 1.24 <-
+    SokobanBoard[3][4] = at
+    SokobanBoard[3][5] = dash
+  -> State: 1.25 <-
+    SokobanBoard[3][3] = at
+    SokobanBoard[3][4] = dash
+  -> State: 1.26 <-
+    SokobanBoard[3][2] = at
+    SokobanBoard[3][3] = dash
+    direction = u
+  -> State: 1.27 <-
+    SokobanBoard[2][2] = at
+    SokobanBoard[3][2] = dash
+  -> State: 1.28 <-
+    SokobanBoard[1][2] = at
+    SokobanBoard[2][2] = dash
     direction = l
