@@ -6,17 +6,6 @@ from SokobanBoardGenerator import *
 import random
 import re
 
-
-# needs to get the number off goals 
-# needs to get the file 
-# saves in the same dir in sub board 
-# also print how many sub boards 
-
-
-# run sub boards 
-
-# print time for each iteration and total time
-
 def print_board(InitialBoard):
     printable_board = ''
     for line in InitialBoard:

@@ -43,6 +43,7 @@ Defaultly, there is no need to input the max number of steps for running with th
 In this section on line 62 in codes/main.py, enter the number of boxes you want to be solved in each iteration (we entered the value 1, but can be changed to any value). Be careful not to enter a value that is greater than the total number of boxes in the board (we did not perform such a correctness check, and it is not the purpose of the assignment either), as this is against the purpose of this part of solving in iterations.
 If you enter a value that is not perfectly divisible by the total number of boxes, the last iteration of the solution will solve the board for the remaining boxes from the remainder of the division.
 The program will ask you for the engine in which you want to run the model during the program run, but this can also be changed manually in the code in the codes/main.py file on line 61.
+You can choose whether to print the initial state of the board in each iteration (which is the final state of the board from the previous iteration, or the initial state of the board if it is the first iteration). The default in the code is not to print the initial state of the board in each iteration, but if you want to do so, you should make lines 131, 132, 154, 155 in the file codes/SokobanIterativeSolver.py into lines of code instead of a comment (delete the #).
 
 ## An explanation of the files in this repo
 
