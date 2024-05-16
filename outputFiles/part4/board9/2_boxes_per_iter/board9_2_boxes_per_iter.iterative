@@ -1,0 +1,11 @@
+Hello, and welcome to the Sokoban solver!
+*********** Starting iteration 1 ***********
+model from iteration 1 saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board9_2_boxes_IterationModel_iter1.smv
+The output of running Nuxmv on C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board9_2_boxes_IterationModel_iter1.smv saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board9_2_boxes_IterationModel_iter1.out
+*** Iteration 1 solved 2 boxes in location(s) [1, 8], [2, 7] : 362.17651987075806 seconds ***
+*********** Starting iteration 2 ***********
+model from iteration 2 saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board9_2_boxes_IterationModel_iter2.smv
+The output of running Nuxmv on C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board9_2_boxes_IterationModel_iter2.smv saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board9_2_boxes_IterationModel_iter2.out
+*** Iteration 2 solved 3 boxes in location(s) [1, 8], [2, 7], [4, 5] : 950.5794196128845 seconds ***
+
+*** Total running time: 1312.7559394836426 ***

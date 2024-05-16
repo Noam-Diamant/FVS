@@ -1,0 +1,23 @@
+Hello, and welcome to the Sokoban solver!
+*********** Starting iteration 1 ***********
+model from iteration 1 saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter1.smv
+The output of running Nuxmv on C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter1.smv saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter1.out
+*** Iteration 1 solved 1 boxes in location(s) [2, 13] : 2485.337105989456 seconds ***
+*********** Starting iteration 2 ***********
+model from iteration 2 saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter2.smv
+The output of running Nuxmv on C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter2.smv saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter2.out
+*** Iteration 2 solved 2 boxes in location(s) [2, 13], [6, 2] : 3015.994479417801 seconds ***
+*********** Starting iteration 3 ***********
+model from iteration 3 saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter3.smv
+The output of running Nuxmv on C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter3.smv saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter3.out
+*** Iteration 3 solved 3 boxes in location(s) [2, 13], [6, 2], [4, 5] : 4628.884623765945 seconds ***
+*********** Starting iteration 4 ***********
+model from iteration 4 saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter4.smv
+The output of running Nuxmv on C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter4.smv saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter4.out
+*** Iteration 4 solved 4 boxes in location(s) [2, 13], [6, 2], [4, 5], [4, 13] : 2245.251603126526 seconds ***
+*********** Starting iteration 5 ***********
+model from iteration 5 saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter5.smv
+The output of running Nuxmv on C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter5.smv saved to C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter5.out
+*** Iteration 5 solved 5 boxes in location(s) [2, 13], [6, 2], [4, 5], [4, 13], [6, 3] : 3495.491068124771 seconds ***
+
+*** Total running time: 15870.9588804245 ***
