@@ -58,12 +58,22 @@ Contains all the Python files we wrote to run the program. The program must be r
 
 This folder contains the assignment and the summary report we wrote, as well as the nuXmv software, as well as the functional demonstration of the transition relations of the model as detailed in the first part of the report.
 
-### part 2
+### outputFiles
 
+Contains all the output files for the different parts of the project and as will be detailed.
 
+#### part 2
 
-### part 3
+In this section there are .smv, .out, .jpg files for each of the panels.
+The .smv files are the models built for each board, the .out files are the output files obtained from running nuXmv on each of these models, and the .jpg files are images that contain the solution for each board in LURD format if it is solvable or a message that is not solvable if it is unsolvable.
 
-### part 4
+#### part 3
+
+In this section there are .time files that can be opened in any text reader.
+These files contain the output for running the runtime analysis for each of the engines, for each of the boards.
+As we wrote above, we averaged the running time for each case over 10 iterations.
+
+#### part 4
+
 
 
