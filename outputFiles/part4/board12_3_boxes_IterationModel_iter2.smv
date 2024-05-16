@@ -2,9 +2,9 @@
 -- in the formal verification and synthesis course by Noam Diamant and Ora Wetzler.
 
 -- This smv model is built according to the input file found in the following path:
--- C:\Users\Lenovo\Documents\FVS\boards\board12.txt
+-- C:\FVS\boards\board12.txt
 -- The model is in the following path:
--- C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board12_IterationModel_iter1.smv
+-- C:\FVS\outputFiles\part4\board12_3_boxes_IterationModel_iter2.smv
 MODULE main
 
 VAR
@@ -2446,4 +2446,4 @@ ASSIGN
 
     -- In this section we describe the win conditions for the Sokoban board model
 
-    LTLSPEC !(F((SokobanBoard[4][5] = asterisk) & (SokobanBoard[6][3] = asterisk) & (SokobanBoard[6][2] = asterisk) & (SokobanBoard[2][13] = asterisk)));
+    LTLSPEC !(F((SokobanBoard[6][2] = asterisk) & (SokobanBoard[4][5] = asterisk) & (SokobanBoard[6][3] = asterisk) & (SokobanBoard[2][13] = asterisk) & (SokobanBoard[4][13] = asterisk)));

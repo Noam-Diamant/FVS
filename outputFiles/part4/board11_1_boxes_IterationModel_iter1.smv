@@ -1,0 +1,152 @@
+-- This smv model was built by the automation code produced as part of the project 
+-- in the formal verification and synthesis course by Noam Diamant and Ora Wetzler.
+
+-- This smv model is built according to the input file found in the following path:
+-- C:\FVS\boards\board11.txt
+-- The model is in the following path:
+-- C:\FVS\outputFiles\part4\board11_1_boxes_IterationModel_iter1.smv
+MODULE main
+
+VAR
+    -- In this section we describe the variables of the model of the Sokoban board
+
+    -- 2D array for the Sokoban borad
+    SokobanBoard : array 0..3 of array 0..3 of {percent, dollar, asterisk, hashtag, at, plus, dot, dash};
+    
+    -- Movement options 
+    direction : {l, u, r, d}; 
+
+INIT
+    -- In this section we describe the initial state of the Sokoban board model
+
+    SokobanBoard[0][0] = hashtag   &		SokobanBoard[0][1] = hashtag   &		SokobanBoard[0][2] = hashtag   &		SokobanBoard[0][3] = hashtag   &		
+	SokobanBoard[1][0] = hashtag   &		SokobanBoard[1][1] = asterisk  &		SokobanBoard[1][2] = asterisk  &		SokobanBoard[1][3] = hashtag   &		
+	SokobanBoard[2][0] = hashtag   &		SokobanBoard[2][1] = dash      &		SokobanBoard[2][2] = at        &		SokobanBoard[2][3] = hashtag   &		
+	SokobanBoard[3][0] = hashtag   &		SokobanBoard[3][1] = hashtag   &		SokobanBoard[3][2] = hashtag   &		SokobanBoard[3][3] = hashtag   ;		
+	
+
+ASSIGN
+    -- In this section we describe the transition relations of the Sokoban board model
+
+    next(direction) := {l, u, r, d};
+	next(SokobanBoard[0][0]) := hashtag;
+	next(SokobanBoard[0][1]) := hashtag;
+	next(SokobanBoard[0][2]) := hashtag;
+	next(SokobanBoard[0][3]) := hashtag;
+	next(SokobanBoard[1][0]) := hashtag;
+	next(SokobanBoard[1][1]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[1][1] = plus & direction = r & SokobanBoard[1][2] = dot : dot;
+			SokobanBoard[1][1] = plus & direction = d & SokobanBoard[2][1] = dash : dot;
+			
+			-- case box
+			
+			-- case floor
+			SokobanBoard[1][1] = dot & direction = l & SokobanBoard[1][2] = plus : plus;
+			SokobanBoard[1][1] = dot & direction = u & SokobanBoard[2][1] = at : plus;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[1][1] = dot : dot;
+					SokobanBoard[1][1] = plus : plus;
+					SokobanBoard[1][1] = asterisk : asterisk;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[1][2]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[1][2] = plus & direction = l & SokobanBoard[1][1] = dot : dot;
+			SokobanBoard[1][2] = plus & direction = d & SokobanBoard[2][2] = dash : dot;
+			
+			-- case box
+			
+			-- case floor
+			SokobanBoard[1][2] = dot & direction = u & SokobanBoard[2][2] = at : plus;
+			SokobanBoard[1][2] = dot & direction = r & SokobanBoard[1][1] = plus : plus;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[1][2] = dot : dot;
+					SokobanBoard[1][2] = plus : plus;
+					SokobanBoard[1][2] = asterisk : asterisk;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[1][3]) := hashtag;
+	next(SokobanBoard[2][0]) := hashtag;
+	next(SokobanBoard[2][1]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[2][1] = at & direction = u & SokobanBoard[1][1] = dot : dash;
+			SokobanBoard[2][1] = at & direction = r & SokobanBoard[2][2] = dash : dash;
+			
+			-- case box
+			
+			-- case floor
+			SokobanBoard[2][1] = dash & direction = l & SokobanBoard[2][2] = at : at;
+			SokobanBoard[2][1] = dash & direction = d & SokobanBoard[1][1] = plus : at;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[2][1] = dash : dash;
+					SokobanBoard[2][1] = at : at;
+					SokobanBoard[2][1] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[2][2]) :=
+	
+		case
+			-- case keeper
+			SokobanBoard[2][2] = at & direction = l & SokobanBoard[2][1] = dash : dash;
+			SokobanBoard[2][2] = at & direction = u & SokobanBoard[1][2] = dot : dash;
+			
+			-- case box
+			
+			-- case floor
+			SokobanBoard[2][2] = dash & direction = r & SokobanBoard[2][1] = at : at;
+			SokobanBoard[2][2] = dash & direction = d & SokobanBoard[1][2] = plus : at;
+			
+			-- rho_i
+			TRUE:
+			
+				case
+					SokobanBoard[2][2] = dash : dash;
+					SokobanBoard[2][2] = at : at;
+					SokobanBoard[2][2] = dollar : dollar;
+					-- to avoid nuXmv error. SHOULD NOT HAPPEN!!
+					TRUE : hashtag;
+					
+				esac;
+			
+		esac;
+	next(SokobanBoard[2][3]) := hashtag;
+	next(SokobanBoard[3][0]) := hashtag;
+	next(SokobanBoard[3][1]) := hashtag;
+	next(SokobanBoard[3][2]) := hashtag;
+	next(SokobanBoard[3][3]) := hashtag;
+	
+
+    -- In this section we describe the win conditions for the Sokoban board model
+
+    LTLSPEC !(F((SokobanBoard[1][1] = asterisk)));
