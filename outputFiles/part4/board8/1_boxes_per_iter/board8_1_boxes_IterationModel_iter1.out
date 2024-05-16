@@ -1,0 +1,110 @@
+*** This is nuXmv 2.0.0 (compiled on Mon Oct 14 18:05:39 2019)
+*** Copyright (c) 2014-2019, Fondazione Bruno Kessler
+*** For more information on nuXmv see https://nuxmv.fbk.eu
+*** or email to <nuxmv@list.fbk.eu>.
+*** Please report bugs at https://nuxmv.fbk.eu/bugs
+*** (click on "Login Anonymously" to access)
+*** Alternatively write to <nuxmv@list.fbk.eu>.
+
+*** This version of nuXmv is linked to NuSMV 2.6.0.
+*** For more information on NuSMV see <http://nusmv.fbk.eu>
+*** or email to <nusmv-users@list.fbk.eu>.
+*** Copyright (C) 2010-2019, Fondazione Bruno Kessler
+
+*** This version of nuXmv is linked to the CUDD library version 2.4.1
+*** Copyright (c) 1995-2004, Regents of the University of Colorado
+
+*** This version of nuXmv is linked to the MiniSat SAT solver. 
+*** See http://minisat.se/MiniSat.html
+*** Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+*** Copyright (c) 2007-2010, Niklas Sorensson
+
+*** This version of nuXmv is linked to MathSAT
+*** Copyright (C) 2009-2019 by Fondazione Bruno Kessler
+*** Copyright (C) 2009-2019 by University of Trento and others
+*** See http://mathsat.fbk.eu
+
+-- specification !( F SokobanBoard[4][1] = asterisk)  is false
+-- as demonstrated by the following execution sequence
+Trace Description: LTL Counterexample 
+Trace Type: Counterexample 
+  -> State: 1.1 <-
+    SokobanBoard[0][0] = hashtag
+    SokobanBoard[0][1] = hashtag
+    SokobanBoard[0][2] = hashtag
+    SokobanBoard[0][3] = hashtag
+    SokobanBoard[0][4] = hashtag
+    SokobanBoard[0][5] = hashtag
+    SokobanBoard[0][6] = hashtag
+    SokobanBoard[0][7] = hashtag
+    SokobanBoard[1][0] = hashtag
+    SokobanBoard[1][1] = at
+    SokobanBoard[1][2] = dash
+    SokobanBoard[1][3] = dash
+    SokobanBoard[1][4] = hashtag
+    SokobanBoard[1][5] = hashtag
+    SokobanBoard[1][6] = hashtag
+    SokobanBoard[1][7] = hashtag
+    SokobanBoard[2][0] = hashtag
+    SokobanBoard[2][1] = dash
+    SokobanBoard[2][2] = dollar
+    SokobanBoard[2][3] = dash
+    SokobanBoard[2][4] = dash
+    SokobanBoard[2][5] = dollar
+    SokobanBoard[2][6] = dot
+    SokobanBoard[2][7] = hashtag
+    SokobanBoard[3][0] = hashtag
+    SokobanBoard[3][1] = dash
+    SokobanBoard[3][2] = dot
+    SokobanBoard[3][3] = dash
+    SokobanBoard[3][4] = hashtag
+    SokobanBoard[3][5] = hashtag
+    SokobanBoard[3][6] = hashtag
+    SokobanBoard[3][7] = hashtag
+    SokobanBoard[4][0] = hashtag
+    SokobanBoard[4][1] = dot
+    SokobanBoard[4][2] = dollar
+    SokobanBoard[4][3] = dash
+    SokobanBoard[4][4] = dash
+    SokobanBoard[4][5] = dollar
+    SokobanBoard[4][6] = dot
+    SokobanBoard[4][7] = hashtag
+    SokobanBoard[5][0] = hashtag
+    SokobanBoard[5][1] = hashtag
+    SokobanBoard[5][2] = hashtag
+    SokobanBoard[5][3] = hashtag
+    SokobanBoard[5][4] = hashtag
+    SokobanBoard[5][5] = hashtag
+    SokobanBoard[5][6] = hashtag
+    SokobanBoard[5][7] = hashtag
+    direction = l
+  -> State: 1.2 <-
+    direction = r
+  -> State: 1.3 <-
+    SokobanBoard[1][1] = dash
+    SokobanBoard[1][2] = at
+    direction = d
+  -> State: 1.4 <-
+    SokobanBoard[1][2] = dash
+    SokobanBoard[2][2] = at
+    SokobanBoard[3][2] = asterisk
+    direction = r
+  -> State: 1.5 <-
+    SokobanBoard[2][2] = dash
+    SokobanBoard[2][3] = at
+    direction = d
+  -> State: 1.6 <-
+    SokobanBoard[2][3] = dash
+    SokobanBoard[3][3] = at
+  -> State: 1.7 <-
+    SokobanBoard[3][3] = dash
+    SokobanBoard[4][3] = at
+    direction = l
+  -- Loop starts here
+  -> State: 1.8 <-
+    SokobanBoard[4][1] = asterisk
+    SokobanBoard[4][2] = at
+    SokobanBoard[4][3] = dash
+  -- Loop starts here
+  -> State: 1.9 <-
+  -> State: 1.10 <-
