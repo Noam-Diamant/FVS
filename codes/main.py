@@ -35,7 +35,7 @@ if __name__ == '__main__':
     print("Hello, and welcome to the Sokoban solver!")
     runPart = getPart()
     inputFilePath = r"C:\Users\Lenovo\Documents\FVS\boards\board4.txt"#**************YOUR FILE HERE***************
-    modelFilePath = r"C:\Users\Lenovo\Documents\FVS\outputFiles\part2\board4.smv"#**************YOUR PATH TO THE SMV MOODEL HERE***************
+    modelFilePath = r"C:\Users\Lenovo\Documents\FVS\outputFiles\part4\board4.smv"#**************YOUR PATH TO THE SMV MOODEL HERE***************
     modelFileName = rf"{modelFilePath.split('.')[0]}"
 
     if runPart == 2:
@@ -54,13 +54,14 @@ if __name__ == '__main__':
             printMsg = f"It took {runTime:.6f} seconds to run {modelFilePath} on {engineType.upper()} engine on iteration {iter+1}."
             print(printMsg)
             avergeTime += runTime
-        printMsg = f"It took {(avergeTime / iters):.6f} on average seconds to run {modelFilePath} on {engineType.upper()} engine."
+        printMsg = f"It took {(avergeTime / iters):.6f} seconds on average to run {modelFilePath} on {engineType.upper()} engine."
         print(printMsg)
     
     if runPart == 4:
+        engineType = getEngine()
         numBoxes = 2 ######################insert HERE number for the amount of boxes per iteration######################
         try:
-            runIterative(inputFilePath, modelFileName, numBoxes)
+            runIterative(inputFilePath, modelFileName, numBoxes, engineType)
         except RuntimeError as e:
             print(e)
 
