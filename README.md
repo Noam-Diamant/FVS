@@ -37,10 +37,6 @@ Since we were asked to analyze in this section for which engine we will get a be
 Defaultly, there is no need to input the max number of steps for running with the SAT engine. For running with a maximum amount of steps, this should be changed in line 49 in the main.py file. Note that if the maximum number of steps is set to n, then a board that is solvable in more than n steps, turns to be unsolvable in this run.
 
 ### option 4
-
-
-
-### option 4
 In this section on line 61, enter the number of boxes you want to be solved in each iteration (we entered the value 1, but can be changed to any value). Be careful not to enter a value that is greater than the total number of boxes in the board (we did not perform such a correctness check, and it is not the purpose of the assignment either), as this is against the purpose of this part of solving in iterations.
 If you enter a value that is not perfectly divisible by the total number of boxes, the last iteration of the solution will solve the board for the remaining boxes from the remainder of the division.
 
