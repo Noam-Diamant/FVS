@@ -96,7 +96,7 @@ def createSmvBoardFileIteration(Ipath, Opath, iterationGoals, numBoxes, board = 
         is_solvable, board.InitialBoard = update(smvSolution, board)
         if not is_solvable:
             raise RuntimeError(f"The board is not solvable in iteration {iteration}")
-        board.setInitialBoardString()
+        board.InitialBoardString = board.setInitialBoardString()
     # Obtain output file path
     IterModelFilePath = Opath+f"_{numBoxes}_boxes_IterationModel_iter{iteration}.smv"#getOutputPath()
     
