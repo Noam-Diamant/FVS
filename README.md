@@ -75,5 +75,20 @@ As we wrote above, we averaged the running time for each case over 10 iterations
 
 #### part 4
 
+In this section there is an analysis of the running time for each board and for each option of several goals to be solved in each iteration.
+For each board, there are several folders according to the number of options for several goals in each iteration, where each such folder contains the .smv files which are the models of each of the iterations, the .out files which are the solutions of each of the iterations, and the .iterative file (which can be opened in any reader text), which contain runtime analysis for each of the iterations and for the total runtime.
+
+An example of the entire explanation written above:
+
+For board 4, there is a folder named after it:
+
+outputFiles/part4/board4
 
 
+Since there are 4 goals in total in board 4, one or two or three goals can be solved in each iteration (in the case of three, the remainder, which is the remaining goal, will be solved in the second iteration). For each of these options there is a folder:
+
+outputFiles/part4/board4/n_boxes_per_iter
+
+where n is the number of goals solved in a single iteration.
+
+This folder contains the model files of the various iterations (.smv files), the solutions of the models from each iteration (.out files), and an .iterative file containing the runtime analysis as above.
