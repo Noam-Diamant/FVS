@@ -115,12 +115,13 @@ def createSmvBoardFileIteration(Ipath, Opath, iterationGoals, numBoxes, board = 
     model = board.createSmvFileContent(inputFilePath, IterModelFilePath)
     writeStringToFile(model, IterModelFilePath)
     print(f"model from iteration {iteration} saved to {IterModelFilePath}")
+    iteration +=1
     
     # Return tuple containing input and output file paths with double backslashes replaced
     if iteration == 1:
-        return iteration+1, board, inputFilePath.replace("\\\\", "\\"), IterModelFilePath
+        return iteration, board, inputFilePath.replace("\\\\", "\\"), IterModelFilePath
     else:
-        return iteration+1, board, inputFilePath, IterModelFilePath
+        return iteration, board, inputFilePath, IterModelFilePath
 
 
 def sampleNCreateBoards(Ipath, Opath, boardGoals, numBoxesInItter, board, engineType):
@@ -138,8 +139,6 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, numBoxesInItter, board, engine
         except RuntimeError as e:
             raise e
 
-
-        
         #print("Initial board in current iteration:")
         #print_board(board.InitialBoard)
         curRunTime, PrevIterOutFilePath = MeasureRunTime(IterModelFilePath, engineType)
@@ -159,7 +158,7 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, numBoxesInItter, board, engine
         iterationGoals.extend(boardGoals)
         boardGoals.clear()
         try:
-            iteration, board, Ipath, Modelpath = createSmvBoardFileIteration(Ipath,Opath, iterationGoals, numBoxesInItter, board, iteration, smvSolution=None if iteration == 1 else PrevIterOutFilePath)
+            iteration, board, Ipath, IterModelFilePath = createSmvBoardFileIteration(Ipath,Opath, iterationGoals, numBoxesInItter, board, iteration, smvSolution=None if iteration == 1 else PrevIterOutFilePath)
         except RuntimeError as e:
             raise e
 
