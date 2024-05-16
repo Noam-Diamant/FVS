@@ -56,7 +56,7 @@ Contains all the Python files we wrote to run the program. The program must be r
 
 ### Report&Appendices
 
-This folder contains the assignment and the summary report we wrote, as well as the nuXmv software, as well as the functional demonstration of the transition relations of the model as detailed in the first part of the report.
+This folder contains the assignment and the summary report we wrote. In addition it includes the nuXmv software, and the functional demonstration of the transition relations of the model as explained in the first part of the report.
 
 ### outputFiles
 
@@ -64,19 +64,19 @@ Contains all the output files for the different parts of the project and as will
 
 #### part 2
 
-In this section there are .smv, .out, .jpg files for each of the panels.
-The .smv files are the models built for each board, the .out files are the output files obtained from running nuXmv on each of these models, and the .jpg files are images that contain the solution for each board in LURD format if it is solvable or a message that is not solvable if it is unsolvable.
+In this section there are .smv, .out, .jpg files for all boards.
+The .smv files are the models built for each board, the .out files are the output files received from running nuXmv on each of these models, and the .jpg files are images that contain the solution for each board in LURD format if it is solvable, otherwise a message that is not solvable.
 
 #### part 3
 
 In this section there are .time files that can be opened in any text reader.
-These files contain the output for running the runtime analysis for each of the engines, for each of the boards.
-As we wrote above, we averaged the running time for each case over 10 iterations.
+These files contain the output for running the runtime analysis in both engines, for each of the boards.
+As mentioned, we averaged the running time for each run over 10 iterations.
 
 #### part 4
 
-In this section there is an analysis of the running time for each board and for each option of several goals to be solved in each iteration.
-For each board, there are several folders according to the number of options for several goals in each iteration, where each such folder contains the .smv files which are the models of each of the iterations, the .out files which are the solutions of each of the iterations, and the .iterative file (which can be opened in any reader text), which contain runtime analysis for each of the iterations and for the total runtime.
+In this section there is an analysis of the running time for each board, for every number of goals to be solved in each iteration.
+For every board, there are several folders according to the number of goals solved in each iteration. Each such folder contains the .smv files which are the models of each of the iterations, the .out files which are the solutions of each of the iterations, and the .iterative file (which can be opened in any reader text), which contain runtime analysis for each of the iterations and for the total runtime.
 
 An example of the entire explanation written above:
 
