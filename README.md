@@ -20,7 +20,7 @@ The program must be run by running the file codes/main.py according to the instr
 
 First, in line 36 in codes/main.py, change the value of runPart to the number 2,3 or 4 (Otherwise the program will ask you to insert a number at the beginning of the run), other values are not valid. This value will determine the part of the project that will run.
 
-In addition, you must insert in line 37 in the codes/main.py file the file path of the Sokoban board in XSB format. Leave the letter r as it appears in the example, and put your path inside the brackets. The file should have a txt extension. Example of a proper path:
+In addition, you must insert in line 37 in the codes/main.py file the file path of the Sokoban board in XSB format. Leave the letter r as it appears in the example, and put your path inside the brackets. The file must have a .txt extension. Example of a proper path:
 
 r"C:\Users\Lenovo\Documents\aaa.txt"
 
