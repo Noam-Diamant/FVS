@@ -2446,4 +2446,4 @@ ASSIGN
 
     -- In this section we describe the win conditions for the Sokoban board model
 
-    LTLSPEC !(F((SokobanBoard[4][5] = asterisk) & (SokobanBoard[4][13] = asterisk) & (SokobanBoard[2][13] = asterisk)));
+    LTLSPEC !(F((SokobanBoard[6][2] = asterisk) & (SokobanBoard[2][13] = asterisk) & (SokobanBoard[4][13] = asterisk)));

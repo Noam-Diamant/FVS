@@ -24,7 +24,7 @@
 *** Copyright (C) 2009-2019 by University of Trento and others
 *** See http://mathsat.fbk.eu
 
--- specification !( F ((SokobanBoard[6][2] = asterisk & SokobanBoard[2][13] = asterisk) & SokobanBoard[4][13] = asterisk))  is false
+-- specification !( F (((SokobanBoard[6][2] = asterisk & SokobanBoard[4][5] = asterisk) & SokobanBoard[6][3] = asterisk) & SokobanBoard[2][13] = asterisk))  is false
 -- as demonstrated by the following execution sequence
 Trace Description: LTL Counterexample 
 Trace Type: Counterexample 
@@ -100,9 +100,9 @@ Trace Type: Counterexample
     SokobanBoard[4][0] = hashtag
     SokobanBoard[4][1] = dash
     SokobanBoard[4][2] = dash
-    SokobanBoard[4][3] = dollar
-    SokobanBoard[4][4] = dash
-    SokobanBoard[4][5] = plus
+    SokobanBoard[4][3] = dash
+    SokobanBoard[4][4] = at
+    SokobanBoard[4][5] = asterisk
     SokobanBoard[4][6] = dash
     SokobanBoard[4][7] = dash
     SokobanBoard[4][8] = dash
@@ -167,122 +167,103 @@ Trace Type: Counterexample
     SokobanBoard[7][16] = hashtag
     direction = l
   -> State: 1.2 <-
-    SokobanBoard[4][4] = at
-    SokobanBoard[4][5] = dot
+    SokobanBoard[4][3] = at
+    SokobanBoard[4][4] = dash
     direction = r
   -> State: 1.3 <-
-    SokobanBoard[4][4] = dash
-    SokobanBoard[4][5] = plus
+    SokobanBoard[4][3] = dash
+    SokobanBoard[4][4] = at
+    direction = u
   -> State: 1.4 <-
-    SokobanBoard[4][5] = dot
-    SokobanBoard[4][6] = at
-    direction = d
+    SokobanBoard[3][4] = at
+    SokobanBoard[4][4] = dash
+    direction = r
   -> State: 1.5 <-
+    SokobanBoard[3][4] = dash
+    SokobanBoard[3][5] = at
+  -> State: 1.6 <-
+    SokobanBoard[3][5] = dash
+    SokobanBoard[3][6] = at
+    direction = d
+  -> State: 1.7 <-
+    SokobanBoard[3][6] = dash
+    SokobanBoard[4][6] = at
+  -> State: 1.8 <-
     SokobanBoard[4][6] = dash
     SokobanBoard[5][6] = at
-  -> State: 1.6 <-
+  -> State: 1.9 <-
     SokobanBoard[5][6] = dash
     SokobanBoard[6][6] = at
+    direction = l
+  -> State: 1.10 <-
+    SokobanBoard[6][4] = dollar
+    SokobanBoard[6][5] = at
+    SokobanBoard[6][6] = dash
+  -> State: 1.11 <-
+    SokobanBoard[6][3] = asterisk
+    SokobanBoard[6][4] = at
+    SokobanBoard[6][5] = dash
     direction = r
-  -> State: 1.7 <-
+  -> State: 1.12 <-
+    SokobanBoard[6][4] = dash
+    SokobanBoard[6][5] = at
+  -> State: 1.13 <-
+    SokobanBoard[6][5] = dash
+    SokobanBoard[6][6] = at
+  -> State: 1.14 <-
     SokobanBoard[6][6] = dash
     SokobanBoard[6][7] = at
-  -> State: 1.8 <-
+  -> State: 1.15 <-
     SokobanBoard[6][7] = dash
     SokobanBoard[6][8] = at
-  -> State: 1.9 <-
+  -> State: 1.16 <-
     SokobanBoard[6][8] = dash
     SokobanBoard[6][9] = at
-  -> State: 1.10 <-
+  -> State: 1.17 <-
     SokobanBoard[6][9] = dash
     SokobanBoard[6][10] = at
-  -> State: 1.11 <-
+  -> State: 1.18 <-
     SokobanBoard[6][10] = dash
     SokobanBoard[6][11] = at
-  -> State: 1.12 <-
-    SokobanBoard[6][11] = dash
-    SokobanBoard[6][12] = at
-  -> State: 1.13 <-
-    SokobanBoard[6][12] = dash
-    SokobanBoard[6][13] = at
-  -> State: 1.14 <-
-    SokobanBoard[6][13] = dash
-    SokobanBoard[6][14] = at
-  -> State: 1.15 <-
-    SokobanBoard[6][14] = dash
-    SokobanBoard[6][15] = at
     direction = u
-  -> State: 1.16 <-
-    SokobanBoard[5][15] = at
-    SokobanBoard[6][15] = dash
-    direction = l
-  -> State: 1.17 <-
-    SokobanBoard[5][13] = dollar
-    SokobanBoard[5][14] = at
-    SokobanBoard[5][15] = dash
-    direction = d
-  -> State: 1.18 <-
-    SokobanBoard[5][14] = dash
-    SokobanBoard[6][14] = at
-    direction = l
   -> State: 1.19 <-
-    SokobanBoard[6][13] = at
-    SokobanBoard[6][14] = dash
-    direction = u
-  -> State: 1.20 <-
-    SokobanBoard[4][13] = asterisk
-    SokobanBoard[5][13] = at
-    SokobanBoard[6][13] = dash
-    direction = d
-  -> State: 1.21 <-
-    SokobanBoard[5][13] = dash
-    SokobanBoard[6][13] = at
-    direction = l
-  -> State: 1.22 <-
-    SokobanBoard[6][12] = at
-    SokobanBoard[6][13] = dash
-  -> State: 1.23 <-
-    SokobanBoard[6][11] = at
-    SokobanBoard[6][12] = dash
-    direction = u
-  -> State: 1.24 <-
     SokobanBoard[5][11] = at
     SokobanBoard[6][11] = dash
-  -> State: 1.25 <-
+  -> State: 1.20 <-
     SokobanBoard[4][11] = at
     SokobanBoard[5][11] = dash
-  -> State: 1.26 <-
+  -> State: 1.21 <-
     SokobanBoard[3][11] = at
     SokobanBoard[4][11] = dash
-  -> State: 1.27 <-
+  -> State: 1.22 <-
     SokobanBoard[2][11] = at
     SokobanBoard[3][11] = dash
-  -> State: 1.28 <-
+  -> State: 1.23 <-
     SokobanBoard[1][11] = at
     SokobanBoard[2][11] = dash
     direction = r
-  -> State: 1.29 <-
+  -> State: 1.24 <-
     SokobanBoard[1][11] = dash
     SokobanBoard[1][12] = at
-  -> State: 1.30 <-
+  -> State: 1.25 <-
     SokobanBoard[1][12] = dash
     SokobanBoard[1][13] = at
-  -> State: 1.31 <-
+  -> State: 1.26 <-
     SokobanBoard[1][13] = dash
     SokobanBoard[1][14] = at
-  -> State: 1.32 <-
+  -> State: 1.27 <-
     SokobanBoard[1][14] = dash
     SokobanBoard[1][15] = at
     direction = d
-  -> State: 1.33 <-
+  -> State: 1.28 <-
     SokobanBoard[1][15] = dash
     SokobanBoard[2][15] = at
     direction = l
   -- Loop starts here
-  -> State: 1.34 <-
+  -> State: 1.29 <-
     SokobanBoard[2][13] = asterisk
     SokobanBoard[2][14] = at
     SokobanBoard[2][15] = dash
   -- Loop starts here
-  -> State: 1.35 <-
-  -> State: 1.36 <-
+  -> State: 1.30 <-
+  -> State: 1.31 <-

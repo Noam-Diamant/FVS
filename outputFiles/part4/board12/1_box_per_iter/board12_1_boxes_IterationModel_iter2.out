@@ -28,6 +28,7 @@
 -- as demonstrated by the following execution sequence
 Trace Description: LTL Counterexample 
 Trace Type: Counterexample 
+  -- Loop starts here
   -> State: 1.1 <-
     SokobanBoard[0][0] = hashtag
     SokobanBoard[0][1] = hashtag
@@ -76,8 +77,8 @@ Trace Type: Counterexample
     SokobanBoard[2][10] = hashtag
     SokobanBoard[2][11] = dash
     SokobanBoard[2][12] = hashtag
-    SokobanBoard[2][13] = dot
-    SokobanBoard[2][14] = dollar
+    SokobanBoard[2][13] = asterisk
+    SokobanBoard[2][14] = at
     SokobanBoard[2][15] = dash
     SokobanBoard[2][16] = hashtag
     SokobanBoard[3][0] = hashtag
@@ -102,7 +103,7 @@ Trace Type: Counterexample
     SokobanBoard[4][2] = dash
     SokobanBoard[4][3] = dollar
     SokobanBoard[4][4] = dash
-    SokobanBoard[4][5] = plus
+    SokobanBoard[4][5] = dot
     SokobanBoard[4][6] = dash
     SokobanBoard[4][7] = dash
     SokobanBoard[4][8] = dash
@@ -167,63 +168,3 @@ Trace Type: Counterexample
     SokobanBoard[7][16] = hashtag
     direction = l
   -> State: 1.2 <-
-    SokobanBoard[4][4] = at
-    SokobanBoard[4][5] = dot
-    direction = r
-  -> State: 1.3 <-
-    SokobanBoard[4][4] = dash
-    SokobanBoard[4][5] = plus
-  -> State: 1.4 <-
-    SokobanBoard[4][5] = dot
-    SokobanBoard[4][6] = at
-  -> State: 1.5 <-
-    SokobanBoard[4][6] = dash
-    SokobanBoard[4][7] = at
-  -> State: 1.6 <-
-    SokobanBoard[4][7] = dash
-    SokobanBoard[4][8] = at
-  -> State: 1.7 <-
-    SokobanBoard[4][8] = dash
-    SokobanBoard[4][9] = at
-  -> State: 1.8 <-
-    SokobanBoard[4][9] = dash
-    SokobanBoard[4][10] = at
-  -> State: 1.9 <-
-    SokobanBoard[4][10] = dash
-    SokobanBoard[4][11] = at
-    direction = u
-  -> State: 1.10 <-
-    SokobanBoard[3][11] = at
-    SokobanBoard[4][11] = dash
-  -> State: 1.11 <-
-    SokobanBoard[2][11] = at
-    SokobanBoard[3][11] = dash
-  -> State: 1.12 <-
-    SokobanBoard[1][11] = at
-    SokobanBoard[2][11] = dash
-    direction = r
-  -> State: 1.13 <-
-    SokobanBoard[1][11] = dash
-    SokobanBoard[1][12] = at
-  -> State: 1.14 <-
-    SokobanBoard[1][12] = dash
-    SokobanBoard[1][13] = at
-  -> State: 1.15 <-
-    SokobanBoard[1][13] = dash
-    SokobanBoard[1][14] = at
-  -> State: 1.16 <-
-    SokobanBoard[1][14] = dash
-    SokobanBoard[1][15] = at
-    direction = d
-  -> State: 1.17 <-
-    SokobanBoard[1][15] = dash
-    SokobanBoard[2][15] = at
-    direction = l
-  -- Loop starts here
-  -> State: 1.18 <-
-    SokobanBoard[2][13] = asterisk
-    SokobanBoard[2][14] = at
-    SokobanBoard[2][15] = dash
-  -- Loop starts here
-  -> State: 1.19 <-
-  -> State: 1.20 <-
