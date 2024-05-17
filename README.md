@@ -31,11 +31,11 @@ r"C:\Users\Lenovo\Documents\aaa.smv"
 ### part 2
 
 There are no additional instructions for this part other than what is noted above.
-If you want, you can change the engine in which the nuXmv model will run, by changing the parameter to the engine in which you want the model to run in line 43.
+If you want, you can change the engine in which the nuXmv model will run, by changing the second parameter in the function run_nuxmv to the engine in which you want the model to run in line 43 in codes/main.py. valid options are 'bdd' or 'sat'.
 
 ### part 3
 
-Since we were asked to analyze in this section for which engine we will get a better runtime, we decided to compare the average runtime to get a better comparison. You can change the number of iterations if you want in line 51. The number of iterations we chose by default is 10.
+Since we were asked to analyze in this section for which engine we will get a better runtime, we decided to compare the average runtime to get a better comparison. You can change the number of iterations if you want in line 51 in codes/main.py. The number of iterations we chose by default is 10.
 Defaultly, there is no need to input the max number of steps for running with the SAT engine. For running with a maximum amount of steps, this should be changed in line 49 in the codes/main.py file. Note that if the maximum number of steps is set to n, then a board that is solvable in more than n steps, turns to be unsolvable in this run.
 
 ### part 4
