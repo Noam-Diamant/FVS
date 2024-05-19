@@ -166,11 +166,3 @@ def sampleNCreateBoards(Ipath, Opath, boardGoals, numBoxesInItter, board, engine
 
     print(f"\n*** Total running time: {totalRunTime} ***")
     return iterationGoals
-
-def runIterative(Ipath, Opath, numBoxes, engineType):
-    board = createBoard(Ipath)
-    boardGoals = getGoalsLocs(board)
-    try:
-        sampleNCreateBoards(Ipath, Opath, boardGoals,numBoxes,  board, engineType)
-    except RuntimeError as e:
-        raise e

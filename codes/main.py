@@ -59,9 +59,11 @@ if __name__ == '__main__':
     
     if runPart == 4:
         engineType = getEngine()
-        numBoxes = 2 ######################insert HERE number for the amount of boxes per iteration######################
+        numBoxes = 2  ######################insert HERE number for the amount of boxes per iteration######################
+        board = createBoard(inputFilePath)
+        boardGoals = getGoalsLocs(board)
         try:
-            runIterative(inputFilePath, modelFileName, numBoxes, engineType)
+            sampleNCreateBoards(inputFilePath, modelFileName, boardGoals,numBoxes,  board, engineType)
         except RuntimeError as e:
             print(e)
 
