@@ -35,15 +35,22 @@ If you want, you can change the engine in which the nuXmv model will run, by cha
 
 ### part 3
 
-Since we were asked to analyze in this section for which engine we will get a better runtime, we decided to compare the average runtime to get a better comparison. You can change the number of iterations if you want in line 51 in codes/main.py. The number of iterations we chose by default is 10.
+Since we were asked to analyze in this section for which engine we will get a better runtime, we decided to compare the average runtime to get a better comparison. 
+You can change the number of iterations if you want in line 51 in codes/main.py. The number of iterations we chose by default is 10.
+
 Defaultly, there is no need to input the max number of steps for running with the SAT engine. For running with a maximum amount of steps, this should be changed in line 49 in the codes/main.py file. Note that if the maximum number of steps is set to n, then a board that is solvable in more than n steps, turns to be unsolvable in this run.
 
 ### part 4
 
-In this section on line 62 in codes/main.py, enter the number of boxes you want to be solved in each iteration (we entered the value 1, but can be changed to any value). Be careful not to enter a value that is greater than the total number of boxes in the board (we did not perform such a correctness check, and it is not the purpose of the assignment either), as this is against the purpose of this part of solving in iterations.
+In this section on line 62 in codes/main.py, enter the number of boxes you want to be solved in each iteration (our default is 1). Be careful not to enter a number larger than the total number of boxes in the board (we did not perform such a correctness check, and it is not the purpose of the assignment either).
 If you enter a value that is not perfectly divisible by the total number of boxes, the last iteration of the solution will solve the board for the remaining boxes from the remainder of the division.
-The program will ask you for the engine in which you want to run the model during the program run, but this can also be changed manually in the code in the codes/main.py file on line 61.
-You can choose whether to print the initial state of the board in each iteration (which is the final state of the board from the previous iteration, or the initial state of the board if it is the first iteration). The default in the code is not to print the initial state of the board in each iteration, but if you want to do so, you should make lines 131, 132, 154, 155 in the file codes/SokobanIterativeSolver.py into lines of code instead of a comment (delete the #).
+
+The program will ask you for the engine in which you want to run the model during the program run, but this can also be changed manually in the code on line 61 in codes/main.py file.
+
+In this part, the smv and out files will be named by concatenating : (given_file_name)_(# boxes_to_solve_per_iteration)_(# iteration). For example, if the given output filename was: r"C:\Users\Lenovo\Documents\board8.smv" & solving 2 boxes in every iteration, then the output files in the firs iteration will be: 
+"board8_2_boxes_IterationModel_iter1.out" & "board8_2_boxes_IterationModel_iter1.smv"
+
+OPTION: You can choose to print in the code the initial state of the board in each iteration in XSB format. The default in the code is not to print this, but if you want to do so, you should un-comment lines 131, 132, 154, 155 in the file codes/SokobanIterativeSolver.py.
 
 ## An explanation of the files in this repo
 
