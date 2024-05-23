@@ -47,7 +47,7 @@ If you enter a value that is not perfectly divisible by the total number of boxe
 
 The program will ask you for the engine in which you want to run the model during the program run, but this can also be changed manually in the code on line 61 in codes/main.py file.
 
-In this part, the smv and out files will be named by concatenating : (given_file_name)_(# boxes_to_solve_per_iteration)_(# iteration). For example, if the given output filename was: r"C:\Users\Lenovo\Documents\board8.smv" & solving 2 boxes in every iteration, then the output files in the firs iteration will be: 
+In this part, the smv and out files will be named by concatenating : (given_file_name)_(# boxes_to_solve_per_iteration)_(# iteration). For example, if the given output filename was: r"C:\Users\Lenovo\Documents\board8.smv" & solving 2 boxes in every iteration, then the output files in the first iteration will be: 
 "board8_2_boxes_IterationModel_iter1.out" & "board8_2_boxes_IterationModel_iter1.smv"
 
 OPTION: You can choose to print in the code the initial state of the board in each iteration in XSB format. The default in the code is not to print this, but if you want to do so, you should un-comment lines 131, 132, 154, 155 in the file codes/SokobanIterativeSolver.py.
