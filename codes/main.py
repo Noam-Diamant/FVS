@@ -40,8 +40,8 @@ if __name__ == '__main__':
 
     if runPart == 2:
         createSmvBoardFile(inputFilePath, modelFilePath)
-        outputFilePath = run_nuxmv(modelFilePath, None) #
-        get_board_result(outputFilePath)#r"./da.out")
+        outputFilePath = run_nuxmv(modelFilePath, None)
+        get_board_result(outputFilePath)
 
     if runPart == 3:
         createSmvBoardFile(inputFilePath, modelFilePath)
