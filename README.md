@@ -45,7 +45,3 @@ This project provides a comprehensive framework for solving Sokoban puzzles usin
 ## References
 - See `Report&Appendices/` for full project documentation, methodology, and results.
 - For more information on model checking and Sokoban, refer to the included reports and example files.
-
----
-
-*This project was developed as part of a formal verification and synthesis course, focusing on the application of model checking to combinatorial puzzles.*
